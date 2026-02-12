@@ -1,0 +1,202 @@
+═══════════════════════════════════════════════════════════════════
+              ENHANCED NAVIGATION - VISUAL GUIDE
+═══════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────┐
+│                     1. HISTORY PAGE                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ╔═══════════════════════════════════════════════════════════╗ │
+│  ║  📋 Assessment History      [3 total assessments]        ║ │
+│  ║                                                           ║ │
+│  ║  [➕ New Assessment] [📊 Latest Results*] [🏠 Home]      ║ │
+│  ╚═══════════════════════════════════════════════════════════╝ │
+│                                                                 │
+│  *Latest Results button only shows if you have recent results  │
+│                                                                 │
+│  [🔍 Search...]  [All Risk Levels ▼]                           │
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │ Assessment History Table / Cards                         │  │
+│  │ ...                                                      │  │
+│  └──────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                     2. RESULTS PAGE                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │ Your Risk Assessment Results                             │  │
+│  │                                                          │  │
+│  │ Risk Level: 🔴 High Risk                                 │  │
+│  │ Probability: 70.8%                                       │  │
+│  │ ...                                                      │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  Action Buttons:                                                │
+│  [🔄 Take Another Assessment]                                   │
+│  [📋 View All History]                                          │
+│  [🏠 Back to Home]                                              │
+│  [🖨️ Print Results]                                             │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                  3. ASSESSMENT PAGE                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │ Healthcare Risk Assessment Form                          │  │
+│  │                                                          │  │
+│  │ [Personal Information]                                   │  │
+│  │ Age: [____]  Income: [____]                              │  │
+│  │ ...                                                      │  │
+│  │                                                          │  │
+│  │ [Healthcare History]                                     │  │
+│  │ ...                                                      │  │
+│  │                                                          │  │
+│  │              [✓ Assess My Risk]                          │  │
+│  │                                                          │  │
+│  │     Navigation:                                          │  │
+│  │     [📋 View History] [📊 Latest Results*] [🏠 Home]     │  │
+│  │                                                          │  │
+│  │     *Latest Results only shows if results available      │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════
+                      NAVIGATION FLOW
+═══════════════════════════════════════════════════════════════════
+
+                        🏠 HOME PAGE
+                             │
+                   ┌─────────┼─────────┐
+                   ↓         ↓         ↓
+              Assessment  Results   History
+                   │         │         │
+                   ├─────────┤         │
+                   │    ←────┼─────────┤
+                   │         │    ←────┤
+                   └─────────┼─────────┘
+                        ←────┘
+
+═══════════════════════════════════════════════════════════════════
+                    USER JOURNEY EXAMPLES
+═══════════════════════════════════════════════════════════════════
+
+SCENARIO 1: New User Completing First Assessment
+─────────────────────────────────────────────────
+1. Start → Home Page
+2. Click "Start Risk Assessment"
+3. Fill form → Submit
+4. View Results Page
+   ├─ Can return Home
+   ├─ Can start another assessment
+   └─ Can view history (shows 1 assessment)
+
+SCENARIO 2: Returning User Reviewing History
+─────────────────────────────────────────────────
+1. Login → Home Page
+2. Click "My History"
+3. View History Page (all past assessments)
+   ├─ Can go back to latest results (if available)
+   ├─ Can start new assessment
+   ├─ Can search/filter assessments
+   └─ Can return home
+
+SCENARIO 3: User Wants to Compare Assessments
+─────────────────────────────────────────────────
+1. Complete assessment → View Results
+2. Click "View All History"
+3. See all past assessments
+4. Click "Latest Results" to return
+5. Click "Take Another" to create new
+6. Fill form with different data
+7. View new Results
+8. Click "View All History" to compare
+
+═══════════════════════════════════════════════════════════════════
+                      BUTTON STYLES
+═══════════════════════════════════════════════════════════════════
+
+PRIMARY BUTTONS (Blue Background):
+┌────────────────────────┐
+│ ➕ New Assessment      │  ← Used for main actions
+│ ✓ Assess My Risk       │  ← Primary call-to-action
+└────────────────────────┘
+
+SECONDARY BUTTONS (Outline):
+┌────────────────────────┐
+│ 📊 Latest Results      │  ← Navigation to other pages
+│ 📋 View History        │  ← Secondary actions
+│ 🏠 Home                │  ← Return options
+└────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════
+                   RESPONSIVE BEHAVIOR
+═══════════════════════════════════════════════════════════════════
+
+DESKTOP VIEW:
+┌─────────────────────────────────────────────────────────┐
+│ [Button 1]  [Button 2]  [Button 3]  [Button 4]         │
+└─────────────────────────────────────────────────────────┘
+All buttons in a horizontal row
+
+TABLET VIEW:
+┌─────────────────────────────────────────────────────────┐
+│ [Button 1]  [Button 2]                                  │
+│ [Button 3]  [Button 4]                                  │
+└─────────────────────────────────────────────────────────┘
+Buttons wrap to multiple rows
+
+MOBILE VIEW:
+┌───────────────┐
+│ [Button 1]    │
+│ [Button 2]    │
+│ [Button 3]    │
+│ [Button 4]    │
+└───────────────┘
+Buttons stack vertically
+
+═══════════════════════════════════════════════════════════════════
+                    CONDITIONAL DISPLAY
+═══════════════════════════════════════════════════════════════════
+
+"LATEST RESULTS" BUTTON:
+├─ Shows: When user has completed assessment in current session
+└─ Hides: When no results available or after logout
+
+EXAMPLE:
+User logs in (fresh session):
+History Page: [New Assessment] [Home]
+                    ↓
+User completes assessment:
+History Page: [New Assessment] [Latest Results] [Home]
+                    ↓
+User logs out and back in:
+History Page: [New Assessment] [Home]
+
+═══════════════════════════════════════════════════════════════════
+                     KEYBOARD NAVIGATION
+═══════════════════════════════════════════════════════════════════
+
+✓ All buttons accessible via Tab key
+✓ Focus states visible (outline)
+✓ Enter/Space activates buttons
+✓ Logical tab order maintained
+✓ Skip links available
+
+═══════════════════════════════════════════════════════════════════
+
+SUMMARY:
+✅ Complete navigation between all assessment pages
+✅ Contextual buttons (only show when relevant)
+✅ Consistent design across all pages
+✅ Responsive for all device sizes
+✅ Accessible keyboard navigation
+✅ Clear visual hierarchy
+✅ No dead ends - always have way out
+
+═══════════════════════════════════════════════════════════════════

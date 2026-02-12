@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Results - Healthcare Insurance System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    
+    <!-- Results CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm px-4">
+        <div class="container-fluid">
+            <div class="logo"><i class="fa-solid fa-circle-h"></i>HealthSecure</div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger-menu" id="hamburgerBtn" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('blog') }}">Insurance Guide</a></li>
+                <li><a href="{{ url_for('health_tips') }}">Health Tips</a></li>
+                <li><a href="{{ url_for('contact') }}">Messages</a></li>
+                <li><a href="{{ url_for('eda') }}">Data Insights</a></li>
+                {% if session.logged_in %}
+                    <li><a href="{{ url_for('assess') }}">Risk Assessment</a></li>
+                    <li><a href="{{ url_for('history') }}">My History</a></li>
+                    {% if session.is_admin == 1 %}
+                    <li><a href="{{ url_for('admin_dashboard') }}" style="color: #0b5ed7; font-weight: bold;"><i class="fa-solid fa-circle-user"></i>Admin Panel</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+            
+            <div class="nav-right">
+                {% if session.logged_in %}
+                    <span style="margin-right: 10px; color: #555;">{{ session.username }}</span>
+                    <a href="{{ url_for('logout') }}" style="margin-left:15px; color:#dc3545; text-decoration:none;"><i class="fa-solid fa-circle-user"></i>Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" style="margin-left:15px; color:#0b5ed7; text-decoration:none;"><i class="fa-solid fa-circle-user"></i>Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="results-page-container">
+        
+        {% if result %}
+            <!-- Risk Score Section - Most Dominant -->
+            <section class="risk-score-section">
+                <div class="risk-score-card">
+                    <h1 class="results-page-title">Your Risk Assessment Results</h1>
+                    
+                    <div class="risk-score-display">
+                        {% if result.risk_level == 'Low Risk' %}
+                            <div class="risk-badge risk-badge-low">
+                                <i class="fas fa-check-circle"></i> {{ result.risk_level }}
+                            </div>
+                        {% elif result.risk_level == 'Medium Risk' %}
+                            <div class="risk-badge risk-badge-medium">
+                                <i class="fas fa-exclamation-triangle"></i> {{ result.risk_level }}
+                            </div>
+                        {% else %}
+                            <div class="risk-badge risk-badge-high">
+                                <i class="fas fa-exclamation-circle"></i> {{ result.risk_level }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="insurance-score">
+                            <span class="score-number">{{ result.insurance_likelihood }}%</span>
+                            <span class="score-label">Insurance Likelihood Score</span>
+                        </div>
+                    </div>
+                    
+                    {% if result.interpretation %}
+                        <div class="interpretation-text">
+                            <i class="fas fa-info-circle"></i>
+                            <p><strong>What this means:</strong> {{ result.interpretation }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <!-- Government Assistance Recommendation -->
+            {% if result.rule_based_recommendation and result.rule_based_category == 'High Risk' %}
+                <section class="section-spacing">
+                    <div class="alert-card alert-card-warning">
+                        <h2 class="alert-card-title">
+                            <i class="fas fa-hand-holding-heart"></i> Government Assistance Recommended
+                        </h2>
+                        <p class="alert-card-text">
+                            <strong>{{ result.rule_based_recommendation }}</strong>
+                        </p>
+                        <p class="alert-card-subtext">
+                            Based on your risk profile, you qualify for government social protection programs and subsidized healthcare coverage through NHIF/SHA.
+                        </p>
+                    </div>
+                </section>
+            {% elif result.rule_based_recommendation %}
+                <section class="section-spacing">
+                    <div class="alert-card alert-card-info">
+                        <h3 class="alert-card-subtitle">
+                            <i class="fas fa-shield-alt"></i> Your Insurance Recommendation
+                        </h3>
+                        <p class="alert-card-text"><strong>{{ result.rule_based_recommendation }}</strong></p>
+                    </div>
+                </section>
+            {% endif %}
+            
+            <!-- Alternative Risk Assessment (Compact) -->
+            {% if result.rule_based_score is defined %}
+                <section class="section-spacing">
+                    <div class="card-modern">
+                        <h2 class="section-heading">
+                            <i class="fas fa-chart-line"></i> Alternative Risk Assessment
+                        </h2>
+                        <div class="alternative-risk-grid">
+                            <div class="alternative-risk-score">
+                                <div class="score-circle score-circle-{% if result.rule_based_category == 'High Risk' %}high{% elif result.rule_based_category == 'Medium Risk' %}medium{% else %}low{% endif %}">
+                                    {{ result.rule_based_score }}/100
+                                </div>
+                                <p class="score-category">{{ result.rule_based_category }}</p>
+                            </div>
+                            <div class="alternative-risk-content">
+                                <p><strong>Recommendation:</strong> {{ result.rule_based_recommendation }}</p>
+                                <p class="text-muted-custom">
+                                    <i class="fas fa-info-circle"></i> This score helps identify eligibility for government assistance based on socioeconomic factors.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            <!-- Risk Factors Section -->
+            {% if result.reasons %}
+                <section class="section-spacing">
+                    <div class="card-modern">
+                        <h2 class="section-heading">
+                            <i class="fas fa-exclamation-triangle"></i> Key Risk Factors Identified
+                        </h2>
+                        <ul class="risk-factors-list">
+                            {% for reason in result.reasons %}
+                                <li class="risk-factor-item">{{ reason }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </section>
+            {% endif %}
+            
+            <!-- Recommendations Section -->
+            {% if result.recommendations %}
+                <section class="section-spacing">
+                    <div class="card-modern">
+                        <h2 class="section-heading">
+                            <i class="fas fa-lightbulb"></i> Recommended Actions
+                        </h2>
+                        <ul class="recommendations-list">
+                            {% for rec in result.recommendations %}
+                                <li class="recommendation-item">{{ rec }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </section>
+            {% endif %}
+
+            <!-- Insurance Options Section -->
+            {% if result.eligible_insurance %}
+                <section class="section-spacing">
+                    <div class="card-modern">
+                        <h2 class="section-heading">
+                            <i class="fas fa-shield-alt"></i> Insurance Options You May Be Eligible For
+                        </h2>
+                        <p class="section-subtext">
+                            Based on your profile, here are insurance providers from our dataset that match your situation:
+                        </p>
+                        
+                        {% for insurance in result.eligible_insurance %}
+                            <div class="insurance-card">
+                                <div class="insurance-card-header">
+                                    <h3 class="insurance-card-title">{{ insurance.name }}</h3>
+                                    <span class="insurance-badge insurance-badge-{% if insurance.priority == 'High Priority' %}high{% elif insurance.priority == 'Recommended' %}recommended{% elif insurance.priority == 'Premium Option' %}premium{% else %}affordable{% endif %}">
+                                        {{ insurance.priority }}
+                                    </span>
+                                </div>
+                                <div class="insurance-card-body">
+                                    <p class="insurance-reason"><strong>Why This Fits:</strong> {{ insurance.reason }}</p>
+                                    <p class="insurance-coverage"><strong>Coverage:</strong> {{ insurance.coverage }}</p>
+                                    <p class="insurance-cost"><strong>Estimated Cost:</strong> {{ insurance.estimated_cost }}</p>
+                                </div>
+                                <div class="insurance-card-actions">
+                                    <a href="{{ insurance.website }}" target="_blank" class="btn-primary-modern">
+                                        <i class="fas fa-external-link-alt"></i> Visit Provider Website
+                                    </a>
+                                    <a href="{{ insurance.learn_more }}" class="btn-secondary-modern">
+                                        Learn More
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                        <div class="info-notice">
+                            <i class="fas fa-info-circle"></i>
+                            <p>These recommendations are based on patterns from real insurance enrollments in Kenya. Contact these providers directly for personalized quotes and detailed benefits.</p>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            <!-- User Data Summary -->
+            {% if user_data %}
+                <section class="section-spacing">
+                    <div class="card-modern">
+                        <h2 class="section-heading">
+                            <i class="fas fa-user"></i> Your Information Summary
+                        </h2>
+                        <div class="user-summary-grid">
+                            <div class="summary-item">
+                                <span class="summary-label">Age</span>
+                                <span class="summary-value">{{ user_data['Age'] }} years</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Gender</span>
+                                <span class="summary-value">{{ user_data['Gender'] }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Marital Status</span>
+                                <span class="summary-value">{{ user_data['Marital Status'] }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Employment</span>
+                                <span class="summary-value">{{ user_data['Employment Status'] }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Monthly Income</span>
+                                <span class="summary-value">KES {{ "{:,.0f}".format(user_data['Monthly Household Income']) }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Number of Children</span>
+                                <span class="summary-value">{{ user_data['num_children'] }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+            
+            <!-- Action Buttons -->
+            <section class="section-spacing">
+                <div class="actions-section">
+                    <a href="{{ url_for('assess') }}" class="btn-primary-action">
+                        <i class="fas fa-redo"></i> Take Another Assessment
+                    </a>
+                    <a href="{{ url_for('history') }}" class="btn-secondary-action">
+                        <i class="fas fa-history"></i> View All History
+                    </a>
+                    <a href="{{ url_for('index') }}" class="btn-secondary-action">
+                        <i class="fas fa-home"></i> Back to Home
+                    </a>
+                    <button onclick="window.print()" class="btn-secondary-action">
+                        <i class="fas fa-print"></i> Print Results
+                    </button>
+                </div>
+                
+                <!-- Explore More Section -->
+                <div class="explore-more-section">
+                    <h3 class="explore-title">
+                        <i class="fas fa-compass"></i> Explore More Resources
+                    </h3>
+                    <p class="explore-subtitle">Learn more about insurance and maintaining good health</p>
+                    <div class="explore-cards">
+                        <a href="{{ url_for('blog') }}" class="explore-card">
+                            <div class="explore-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h4>Insurance Guide</h4>
+                            <p>Learn about NHIF, SHA, and insurance options in Kenya</p>
+                            <span class="explore-link">Read Guide <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                        
+                        <a href="{{ url_for('health_tips') }}" class="explore-card">
+                            <div class="explore-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h4>Health Tips</h4>
+                            <p>Discover wellness tips and preventive care strategies</p>
+                            <span class="explore-link">View Tips <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                        
+                        <a href="{{ url_for('eda') }}" class="explore-card">
+                            <div class="explore-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h4>Data Insights</h4>
+                            <p>Explore healthcare statistics and trends in Kenya</p>
+                            <span class="explore-link">View Insights <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                        
+                        <a href="{{ url_for('contact') }}" class="explore-card">
+                            <div class="explore-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h4>Messages</h4>
+                            <p>Contact support or view your messages</p>
+                            <span class="explore-link">Open Messages <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="info-notice" style="margin-top: 1.5rem;">
+                    <i class="fas fa-info-circle"></i>
+                    <p><strong>Want to review this later?</strong> Visit your <a href="{{ url_for('history') }}">Assessment History</a> to view all your past assessments and results anytime.</p>
+                </div>
+            </section>
+        
+        {% else %}
+            <section class="section-spacing">
+                <div class="card-modern text-center">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #dc3545; margin-bottom: 1rem;"></i>
+                    <h2>No Results Available</h2>
+                    <p>Please complete an assessment first.</p>
+                    <a href="{{ url_for('assess') }}" class="btn-primary-action">
+                        <i class="fas fa-heartbeat"></i> Start Assessment
+                    </a>
+                </div>
+            </section>
+        {% endif %}
+        
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Hamburger Menu Script -->
+    <script>
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburgerBtn.classList.toggle('active');
+            });
+        }
+    </script>
+    
+</body>
+</html>

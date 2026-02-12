@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/eda.css') }}">
+{% endblock %}
+
+{% block content %}
+<style>
+    .eda-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .chart-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    .chart-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .chart-title {
+        color: #333;
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+    }
+    .admin-badge {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+    .summary-box {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+</style>
+
+<div class="eda-header">
+    <div class="admin-badge">
+        <i class="fas fa-shield-alt"></i> ADMIN VIEW
+    </div>
+    <h1><i class="fas fa-chart-bar"></i> Healthcare Insurance Analysis Dashboard</h1>
+    <p style="margin-bottom: 0; font-size: 1.1rem;">
+        Comprehensive analysis from 6,000+ real insurance enrollments
+    </p>
+</div>
+
+{% if plots %}
+    <!-- Insurance vs Income (Priority Chart) -->
+    {% if 'eda/insurance_vs_income.png' in plots %}
+    <div class="chart-card">
+        <h3 class="chart-title">
+            <i class="fas fa-money-bill-wave"></i> Insurance Coverage vs. Income Distribution
+        </h3>
+        <p style="color: #666; margin-bottom: 20px;">
+            <strong>Key Insight:</strong> This chart shows how household income directly impacts insurance coverage rates. 
+            Higher income brackets show significantly better insurance coverage.
+        </p>
+        <img src="{{ url_for('static', filename='eda/insurance_vs_income.png') }}" 
+             class="img-fluid rounded shadow-sm" alt="Insurance vs Income">
+    </div>
+    {% endif %}
+
+    <!-- Risk Score Distribution -->
+    {% if 'eda/risk_score_distribution.png' in plots %}
+    <div class="chart-card">
+        <h3 class="chart-title">
+            <i class="fas fa-chart-line"></i> Risk Score Distribution
+        </h3>
+        <p style="color: #666; margin-bottom: 20px;">
+            <strong>Key Insight:</strong> Risk scores calculated using our weighted algorithm. 
+            Higher scores indicate greater need for insurance subsidies and social protection.
+        </p>
+        <img src="{{ url_for('static', filename='eda/risk_score_distribution.png') }}" 
+             class="img-fluid rounded shadow-sm" alt="Risk Score Distribution">
+    </div>
+    {% endif %}
+
+    <!-- Risk Category Analysis -->
+    {% if 'eda/risk_category_analysis.png' in plots %}
+    <div class="chart-card">
+        <h3 class="chart-title">
+            <i class="fas fa-exclamation-triangle"></i> Risk Category Breakdown & Coverage Rates
+        </h3>
+        <p style="color: #666; margin-bottom: 20px;">
+            <strong>Key Insight:</strong> Population distribution across Low, Medium, and High risk categories. 
+            High-risk individuals are eligible for NHIF subsidies.
+        </p>
+        <img src="{{ url_for('static', filename='eda/risk_category_analysis.png') }}" 
+             class="img-fluid rounded shadow-sm" alt="Risk Category Analysis">
+    </div>
+    {% endif %}
+
+    <!-- NHIF Subsidy Eligibility -->
+    {% if 'eda/nhif_subsidy_eligibility.png' in plots %}
+    <div class="chart-card">
+        <h3 class="chart-title">
+            <i class="fas fa-hand-holding-heart"></i> NHIF Subsidy Eligibility Analysis
+        </h3>
+        <p style="color: #666; margin-bottom: 20px;">
+            <strong>Key Insight:</strong> Shows the percentage of the population that qualifies for government NHIF/SHA subsidies 
+            based on our risk assessment model. High-risk individuals receive recommendation for subsidized coverage.
+        </p>
+        <img src="{{ url_for('static', filename='eda/nhif_subsidy_eligibility.png') }}" 
+             class="img-fluid rounded shadow-sm" alt="NHIF Subsidy Eligibility">
+    </div>
+    {% endif %}
+
+    <!-- Employment vs Insurance -->
+    {% if 'eda/employment_vs_insurance.png' in plots %}
+    <div class="chart-card">
+        <h3 class="chart-title">
+            <i class="fas fa-briefcase"></i> Employment Status vs. Insurance Coverage
+        </h3>
+        <p style="color: #666; margin-bottom: 20px;">
+            <strong>Key Insight:</strong> Employment status significantly affects insurance access. 
+            Unemployed and casual laborers have much lower coverage rates.
+        </p>
+        <img src="{{ url_for('static', filename='eda/employment_vs_insurance.png') }}" 
+             class="img-fluid rounded shadow-sm" alt="Employment vs Insurance">
+    </div>
+    {% endif %}
+
+    <!-- Demographics Analysis -->
+    {% if 'eda/demographics_analysis.png' in plots %}
+    <div class="chart-card">
+        <h3 class="chart-title">
+            <i class="fas fa-users"></i> Demographics Analysis (Age & Gender)
+        </h3>
+        <p style="color: #666; margin-bottom: 20px;">
+            <strong>Key Insight:</strong> Insurance coverage patterns across different age groups and genders. 
+            Helps identify vulnerable populations.
+        </p>
+        <img src="{{ url_for('static', filename='eda/demographics_analysis.png') }}" 
+             class="img-fluid rounded shadow-sm" alt="Demographics Analysis">
+    </div>
+    {% endif %}
+
+    <!-- Other charts -->
+    {% for plot in plots %}
+        {% if plot not in ['eda/insurance_vs_income.png', 'eda/risk_score_distribution.png', 
+                          'eda/risk_category_analysis.png', 'eda/nhif_subsidy_eligibility.png',
+                          'eda/employment_vs_insurance.png', 'eda/demographics_analysis.png'] %}
+        <div class="chart-card">
+            <img src="{{ url_for('static', filename=plot) }}" 
+                 class="img-fluid rounded shadow-sm" alt="Analysis Chart">
+        </div>
+        {% endif %}
+    {% endfor %}
+
+{% else %}
+    <div class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <strong>No analysis charts available.</strong> Please run the analysis generation script first.
+        <br><br>
+        <code>python generate_analysis_charts.py</code>
+    </div>
+{% endif %}
+
+<!-- Back to Home Button -->
+<div class="text-center mt-4 mb-5">
+    <a href="{{ url_for('index') }}" class="btn btn-lg btn-primary">
+        <i class="fas fa-home"></i> Back to Home
+    </a>
+</div>
+
+{% endblock %}

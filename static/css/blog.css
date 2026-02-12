@@ -1,0 +1,130 @@
+/* =========================
+   BLOG PAGE (blog.html)
+========================= */
+
+.blog-container {
+    padding: 80px 5%;
+    width: 100%;
+    margin: 0 0 40px 0;
+    background: #f8f9fa;
+    min-height: 60vh;
+    border-bottom: 4px solid #e0e0e0;
+}
+
+.blog-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.blog-header h1 {
+    color: #1a365d;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.blog-header p {
+    color: #718096;
+    font-size: 1.1rem;
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.blog-card {
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.3s;
+    border: 1px solid #e0e0e0;
+}
+
+.blog-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.blog-card-image {
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(135deg, #0b5ed7 0%, #084298 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+}
+
+.blog-card-body {
+    padding: 25px;
+}
+
+.blog-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.blog-meta i {
+    margin-right: 5px;
+}
+
+.blog-card-body h3 {
+    color: #1a365d;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.blog-card-body p {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.blog-tag {
+    background: #e7f3ff;
+    color: #0b5ed7;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.read-more {
+    color: #0b5ed7;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    .blog-container {
+        min-height: auto;
+        padding: 50px 5%;
+    }
+    
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+}

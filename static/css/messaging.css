@@ -1,0 +1,183 @@
+/* =========================
+   MESSAGING & COMMUNICATION (history.html - if it has messaging)
+========================= */
+
+.messages-container {
+    padding: 80px 40px;
+    width: 100%;
+    margin: 0 0 40px 0;
+    background: #f8f9fa;
+    min-height: 60vh;
+}
+
+.message-send-card {
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 40px;
+    margin-bottom: 30px;
+    border: 1px solid #e0e0e0;
+}
+
+.message-send-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #1a365d;
+}
+
+.message-send-header i {
+    font-size: 1.5rem;
+}
+
+.message-boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.message-box {
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+.message-box-header {
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.message-box-header i {
+    font-size: 1.3rem;
+}
+
+.inbox-header {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+}
+
+.sent-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.message-box-body {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.message-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #dee2e6;
+    transition: all 0.3s;
+}
+
+.message-item:hover {
+    border-left-color: #007bff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.message-item.unread {
+    background: #e7f3ff;
+    border-left-color: #007bff;
+}
+
+.message-sender {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.message-sender i {
+    color: #007bff;
+}
+
+.message-badge-new {
+    background: #007bff;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    margin-left: auto;
+}
+
+.message-subject {
+    font-weight: 600;
+    color: #1a365d;
+    margin-bottom: 8px;
+}
+
+.message-text {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.message-time {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.message-time i {
+    font-size: 0.75rem;
+}
+
+.no-messages {
+    text-align: center;
+    padding: 40px;
+    color: #a0aec0;
+}
+
+.no-messages i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+/* Message count badge */
+.message-count {
+    background: #dc3545;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+/* Scrollbar for message box */
+.message-box-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.message-box-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.message-box-body::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
+}
+
+.message-box-body::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+}

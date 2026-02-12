@@ -1,0 +1,112 @@
+/* =========================
+   EDA PAGE (eda.html)
+========================= */
+
+.eda-container {
+    padding: 80px 5%;
+    width: 100%;
+    margin: 0 0 40px 0;
+    background: #f8f9fa;
+    min-height: 60vh;
+    border-bottom: 4px solid #e0e0e0;
+}
+
+.eda-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.eda-header h1 {
+    color: #1a365d;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.eda-header p {
+    color: #718096;
+    font-size: 1.1rem;
+}
+
+.eda-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.eda-card {
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 40px;
+    border: 1px solid #e0e0e0;
+}
+
+.eda-card h3 {
+    color: #1a365d;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+.eda-chart {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.eda-description {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 15px;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.eda-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.eda-stat-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border-left: 3px solid #0b5ed7;
+}
+
+.eda-stat-item .label {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.eda-stat-item .value {
+    font-size: 1.5rem;
+    color: #0b5ed7;
+    font-weight: 700;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    .eda-container {
+        min-height: auto;
+        padding: 50px 5%;
+    }
+    
+    .eda-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .eda-card {
+        padding: 30px 5%;
+    }
+}

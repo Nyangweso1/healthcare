@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 about-page">
+
+  <section class="about-hero">
+    <h1 class="page-title"><img src="https://images.unsplash.com/photo-1600531105235-7a82db92fc46?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDZ8fHxlbnwwfHx8fHw%3D" alt="HealthSecure Insurance Prediction"> About HealthSecure Insurance Prediction</h1>
+    <p class="lead">HealthSecure is a demo application that predicts whether an individual has health insurance using a trained machine learning model. The app showcases data cleaning, feature engineering, model training, and an interactive prediction UI.</p>
+  </section><br>
+
+         <section class="col-12">
+      <div class="info-card interactive-card">
+        <h4>Model</h4>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">{{ n_model_features if n_model_features is not none else '—' }}</div>
+            <div class="stat-label">Input features</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value muted small">Type</div>
+            <div class="stat-label">{{ model_name if model_name else 'unknown' }}</div>
+          </div>
+        </div>
+
+        {% if model_features %}
+          <p>Example features:</p>
+          <div class="feature-chips">
+            {% for f in model_features %}
+              {% if loop.index <= 10 %}
+                <span class="chip code-chip">{{ f }}</span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <p class="muted">The trained model returns a binary prediction (has insurance / no insurance). Inputs from the form are mapped to the engineered feature set before prediction.</p>
+
+        <button class="toggle-btn" data-target="#model-notes" aria-expanded="false" aria-controls="model-notes">Show details <span class="chev">▾</span></button>
+  
+
+        <div id="model-notes" class="model-notes mt-3 collapse-hidden" role="region" aria-hidden="true">
+          <h5>Model notes & guidance</h5>
+          <ul>
+            <li><strong>Training:</strong> The model was trained on the dataset above using standard preprocessing (missing-value handling, bucketing of numeric ranges, and one-hot encoding of categorical variables).</li>
+            <li><strong>Evaluation:</strong> Performance should be validated with train/validation splits or cross-validation—check accuracy, precision, recall, and ROC AUC where available.</li>
+            <li><strong>Limitations:</strong> This is a demo model. It may not generalize to different populations or geographic regions and can be biased if some groups are underrepresented.</li>
+            <li><strong>Recommendations:</strong> Use predictions for exploratory purposes only; for production use, monitor model drift and retrain periodically with fresh labeled data.</li>
+            <li><strong>Privacy:</strong> Avoid sending sensitive personal data to this demo. Ensure compliance and anonymization before production deployment.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="my-4">
+
+  <section class="about-method">
+    <h4>How predictions work</h4>
+    <p>The prediction process follows a clear pipeline:</p>
+    <ol class="steps">
+      <li>Collect user input through the prediction form.</li>
+      <li>Transform inputs to the model's engineered feature format (bucket encodings and one-hot columns).</li>
+      <li>Run the model to obtain a binary prediction and return a human-readable result.</li>
+    </ol>
+  </section>
+
+  <div class="about-actions mt-4">
+    <a class="btn btn-primary me-2" href="/predict">Try a Prediction</a>
+    <a class="btn btn-secondary" href="/eda">View EDA</a>
+  </div>
+
+</div>
+
+{% endblock %}

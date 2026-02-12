@@ -1,0 +1,256 @@
+═══════════════════════════════════════════════════════════════════
+          RESULTS PAGE - EXPLORE MORE RESOURCES
+═══════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────┐
+│                     UPDATED RESULTS PAGE                        │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│  Risk Assessment Results                                        │
+│                                                                 │
+│  ┌───────────────────────────────────────────────────────────┐ │
+│  │ Your Risk Level: 🔴 High Risk                            │ │
+│  │ Probability: 70.8%                                        │ │
+│  │ ...                                                       │ │
+│  └───────────────────────────────────────────────────────────┘ │
+│                                                                 │
+│  Action Buttons:                                                │
+│  [🔄 Take Another]  [📋 View History]  [🏠 Home]  [🖨️ Print] │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│           ✨ NEW: EXPLORE MORE RESOURCES ✨                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  🧭 Explore More Resources                                      │
+│  Learn more about insurance and maintaining good health         │
+│                                                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌─────┐│
+│  │   📖        │  │   💗        │  │   📊        │  │  ✉️ ││
+│  │             │  │             │  │             │  │     ││
+│  │  Insurance  │  │   Health    │  │    Data     │  │ Msg ││
+│  │   Guide     │  │    Tips     │  │  Insights   │  │     ││
+│  │             │  │             │  │             │  │     ││
+│  │  Learn about│  │  Discover   │  │  Explore    │  │ Con ││
+│  │  NHIF, SHA, │  │  wellness   │  │  healthcare │  │ tact││
+│  │  insurance  │  │  tips and   │  │  statistics │  │ sup ││
+│  │  options    │  │  preventive │  │  and trends │  │ port││
+│  │             │  │  care       │  │             │  │     ││
+│  │ Read Guide →│  │ View Tips → │  │View Insights│  │ Open││
+│  └──────────────┘  └──────────────┘  └──────────────┘  └─────┘│
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════
+                         CARD FEATURES
+═══════════════════════════════════════════════════════════════════
+
+Each Explore Card Includes:
+┌─────────────────────────────────────────┐
+│          🎨 GRADIENT ICON               │
+│        (Rotates on hover)               │
+│                                         │
+│        Feature Title                    │
+│                                         │
+│   Brief description of what             │
+│   you'll find in this section           │
+│                                         │
+│      Action Link →                      │
+│    (Arrow slides on hover)              │
+└─────────────────────────────────────────┘
+
+HOVER EFFECTS:
+✓ Card lifts up (translateY -8px)
+✓ Border changes to blue
+✓ Shadow increases
+✓ Icon rotates and scales
+✓ Arrow slides right
+
+═══════════════════════════════════════════════════════════════════
+                    AVAILABLE RESOURCES
+═══════════════════════════════════════════════════════════════════
+
+1. 📖 INSURANCE GUIDE
+   ├─ Learn about NHIF (National Health Insurance Fund)
+   ├─ Understand SHA (Social Health Authority)
+   ├─ Compare insurance options in Kenya
+   ├─ Eligibility requirements
+   ├─ Premium costs and coverage
+   └─ Route: /blog
+
+2. 💗 HEALTH TIPS
+   ├─ Wellness tips for better health
+   ├─ Preventive care strategies
+   ├─ Healthcare statistics
+   ├─ Lifestyle recommendations
+   ├─ Disease prevention
+   └─ Route: /health-tips
+
+3. 📊 DATA INSIGHTS
+   ├─ Healthcare trends in Kenya
+   ├─ Insurance coverage statistics
+   ├─ Risk factor analysis
+   ├─ Demographic patterns
+   ├─ Interactive visualizations
+   └─ Route: /eda
+
+4. ✉️ MESSAGES
+   ├─ Contact support team
+   ├─ View admin messages
+   ├─ Ask questions
+   ├─ Get personalized help
+   ├─ Report issues
+   └─ Route: /contact
+
+═══════════════════════════════════════════════════════════════════
+                      RESPONSIVE LAYOUT
+═══════════════════════════════════════════════════════════════════
+
+DESKTOP (> 768px):
+┌─────────────────────────────────────────────────────────────────┐
+│  [Card 1]    [Card 2]    [Card 3]    [Card 4]                  │
+└─────────────────────────────────────────────────────────────────┘
+All 4 cards in a single row (grid auto-fit)
+
+TABLET (≤ 768px):
+┌─────────────────────────────────────────────────────────────────┐
+│  [Card 1]                    [Card 2]                           │
+│  [Card 3]                    [Card 4]                           │
+└─────────────────────────────────────────────────────────────────┘
+2 cards per row
+
+MOBILE (≤ 480px):
+┌─────────────────┐
+│   [Card 1]      │
+│   [Card 2]      │
+│   [Card 3]      │
+│   [Card 4]      │
+└─────────────────┘
+Single column, stacked vertically
+
+═══════════════════════════════════════════════════════════════════
+                         COLOR SCHEME
+═══════════════════════════════════════════════════════════════════
+
+🎨 Card Background:     #ffffff (white)
+🎨 Border:              #e9ecef (light gray) → #0d6efd (blue on hover)
+🎨 Icon Background:     Gradient (#667eea → #764ba2)
+🎨 Title Text:          #1c2b36 (dark)
+🎨 Description Text:    #6c757d (gray)
+🎨 Link Color:          #0d6efd (blue)
+🎨 Section Title:       #1c2b36 with blue icon
+
+═══════════════════════════════════════════════════════════════════
+                      USER JOURNEY EXAMPLE
+═══════════════════════════════════════════════════════════════════
+
+SCENARIO: User Wants to Learn More After Assessment
+────────────────────────────────────────────────────
+
+1. User completes risk assessment
+   ↓
+2. Views results page (High Risk = 70.8%)
+   ↓
+3. Scrolls down to "Explore More Resources"
+   ↓
+4. Clicks "Insurance Guide" card
+   ↓
+5. Reads about NHIF/SHA subsidy programs
+   ↓
+6. Returns to results (browser back or navigation)
+   ↓
+7. Clicks "Health Tips" card
+   ↓
+8. Discovers preventive care strategies
+   ↓
+9. Can also explore Data Insights or Messages
+
+═══════════════════════════════════════════════════════════════════
+                    TECHNICAL IMPLEMENTATION
+═══════════════════════════════════════════════════════════════════
+
+HTML STRUCTURE:
+<div class="explore-more-section">
+  <h3 class="explore-title">
+    <i class="fas fa-compass"></i> Explore More Resources
+  </h3>
+  <p class="explore-subtitle">...</p>
+  <div class="explore-cards">
+    <a href="/blog" class="explore-card">
+      <div class="explore-icon">📖</div>
+      <h4>Insurance Guide</h4>
+      <p>Description...</p>
+      <span class="explore-link">Read Guide →</span>
+    </a>
+    <!-- More cards... -->
+  </div>
+</div>
+
+CSS FEATURES:
+✓ CSS Grid (auto-fit, minmax)
+✓ Flexbox for card internals
+✓ CSS Transitions (0.3s ease)
+✓ Transform effects (translateY, scale, rotate)
+✓ Gradient backgrounds
+✓ Box shadows
+✓ Hover state changes
+✓ Responsive breakpoints
+
+═══════════════════════════════════════════════════════════════════
+                         BENEFITS
+═══════════════════════════════════════════════════════════════════
+
+✅ DISCOVERABILITY
+   Users easily find related resources after viewing results
+
+✅ ENGAGEMENT
+   Encourages exploration of additional features
+
+✅ EDUCATION
+   Promotes health literacy and insurance awareness
+
+✅ RETENTION
+   Keeps users on the platform longer
+
+✅ VALUE
+   Provides immediate next steps based on risk level
+
+✅ PROFESSIONAL
+   Modern card design enhances credibility
+
+✅ ACCESSIBLE
+   Clear labels, icons, and navigation paths
+
+═══════════════════════════════════════════════════════════════════
+                        PRINT BEHAVIOR
+═══════════════════════════════════════════════════════════════════
+
+When user clicks "Print Results":
+✅ Risk assessment details - PRINTED
+✅ Recommendations - PRINTED
+✅ User data summary - PRINTED
+❌ Navigation buttons - HIDDEN
+❌ Explore More section - HIDDEN (not needed on paper)
+❌ Info notice - HIDDEN
+
+This ensures clean, focused printed results.
+
+═══════════════════════════════════════════════════════════════════
+                         SUMMARY
+═══════════════════════════════════════════════════════════════════
+
+WHAT'S NEW:
+✨ 4 beautiful resource cards on results page
+✨ Quick access to Insurance Guide, Health Tips, Data Insights, Messages
+✨ Smooth hover animations and interactions
+✨ Fully responsive grid layout
+✨ Contextual placement after main actions
+✨ Print-friendly (hidden when printing)
+
+RESULT:
+Users can now seamlessly explore all major features of your
+healthcare prediction system directly from the results page,
+creating a more integrated and engaging experience!
+
+═══════════════════════════════════════════════════════════════════

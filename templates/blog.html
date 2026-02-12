@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 1200px;">
+  <h1 class="mb-4" style="color: #667eea; font-weight: 700;"> Insurance Education Hub</h1>
+  <p class="lead mb-5">Learn everything you need to know about health insurance in Kenya</p>
+
+  <!-- NHIF/SHA Guide -->
+  <div id="nhif-guide" class="card mb-4 shadow-sm">
+    <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+      <h3 class="mb-0"> NHIF/SHA (Social Health Authority) Complete Guide</h3>
+    </div>
+    <div class="card-body">
+      <h5>What is SHA?</h5>
+      <p>The Social Health Authority (SHA) replaced NHIF in 2024 as Kenya's universal health coverage program. It provides mandatory health insurance for all Kenyans.</p>
+      
+      <h5>Who Should Enroll?</h5>
+      <ul>
+        <li><strong>Employed workers:</strong> Automatic enrollment with payroll deductions</li>
+        <li><strong>Self-employed:</strong> Voluntary registration with monthly contributions</li>
+        <li><strong>Low-income earners:</strong> Subsidized premiums starting at KES 500/month</li>
+      </ul>
+      
+      <h5>Coverage Includes:</h5>
+      <ul>
+        <li>Outpatient services at registered facilities</li>
+        <li>Inpatient care including surgery</li>
+        <li>Maternity services (Linda Mama integrated)</li>
+        <li>Emergency treatment</li>
+        <li>Chronic disease management</li>
+      </ul>
+      
+      <h5>How to Register:</h5>
+      <ol>
+        <li>Visit <a href="https://sha.go.ke" target="_blank">sha.go.ke</a></li>
+        <li>Click "Register" and provide ID/passport details</li>
+        <li>Select payment plan based on income</li>
+        <li>Receive your SHA card within 7 days</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Linda Mama Info -->
+  <div id="linda-mama-info" class="card mb-4 shadow-sm">
+    <div class="card-header" style="background: #dc3545; color: white;">
+      <h3 class="mb-0"> Linda Mama Maternity Program</h3>
+    </div>
+    <div class="card-body">
+      <h5>Free Maternity Care for All</h5>
+      <p>Linda Mama is a government program providing FREE maternity services to all Kenyan women, regardless of insurance status.</p>
+      
+      <h5>What's Covered (100% FREE):</h5>
+      <ul>
+        <li>All antenatal clinic visits</li>
+        <li>Normal and caesarean deliveries</li>
+        <li>Postnatal care up to 6 weeks</li>
+        <li>Complications management</li>
+        <li>Newborn care</li>
+      </ul>
+      
+      <h5>How to Access:</h5>
+      <p>Simply visit any public health facility with your national ID. No registration or payment required!</p>
+    </div>
+  </div>
+
+  <!-- Private Insurance Comparison -->
+  <div id="private-insurance-comparison" class="card mb-4 shadow-sm">
+    <div class="card-header" style="background: #007bff; color: white;">
+      <h3 class="mb-0"> Private Insurance: Britam, Jubilee & APA</h3>
+    </div>
+    <div class="card-body">
+      <h5>When to Choose Private Insurance?</h5>
+      <ul>
+        <li>You want shorter waiting times</li>
+        <li>Access to private hospitals</li>
+        <li>Dental and optical coverage</li>
+        <li>International coverage</li>
+        <li>Higher income earner (40,000+ KES/month)</li>
+      </ul>
+      
+      <div class="row mt-3">
+        <div id="britam" class="col-md-4">
+          <h6>Britam (125+ enrollments)</h6>
+          <p><strong>Best for:</strong> Families, comprehensive coverage</p>
+          <p><strong>Cost:</strong> KES 3,000-15,000/month</p>
+          <a href="https://www.britam.com" target="_blank" class="btn btn-sm btn-primary">Visit Britam</a>
+        </div>
+        <div id="jubilee" class="col-md-4">
+          <h6>Jubilee (149+ enrollments)</h6>
+          <p><strong>Best for:</strong> Wide hospital network</p>
+          <p><strong>Cost:</strong> KES 3,500-12,000/month</p>
+          <a href="https://www.jubileeinsurance.com/ke" target="_blank" class="btn btn-sm btn-primary">Visit Jubilee</a>
+        </div>
+        <div id="apa" class="col-md-4">
+          <h6>APA (108+ enrollments)</h6>
+          <p><strong>Best for:</strong> Good claim settlement</p>
+          <p><strong>Cost:</strong> KES 4,000-18,000/month</p>
+          <a href="https://www.apainsurance.org" target="_blank" class="btn btn-sm btn-primary">Visit APA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Family Insurance Guide -->
+  <div id="family-insurance-plans" class="card mb-4 shadow-sm">
+    <div class="card-header" style="background: #28a745; color: white;">
+      <h3 class="mb-0"> Family Insurance Plans</h3>
+    </div>
+    <div class="card-body">
+      <h5>Cover Your Entire Family</h5>
+      <p>Family packages cover you, spouse, and up to 6 children under one policy - often cheaper than individual plans!</p>
+      
+      <h5>What to Look For:</h5>
+      <ul>
+        <li><strong>Dependents covered:</strong> Spouse + children (usually up to 21 years)</li>
+        <li><strong>Cost savings:</strong> 30-50% cheaper than separate policies</li>
+        <li><strong>Shared benefits:</strong> Pool annual limits across family</li>
+      </ul>
+      
+      <h5>Recommended Providers:</h5>
+      <ul>
+        <li><strong>SHA Family Plan:</strong> KES 2,000-4,000/month (government)</li>
+        <li><strong>Britam Family:</strong> KES 8,000-20,000/month (private)</li>
+        <li><strong>Jubilee Family:</strong> KES 7,000-18,000/month (private)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Affordable Options -->
+  <div id="affordable-insurance-options" class="card mb-4 shadow-sm">
+    <div class="card-header" style="background: #17a2b8; color: white;">
+      <h3 class="mb-0"> Affordable Insurance for Low-Income Earners</h3>
+    </div>
+    <div class="card-body">
+      <h5>Insurance is Possible on Any Budget</h5>
+      <p>If you earn less than 25,000 KES/month, you still have great options:</p>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <h6>1. SHA Subsidized Plan</h6>
+          <ul>
+            <li>Cost: KES 500/month</li>
+            <li>Full SHA benefits</li>
+            <li>Government-subsidized</li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h6>2. Community Health Insurance</h6>
+          <ul>
+            <li>Cost: KES 300-1,000/month</li>
+            <li>Local cooperative schemes</li>
+            <li>Basic care coverage</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <h6>3. Madison Insurance (Mid-range)</h6>
+        <ul>
+          <li>Cost: KES 2,500-8,000/month</li>
+          <li>Good for middle-income</li>
+          <li><a href="https://www.madisonkenya.com" target="_blank">Visit Madison</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chronic Illness Coverage -->
+  <div id="chronic-illness-coverage" class="card mb-4 shadow-sm">
+    <div class="card-header" style="background: #6f42c1; color: white;">
+      <h3 class="mb-0"> Chronic Illness Coverage</h3>
+    </div>
+    <div class="card-body">
+      <h5>Managing Diabetes, Hypertension & More</h5>
+      <p>If you have a chronic condition, specialized coverage is essential:</p>
+      
+      <h5>Best Providers for Chronic Conditions:</h5>
+      <ul id="cic">
+        <li><strong>CIC Insurance (54+ enrollments):</strong> Specialized chronic disease management programs</li>
+        <li><strong>SHA:</strong> Covers essential chronic disease medications</li>
+        <li><strong>APA:</strong> Good coverage for ongoing treatments</li>
+      </ul>
+      
+      <h5>What to Check:</h5>
+      <ul>
+        <li>Annual medication limits (minimum 100,000 KES)</li>
+        <li>Coverage for specialist consultations</li>
+        <li>Laboratory tests included</li>
+        <li>Pre-existing condition waiting periods</li>
+      </ul>
+      
+      <a href="https://www.cic.co.ke" target="_blank" class="btn btn-primary">Learn More at CIC</a>
+    </div>
+  </div>
+
+  <!-- Premium Coverage -->
+  <div id="premium-health-coverage" class="card mb-4 shadow-sm">
+    <div class="card-header" style="background: #ffc107; color: #333;">
+      <h3 class="mb-0"> Premium Health Coverage</h3>
+    </div>
+    <div class="card-body">
+      <h5>AAR Insurance - International Coverage</h5>
+      <p>For high-income earners (60,000+ KES/month) seeking premium services:</p>
+      
+      <h5>AAR Benefits:</h5>
+      <ul>
+        <li>Access to international hospitals</li>
+        <li>Worldwide emergency coverage</li>
+        <li>VIP hospital rooms</li>
+        <li>Dental & optical (full coverage)</li>
+        <li>Wellness programs</li>
+      </ul>
+      
+      <p><strong>Cost:</strong> KES 5,000-25,000/month</p>
+      <a href="https://www.aar-insurance.com" target="_blank" class="btn btn-warning">Visit AAR Insurance</a>
+    </div>
+  </div>
+
+  <!-- Community Insurance -->
+  <div id="community-insurance-schemes" class="card mb-4 shadow-sm">
+    <div class="card-header" style="background: #20c997; color: white;">
+      <h3 class="mb-0"> Community-Based Insurance</h3>
+    </div>
+    <div class="card-body">
+      <h5>Cooperative Health Schemes</h5>
+      <p>Community-based health insurance (CBHI) is perfect for informal workers and rural residents:</p>
+      
+      <h5>How It Works:</h5>
+      <ol>
+        <li>Join a local health cooperative (ask at your county health office)</li>
+        <li>Pay low monthly premiums (KES 300-1,000)</li>
+        <li>Access healthcare at designated facilities</li>
+        <li>Community members support each other</li>
+      </ol>
+      
+      <h5>Benefits:</h5>
+      <ul>
+        <li>Very affordable premiums</li>
+        <li>No complex paperwork</li>
+        <li>Community support</li>
+        <li>Basic but essential coverage</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-4 mb-5 text-center">
+    <a class="btn btn-primary btn-lg" href="/assess" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;"> Take Risk Assessment</a>
+    <a class="btn btn-outline-secondary btn-lg" href="/"> Back to Home</a>
+  </div>
+</div>
+
+<style>
+  .card {
+    transition: transform 0.3s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  .card-header h3 {
+    font-size: 1.4rem;
+  }
+  h5 {
+    color: #667eea;
+    margin-top: 15px;
+    font-weight: 600;
+  }
+</style>
+{% endblock %}

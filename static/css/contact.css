@@ -1,0 +1,111 @@
+/* =========================
+   CONTACT PAGE (contact.html)
+========================= */
+
+.contact-container {
+    padding: 80px 5%;
+    width: 100%;
+    margin: 0 0 40px 0;
+    background: #f8f9fa;
+    min-height: 60vh;
+    border-bottom: 4px solid #e0e0e0;
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.contact-header h1 {
+    color: #1a365d;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.contact-header p {
+    color: #718096;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.contact-info-card {
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 40px;
+    text-align: center;
+    transition: transform 0.3s;
+    border: 1px solid #e0e0e0;
+}
+
+.contact-info-card:hover {
+    transform: translateY(-2px);
+}
+
+.contact-info-card i {
+    font-size: 3rem;
+    color: #0b5ed7;
+    margin-bottom: 15px;
+}
+
+.contact-info-card h3 {
+    color: #1a365d;
+    margin-bottom: 10px;
+}
+
+.contact-info-card p {
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.contact-info-card a {
+    color: #0b5ed7;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.contact-info-card a:hover {
+    text-decoration: underline;
+}
+
+.contact-form-card {
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 60px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #e0e0e0;
+}
+
+.contact-form-card h2 {
+    color: #1a365d;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    .contact-container {
+        min-height: auto;
+        padding: 50px 5%;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-form-card {
+        padding: 40px 5%;
+    }
+}

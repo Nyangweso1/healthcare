@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/health_tips.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>Health Tips & Data Insights </h1>
+
+<p>
+  Our model predicts the likelihood of someone having health insurance based on
+  features such as <strong>age</strong>, <strong>income</strong>,
+  <strong>routine check-ups</strong>, and other demographic indicators.
+  Below are concise, actionable tips grounded in what the data shows.
+</p>
+
+{% if insured_pct is not none %}
+<p>
+  <strong>Dataset snapshot:</strong>
+  Approximately <strong>{{ "%.1f"|format(insured_pct) }}%</strong>
+  of people in the dataset report having had health insurance.
+</p>
+{% endif %}
+
+{% if income_mean %}
+<p>
+  <strong>Insight:</strong>
+  The income bracket with the lowest coverage is
+  <em>{{ income_mean.low_bucket_label }}</em>
+  (about <strong>{{ "%.1f"|format(income_mean.low_bucket_pct) }}%</strong> insured).
+</p>
+{% endif %}
+
+<hr>
+
+<!-- ================= HEALTH TIPS SECTION ================= -->
+<h2 class="mt-4"> Evidence-Based Health Tips</h2>
+
+<div class="row mt-4">
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"> Regular Check-ups Matter</h5>
+        <p class="card-text">
+          People who schedule routine health check-ups are significantly more likely to have 
+          health insurance coverage. Regular preventive care helps catch issues early and 
+          can reduce long-term healthcare costs.
+        </p>
+        <ul>
+          <li>Schedule annual physical examinations</li>
+          <li>Stay up-to-date with recommended screenings</li>
+          <li>Monitor chronic conditions regularly</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"> Income & Insurance Coverage</h5>
+        <p class="card-text">
+          Data shows a strong correlation between income levels and insurance coverage. 
+          Lower-income households often face barriers to accessing affordable coverage.
+        </p>
+        <ul>
+          <li>Explore government assistance programs (Medicaid, subsidies)</li>
+          <li>Check employer-sponsored insurance options</li>
+          <li>Compare marketplace plans during open enrollment</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"> Don't Neglect Dental Health</h5>
+        <p class="card-text">
+          Dental check-ups are an important indicator of overall health consciousness. 
+          Poor oral health can lead to serious systemic health issues.
+        </p>
+        <ul>
+          <li>Visit dentist every 6 months</li>
+          <li>Brush twice daily and floss regularly</li>
+          <li>Consider dental insurance or discount plans</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"> Mental Health Support</h5>
+        <p class="card-text">
+          Mental health is as important as physical health. Access to mental health 
+          support correlates with better overall health outcomes and insurance coverage.
+        </p>
+        <ul>
+          <li>Seek counseling if experiencing stress or anxiety</li>
+          <li>Practice stress management techniques</li>
+          <li>Check if your insurance covers mental health services</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"> Cancer Screening Saves Lives</h5>
+        <p class="card-text">
+          Early detection through regular cancer screenings dramatically improves treatment 
+          outcomes and survival rates.
+        </p>
+        <ul>
+          <li>Follow age-appropriate screening guidelines</li>
+          <li>Know your family medical history</li>
+          <li>Discuss screening options with your healthcare provider</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"> Healthcare Knowledge is Power</h5>
+        <p class="card-text">
+          Understanding healthcare systems, insurance options, and your rights as a patient 
+          helps you make better decisions about your health and coverage.
+        </p>
+        <ul>
+          <li>Read your insurance policy thoroughly</li>
+          <li>Understand your benefits and coverage limits</li>
+          <li>Ask questions during medical appointments</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<blockquote class="mt-4 p-3 bg-light border-left">
+   <strong>Disclaimer:</strong> This page provides high-level, data-driven guidance.
+  It is not medical or financial advice — consult healthcare professionals
+  or licensed insurance advisors for personalized assistance.
+</blockquote>
+
+{% endblock %}

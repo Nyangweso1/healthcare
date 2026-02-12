@@ -1,0 +1,143 @@
+/* =========================
+   HEALTH TIPS PAGES (health_tips.html, health_tip_detail.html)
+========================= */
+
+.tips-container {
+    padding: 80px 5%;
+    width: 100%;
+    margin: 0 0 40px 0;
+    background: #f8f9fa;
+    min-height: 60vh;
+    border-bottom: 4px solid #e0e0e0;
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.tip-card {
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+}
+
+.tip-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.tip-card-header {
+    background: linear-gradient(135deg, #0b5ed7 0%, #084298 100%);
+    color: white;
+    padding: 20px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tip-card-header i {
+    font-size: 2.5rem;
+}
+
+.tip-card-body {
+    padding: 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tip-card-body h3 {
+    color: #1a365d;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.tip-card-body p {
+    color: #4a5568;
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 15px;
+}
+
+.tip-category {
+    display: inline-block;
+    background: #e7f3ff;
+    color: #0b5ed7;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: auto;
+}
+
+/* Tip Detail Page */
+.tip-detail-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.tip-detail-card {
+    background: white;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+    border-bottom: 4px solid #e0e0e0;
+}
+
+.tip-detail-header {
+    background: linear-gradient(135deg, #0b5ed7 0%, #084298 100%);
+    color: white;
+    padding: 50px 40px;
+    text-align: center;
+}
+
+.tip-detail-header h1 {
+    margin-bottom: 15px;
+}
+
+.tip-detail-body {
+    padding: 40px;
+}
+
+.tip-detail-content {
+    line-height: 1.8;
+    color: #2d3748;
+}
+
+.tip-detail-content h2 {
+    color: #1a365d;
+    margin: 30px 0 15px 0;
+}
+
+.tip-detail-content ul {
+    margin: 15px 0;
+    padding-left: 25px;
+}
+
+.tip-detail-content li {
+    margin-bottom: 10px;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    .tips-container {
+        min-height: auto;
+        padding: 50px 5%;
+    }
+    
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
+}

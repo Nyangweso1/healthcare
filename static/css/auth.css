@@ -1,0 +1,69 @@
+/* =========================
+   AUTHENTICATION PAGES (login.html, register.html)
+========================= */
+
+.auth-container {
+    width: 100%;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 5%;
+    margin: 0 0 40px 0;
+    background: #fff;
+    border-bottom: 4px solid #e0e0e0;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header h2 {
+    color: #1a365d;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.auth-header p {
+    color: #718096;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #718096;
+}
+
+.form-footer a {
+    color: #0b5ed7;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    .auth-container {
+        min-height: auto;
+        padding: 50px 5%;
+    }
+    
+    .auth-card {
+        padding: 30px 5%;
+    }
+}

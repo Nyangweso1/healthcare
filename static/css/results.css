@@ -1,0 +1,803 @@
+/* =========================
+   RESULTS PAGE - MODERN RESPONSIVE DESIGN
+========================= */
+
+/* Body Styling */
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Main Container */
+.results-page-container {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    box-sizing: border-box;
+}
+
+/* Section Spacing */
+.section-spacing {
+    margin-bottom: 3rem;
+}
+
+/* =========================
+   RISK SCORE SECTION - MOST DOMINANT
+========================= */
+.risk-score-section {
+    margin-bottom: 3rem;
+}
+
+.risk-score-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.results-page-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: #1c2b36;
+    margin-bottom: 2rem;
+}
+
+.risk-score-display {
+    margin: 2rem 0;
+}
+
+.risk-badge {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.risk-badge-low {
+    background: #28a745;
+    color: white;
+}
+
+.risk-badge-medium {
+    background: #ffc107;
+    color: #000;
+}
+
+.risk-badge-high {
+    background: #dc3545;
+    color: white;
+}
+
+.insurance-score {
+    margin: 2rem 0;
+}
+
+.score-number {
+    display: block;
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 800;
+    color: #0d6efd;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.score-label {
+    display: block;
+    font-size: 1.1rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.interpretation-text {
+    background: #eef2f7;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.interpretation-text i {
+    color: #0d6efd;
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.interpretation-text p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #495057;
+}
+
+/* =========================
+   ALERT CARDS
+========================= */
+.alert-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.alert-card-warning {
+    background: linear-gradient(135deg, #dc3545 0%, #f87171 100%);
+    color: white;
+}
+
+.alert-card-info {
+    background: #0d6efd;
+    color: white;
+}
+
+.alert-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.alert-card-subtitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.alert-card-text {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.alert-card-subtext {
+    font-size: 1rem;
+    opacity: 0.95;
+    margin-bottom: 0;
+}
+
+/* =========================
+   MODERN CARD STYLING
+========================= */
+.card-modern {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+}
+
+.section-heading {
+    font-size: clamp(1.5rem, 3vw, 1.8rem);
+    font-weight: 600;
+    color: #1c2b36;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-heading i {
+    color: #0d6efd;
+    font-size: 1.5rem;
+}
+
+.section-subtext {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+/* =========================
+   ALTERNATIVE RISK ASSESSMENT
+========================= */
+.alternative-risk-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.alternative-risk-score {
+    text-align: center;
+}
+
+.score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 auto 0.75rem;
+}
+
+.score-circle-high {
+    background: #dc3545;
+}
+
+.score-circle-medium {
+    background: #ffc107;
+    color: #000;
+}
+
+.score-circle-low {
+    background: #28a745;
+}
+
+.score-category {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #495057;
+    margin: 0;
+}
+
+.alternative-risk-content p {
+    margin-bottom: 0.75rem;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.text-muted-custom {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+/* =========================
+   LISTS
+========================= */
+.risk-factors-list,
+.recommendations-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.risk-factor-item,
+.recommendation-item {
+    background: #f1f3f5;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    color: #495057;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 2.5rem;
+}
+
+.risk-factor-item::before {
+    content: "\f06a";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 1rem;
+    color: #dc3545;
+    font-size: 1rem;
+}
+
+.recommendation-item {
+    background: #eef2f7;
+}
+
+.recommendation-item::before {
+    content: "\f0eb";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 1rem;
+    color: #0d6efd;
+    font-size: 1rem;
+}
+
+/* =========================
+   INSURANCE CARDS
+========================= */
+.insurance-card {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.insurance-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.insurance-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.insurance-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1c2b36;
+    margin: 0;
+}
+
+.insurance-badge {
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.insurance-badge-high {
+    background: #dc3545;
+    color: white;
+}
+
+.insurance-badge-recommended {
+    background: #0d6efd;
+    color: white;
+}
+
+.insurance-badge-premium {
+    background: #ffc107;
+    color: #000;
+}
+
+.insurance-badge-affordable {
+    background: #28a745;
+    color: white;
+}
+
+.insurance-card-body {
+    margin-bottom: 1.25rem;
+}
+
+.insurance-reason,
+.insurance-coverage,
+.insurance-cost {
+    margin-bottom: 0.75rem;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.insurance-cost {
+    color: #28a745;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.insurance-card-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn-primary-modern,
+.btn-secondary-modern {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary-modern {
+    background: #0d6efd;
+    color: white;
+}
+
+.btn-primary-modern:hover {
+    background: #0b5ed7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+.btn-secondary-modern {
+    background: transparent;
+    border: 1px solid #0d6efd;
+    color: #0d6efd;
+}
+
+.btn-secondary-modern:hover {
+    background: #0d6efd;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* =========================
+   USER SUMMARY
+========================= */
+.user-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.summary-item {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.summary-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.summary-value {
+    font-size: 1.1rem;
+    color: #1c2b36;
+    font-weight: 600;
+}
+
+/* =========================
+   ACTION BUTTONS SECTION
+========================= */
+.actions-section {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary-action,
+.btn-secondary-action {
+    padding: 0.9rem 1.8rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary-action {
+    background: #0d6efd;
+    color: white;
+}
+
+.btn-primary-action:hover {
+    background: #0b5ed7;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(13, 110, 253, 0.3);
+    color: white;
+}
+
+.btn-secondary-action {
+    background: transparent;
+    border: 1px solid #6c757d;
+    color: #495057;
+}
+
+.btn-secondary-action:hover {
+    background: #6c757d;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* =========================
+   EXPLORE MORE SECTION
+========================= */
+.explore-more-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #e9ecef;
+}
+
+.explore-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1c2b36;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.explore-title i {
+    color: #0d6efd;
+    font-size: 1.5rem;
+}
+
+.explore-subtitle {
+    text-align: center;
+    color: #6c757d;
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+}
+
+.explore-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.explore-card {
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.explore-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    border-color: #0d6efd;
+}
+
+.explore-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 2rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.explore-card:hover .explore-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.explore-card h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1c2b36;
+    margin-bottom: 0.75rem;
+}
+
+.explore-card p {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.explore-link {
+    color: #0d6efd;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.explore-card:hover .explore-link {
+    gap: 0.75rem;
+}
+
+.explore-link i {
+    transition: transform 0.3s ease;
+}
+
+.explore-card:hover .explore-link i {
+    transform: translateX(4px);
+}
+
+/* =========================
+   INFO NOTICE
+========================= */
+.info-notice {
+    background: #e7f3ff;
+    border-left: 4px solid #0d6efd;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+}
+
+.info-notice i {
+    color: #0d6efd;
+    font-size: 1.25rem;
+    margin-top: 0.125rem;
+}
+
+.info-notice p {
+    margin: 0;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.info-notice a {
+    color: #0d6efd;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.info-notice a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+@media (max-width: 768px) {
+    .results-page-container {
+        padding: 1rem;
+    }
+    
+    .risk-score-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .card-modern {
+        padding: 1.5rem;
+    }
+    
+    .section-spacing {
+        margin-bottom: 2rem;
+    }
+    
+    .alternative-risk-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+    }
+    
+    .alternative-risk-content {
+        text-align: left;
+    }
+    
+    .insurance-card-header {
+        flex-direction: column;
+        align-items: start;
+    }
+    
+    .insurance-badge {
+        align-self: flex-start;
+    }
+    
+    .insurance-card-actions {
+        flex-direction: column;
+    }
+    
+    .btn-primary-modern,
+    .btn-secondary-modern {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .user-summary-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions-section {
+        flex-direction: column;
+    }
+    
+    .btn-primary-action,
+    .btn-secondary-action {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .explore-cards {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+    
+    .explore-more-section {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+    }
+    
+    .explore-title {
+        font-size: 1.5rem;
+    }
+    
+    .info-notice {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .results-page-container {
+        padding: 1rem 0.75rem;
+    }
+    
+    .risk-score-card,
+    .card-modern,
+    .insurance-card {
+        padding: 1.25rem;
+    }
+    
+    .risk-badge {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.25rem;
+    }
+    
+    .score-number {
+        font-size: 3.5rem;
+    }
+    
+    .section-heading {
+        font-size: 1.35rem;
+    }
+    
+    .insurance-card-title {
+        font-size: 1.15rem;
+    }
+    
+    .explore-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.75rem;
+    }
+    
+    .explore-card {
+        padding: 1.5rem 1.25rem;
+    }
+    
+    .explore-title {
+        font-size: 1.35rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+    }
+    
+    .navbar,
+    .actions-section,
+    .explore-more-section,
+    .info-notice {
+        display: none;
+    }
+    
+    .results-page-container {
+        padding: 0;
+    }
+    
+    .card-modern,
+    .risk-score-card,
+    .insurance-card {
+        box-shadow: none;
+        border: 1px solid #dee2e6;
+        page-break-inside: avoid;
+    }
+}

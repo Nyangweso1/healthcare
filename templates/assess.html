@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Assessment - Healthcare Insurance System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    
+    <!-- Assessment CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/assess.css') }}">
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm px-4">
+        <div class="container-fluid">
+            <div class="logo"><i class="fa-solid fa-circle-h"></i>HealthSecure</div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger-menu" id="hamburgerBtn" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('blog') }}">Insurance Guide</a></li>
+                <li><a href="{{ url_for('health_tips') }}">Health Tips</a></li>
+                <li><a href="{{ url_for('contact') }}">Messages</a></li>
+                <li><a href="{{ url_for('eda') }}">Data Insights</a></li>
+                {% if session.logged_in %}
+                    <li><a href="{{ url_for('assess') }}" class="active">Risk Assessment</a></li>
+                    <li><a href="{{ url_for('history') }}">My History</a></li>
+                    {% if session.is_admin == 1 %}
+                    <li><a href="{{ url_for('admin_dashboard') }}" style="color: #0b5ed7; font-weight: bold;"><i class="fa-solid fa-circle-user"></i>Admin Panel</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+            
+            <div class="nav-right">
+                {% if session.logged_in %}
+                    <span style="margin-right: 10px; color: #555;">{{ session.username }}</span>
+                    <a href="{{ url_for('logout') }}" style="margin-left:15px; color:#dc3545; text-decoration:none;"><i class="fa-solid fa-circle-user"></i>Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" style="margin-left:15px; color:#0b5ed7; text-decoration:none;"><i class="fa-solid fa-circle-user"></i>Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="assessment-page-container">
+        <div class="assessment-card">
+            
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Form Header -->
+            <div class="form-header-section">
+                <h1 class="form-main-title"><i class="fas fa-clipboard-check"></i> Insurance Risk Assessment</h1>
+                <p class="form-subtitle">Please provide your information to assess your health insurance risk</p>
+            </div>
+            
+            <!-- Assessment Form -->
+            <form method="POST" action="{{ url_for('predict') }}" id="assessmentForm" class="assessment-form">
+                
+                <!-- Section 1: Demographics -->
+                <div class="form-section-modern">
+                    <h3 class="section-title-modern"><i class="fas fa-users"></i> Demographics</h3>
+                    
+                    <div class="form-row-modern">
+                        <div class="form-group-modern">
+                            <label for="age" class="form-label-modern">Age <span class="required-mark">*</span></label>
+                            <input type="number" class="form-input-modern" id="age" name="age" 
+                                   min="18" max="100" required placeholder="Enter your age">
+                        </div>
+                        
+                        <div class="form-group-modern">
+                            <label for="gender" class="form-label-modern">Gender <span class="required-mark">*</span></label>
+                            <select class="form-input-modern" id="gender" name="gender" required>
+                                <option value="">Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row-modern">
+                        <div class="form-group-modern">
+                            <label for="marital_status" class="form-label-modern">Marital Status <span class="required-mark">*</span></label>
+                            <select class="form-input-modern" id="marital_status" name="marital_status" required>
+                                <option value="">Select status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorced">Divorced</option>
+                                <option value="Widowed">Widowed</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group-modern">
+                            <label for="children" class="form-label-modern">Number of Children <span class="required-mark">*</span></label>
+                            <input type="number" class="form-input-modern" id="children" name="children" 
+                                   min="0" max="20" required placeholder="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 2: Socioeconomic -->
+                <div class="form-section-modern">
+                    <h3 class="section-title-modern"><i class="fas fa-briefcase"></i> Socioeconomic Information</h3>
+                    
+                    <div class="form-group-modern">
+                        <label for="employment_status" class="form-label-modern">Employment Status <span class="required-mark">*</span></label>
+                        <select class="form-input-modern" id="employment_status" name="employment_status" required>
+                            <option value="">Select employment status</option>
+                            <option value="Employed">Employed</option>
+                            <option value="Self-employed">Self-employed</option>
+                            <option value="Unemployed">Unemployed</option>
+                            <option value="Casual labor">Casual labor</option>
+                            <option value="Student">Student</option>
+                            <option value="Retired">Retired</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label for="income" class="form-label-modern">Monthly Household Income (KES) <span class="required-mark">*</span></label>
+                        <input type="number" class="form-input-modern" id="income" name="income" 
+                               min="0" step="1000" required placeholder="e.g., 25000">
+                        <div class="form-help-text">Enter your total monthly household income in Kenya Shillings</div>
+                    </div>
+                    
+                    <div class="form-row-modern">
+                        <div class="form-group-modern">
+                            <label for="education_level" class="form-label-modern">Education Level <span class="required-mark">*</span></label>
+                            <select class="form-input-modern" id="education_level" name="education_level" required>
+                                <option value="">Select education level</option>
+                                <option value="No formal education">No formal education</option>
+                                <option value="Primary">Primary</option>
+                                <option value="Secondary">Secondary</option>
+                                <option value="College/University">College/University</option>
+                                <option value="Postgraduate">Postgraduate</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group-modern">
+                            <label for="residence_type" class="form-label-modern">Residence Type <span class="required-mark">*</span></label>
+                            <select class="form-input-modern" id="residence_type" name="residence_type" required>
+                                <option value="">Select residence type</option>
+                                <option value="Urban">Urban</option>
+                                <option value="Rural">Rural</option>
+                                <option value="Peri-urban">Peri-urban</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label for="family_size" class="form-label-modern">Total Family Size <span class="required-mark">*</span></label>
+                        <input type="number" class="form-input-modern" id="family_size" name="family_size" 
+                               min="1" max="20" required placeholder="Total people in household">
+                        <div class="form-help-text">Include yourself and all dependents</div>
+                    </div>
+                </div>
+                
+                <!-- Section 3: Health Status -->
+                <div class="form-section-modern">
+                    <h3 class="section-title-modern"><i class="fas fa-heart-pulse"></i> Health Status & Knowledge</h3>
+                    
+                    <div class="form-group-modern">
+                        <label for="chronic_illness" class="form-label-modern">Chronic Illness Status <span class="required-mark">*</span></label>
+                        <select class="form-input-modern" id="chronic_illness" name="chronic_illness" required>
+                            <option value="">Select status</option>
+                            <option value="None">No chronic illness</option>
+                            <option value="Diabetes">Diabetes</option>
+                            <option value="Hypertension">Hypertension</option>
+                            <option value="Asthma">Asthma</option>
+                            <option value="Heart disease">Heart disease</option>
+                            <option value="Multiple conditions">Multiple conditions</option>
+                            <option value="Other">Other chronic condition</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label for="healthcare_knowledge" class="form-label-modern">Healthcare Insurance Knowledge <span class="required-mark">*</span></label>
+                        <select class="form-input-modern" id="healthcare_knowledge" name="healthcare_knowledge" required>
+                            <option value="">Select your knowledge level</option>
+                            <option value="No knowledge">No knowledge</option>
+                            <option value="Basic">Basic knowledge</option>
+                            <option value="Good">Good understanding</option>
+                            <option value="Excellent">Excellent understanding</option>
+                        </select>
+                        <div class="form-help-text">How well do you understand health insurance options?</div>
+                    </div>
+                </div>
+                
+                <!-- Section 4: Healthcare Access -->
+                <div class="form-section-modern">
+                    <h3 class="section-title-modern"><i class="fas fa-hospital"></i> Healthcare Access & Preventive Care</h3>
+                    
+                    <div class="form-group-modern">
+                        <label for="hospital_visit_gap" class="form-label-modern">Last Hospital Visit <span class="required-mark">*</span></label>
+                        <select class="form-input-modern" id="hospital_visit_gap" name="hospital_visit_gap" required>
+                            <option value="">Select time period</option>
+                            <option value="0.5">Within the last month</option>
+                            <option value="2">Within the last 3 months</option>
+                            <option value="4.5">Within the last 6 months</option>
+                            <option value="9">Within the last year</option>
+                            <option value="18">More than 1 year ago</option>
+                            <option value="30">More than 2 years ago</option>
+                            <option value="60">Never or very long ago</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row-modern">
+                        <div class="form-group-modern">
+                            <label for="routine_check" class="form-label-modern">Routine Health Checkups (Last Year)</label>
+                            <input type="number" class="form-input-modern" id="routine_check" name="routine_check" 
+                                   min="0" max="10" value="0" placeholder="Number of checkups">
+                        </div>
+                        
+                        <div class="form-group-modern">
+                            <label for="cancer_screening" class="form-label-modern">Cancer Screenings (Last Year)</label>
+                            <input type="number" class="form-input-modern" id="cancer_screening" name="cancer_screening" 
+                                   min="0" max="5" value="0" placeholder="Number of screenings">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row-modern">
+                        <div class="form-group-modern">
+                            <label for="dental_checkup" class="form-label-modern">Dental Checkups (Last Year)</label>
+                            <input type="number" class="form-input-modern" id="dental_checkup" name="dental_checkup" 
+                                   min="0" max="5" value="0" placeholder="Number of checkups">
+                        </div>
+                        
+                        <div class="form-group-modern">
+                            <label for="mental_health_support" class="form-label-modern">Mental Health Visits (Last Year)</label>
+                            <input type="number" class="form-input-modern" id="mental_health_support" name="mental_health_support" 
+                                   min="0" max="10" value="0" placeholder="Number of visits">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit-modern">
+                        <i class="fas fa-clipboard-check"></i> Assess My Risk
+                    </button>
+                    <div class="navigation-buttons">
+                        <a href="{{ url_for('history') }}" class="btn-secondary-modern">
+                            <i class="fas fa-history"></i> View History
+                        </a>
+                        {% if session.get('assessment_result') %}
+                        <a href="{{ url_for('results') }}" class="btn-secondary-modern">
+                            <i class="fas fa-chart-bar"></i> Latest Results
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('index') }}" class="btn-secondary-modern">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </div>
+                </div>
+                
+            </form>
+            
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Form Validation -->
+    <script>
+        // Basic client-side validation
+        document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+            const age = document.getElementById('age').value;
+            const income = document.getElementById('income').value;
+            
+            if (age < 18 || age > 100) {
+                alert('Please enter a valid age between 18 and 100');
+                e.preventDefault();
+                return false;
+            }
+            
+            if (income < 0) {
+                alert('Income cannot be negative');
+                e.preventDefault();
+                return false;
+            }
+            
+            return true;
+        });
+    </script>
+    
+    <!-- Hamburger Menu Script -->
+    <script>
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburgerBtn.classList.toggle('active');
+            });
+        }
+    </script>
+    
+</body>
+</html>

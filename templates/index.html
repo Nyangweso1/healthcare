@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1478476868527-002ae3f3e159?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Simplifying Your Path to Better Care</h1>
+        <p class="hero-subtitle">
+            Don't leave your health to chance. Our system analyzes your medical needs and financial risks to find the perfect insurance fit in Kenya.
+        </p>
+        <div class="cta-buttons">
+            {% if session.logged_in %}
+                <a class="btn-cta btn-cta-primary" href="{{ url_for('assess') }}">
+                    <i class="fas fa-heartbeat"></i> Start Risk Assessment
+                </a>
+                <a class="btn-cta btn-cta-secondary" href="{{ url_for('history') }}">
+                    View History
+                </a>
+                {% if session.is_admin == 1 %}
+                <a class="btn-cta btn-cta-admin" href="{{ url_for('admin_dashboard') }}">
+                    Admin Dashboard
+                </a>
+                {% endif %}
+            {% else %}
+                <a class="btn-cta btn-cta-primary" href="{{ url_for('register') }}">
+                    <i class="fas fa-rocket"></i> Get Started Free
+                </a>
+                <a class="btn-cta btn-cta-secondary" href="{{ url_for('login') }}">
+                    Member Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="section-container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-filter"></i>
+                </div>
+                <h3>Smart Risk AI</h3>
+                <p>We analyze 50+ data points to calculate your insurance risk score.</p>
+                <a href="{{ url_for('blog') }}" class="feature-link">How it works →</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <h3>Health Tips</h3>
+                <p>Personalized preventive care advice to keep your premiums low.</p>
+                <a href="{{ url_for('health_tips') }}" class="feature-link">Explore Tips →</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-list"></i>
+                </div>
+                <h3>Data Analysis</h3>
+                <p>View healthcare trends and costs across the country.</p>
+                <a href="{{ url_for('eda') }}" class="feature-link">View Trends →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why It Matters Section -->
+<section class="why-matters-section">
+    <div class="section-container">
+        <div class="why-matters-grid">
+            <div class="why-matters-content">
+                <h2>Why Health Risk Assessment Matters</h2>
+                <p>Most Kenyans are one medical emergency away from financial distress. Our platform identifies your specific vulnerabilities.</p>
+                <ul class="benefits-list">
+                    <li><i class="fas fa-check-circle"></i> Avoid overpaying for unnecessary coverage</li>
+                    <li><i class="fas fa-check-circle"></i> Identify gaps in chronic illness protection</li>
+                    <li><i class="fas fa-check-circle"></i> Compare NHIF, Britam, Jubilee, and APA in one click</li>
+                </ul>
+            </div>
+            <div class="why-matters-callout">
+                <h3>Did you know?</h3>
+                <div class="callout-item">
+                    <span class="callout-number">40%</span>
+                    <p>Proper insurance risk planning can reduce out-of-pocket medical spending by up to 40% annually.</p>
+                </div>
+                <div class="callout-item">
+                    <span class="callout-icon"><i class="fas fa-lightbulb"></i></span>
+                    <p>Knowing the renewal process helps you plan for potential adjustments in healthcare costs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Insurance Partners Section -->
+<section class="partners-section">
+    <div class="section-container">
+        <p class="partners-subtitle">Supported Insurance Networks</p>
+        <div class="partners-grid">
+            <a href="{{ url_for('blog') }}#nhif-guide" class="partner-logo">NHIF</a>
+            <a href="{{ url_for('blog') }}#britam" class="partner-logo">BRITAM</a>
+            <a href="{{ url_for('blog') }}#jubilee" class="partner-logo">JUBILEE</a>
+            <a href="{{ url_for('blog') }}#apa" class="partner-logo">APA</a>
+            <a href="{{ url_for('blog') }}#cic" class="partner-logo">CIC GROUP</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="section-container">
+        <div class="cta-content">
+            <h2>Ready to Take Control of Your Health?</h2>
+            <p>Start your personalized health risk assessment today and find the perfect insurance plan.</p>
+            <a href="{{ url_for('assess') if session.logged_in else url_for('register') }}" class="btn-cta btn-cta-large">
+                <i class="fas fa-heartbeat"></i> Start Your Assessment Now
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

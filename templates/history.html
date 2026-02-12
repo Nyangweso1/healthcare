@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment History - Healthcare Insurance System</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    
+    <!-- History CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm px-4">
+        <div class="container-fluid">
+            <div class="logo"><i class="fa-solid fa-circle-h"></i>HealthSecure</div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger-menu" id="hamburgerBtn" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('blog') }}">Insurance Guide</a></li>
+                <li><a href="{{ url_for('health_tips') }}">Health Tips</a></li>
+                <li><a href="{{ url_for('contact') }}">Messages</a></li>
+                <li><a href="{{ url_for('eda') }}">Data Insights</a></li>
+                {% if session.logged_in %}
+                    <li><a href="{{ url_for('assess') }}">Risk Assessment</a></li>
+                    <li><a href="{{ url_for('history') }}" class="active">My History</a></li>
+                    {% if session.is_admin == 1 %}
+                    <li><a href="{{ url_for('admin_dashboard') }}" style="color: #0b5ed7; font-weight: bold;"><i class="fa-solid fa-circle-user"></i>Admin Panel</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+            
+            <div class="nav-right">
+                {% if session.logged_in %}
+                    <span style="margin-right: 10px; color: #555;">{{ session.username }}</span>
+                    <a href="{{ url_for('logout') }}" style="margin-left:15px; color:#dc3545; text-decoration:none;"><i class="fa-solid fa-circle-user"></i>Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" style="margin-left:15px; color:#0b5ed7; text-decoration:none;"><i class="fa-solid fa-circle-user"></i>Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Header Section -->
+    <div class="history-page-header">
+        <div class="history-page-container">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="page-title">
+                        <i class="fas fa-clipboard-list"></i>
+                        Assessment History
+                    </h1>
+                    {% if assessments %}
+                    <span class="total-badge">{{ assessments|length }} total assessment{{ 's' if assessments|length != 1 else '' }}</span>
+                    {% endif %}
+                </div>
+                <div class="header-actions">
+                    <a href="{{ url_for('assess') }}" class="btn-modern btn-primary">
+                        <i class="fas fa-plus-circle"></i> New Assessment
+                    </a>
+                    {% if session.get('assessment_result') %}
+                    <a href="{{ url_for('results') }}" class="btn-modern btn-outline">
+                        <i class="fas fa-chart-bar"></i> Latest Results
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('index') }}" class="btn-modern btn-outline">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="history-page-container">
+        {% if assessments %}
+        
+        <!-- Search & Filter Bar (Visual Only) -->
+        <div class="filter-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search assessments..." aria-label="Search assessments">
+            </div>
+            <div class="filter-controls">
+                <select class="filter-select" id="riskFilter" aria-label="Filter by risk level">
+                    <option value="">All Risk Levels</option>
+                    <option value="high">High Risk</option>
+                    <option value="medium">Medium Risk</option>
+                    <option value="low">Low Risk</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Desktop Table View -->
+        <div class="table-container desktop-only">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Risk Level (ML)</th>
+                        <th>Probability</th>
+                        <th>Rule Score</th>
+                        <th>Age</th>
+                        <th>Income</th>
+                        <th>Employment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assessment in assessments %}
+                    <tr class="table-row" data-risk="{{ assessment['risk_level'].lower().replace(' ', '-').replace('risk', '').strip() }}">
+                        <td data-label="Date">
+                            <span class="date-text">{{ assessment['created_at'][:10] }}</span>
+                        </td>
+                        <td data-label="Risk Level">
+                            <div class="risk-indicator">
+                                <span class="risk-dot risk-dot-{{ assessment['risk_level'].lower().replace(' ', '-').replace('risk', '').strip() }}"></span>
+                                <span class="risk-label">{{ assessment['risk_level'] }}</span>
+                            </div>
+                        </td>
+                        <td data-label="Probability">
+                            <span class="probability-text">{{ "%.1f"|format(assessment['probability']) }}%</span>
+                        </td>
+                        <td data-label="Rule Score">
+                            <div class="rule-score-cell">
+                                <strong class="score-value">{{ assessment['rule_based_score'] or 'N/A' }}/100</strong>
+                                <small class="score-category">{{ assessment['rule_based_category'] or 'N/A' }}</small>
+                            </div>
+                        </td>
+                        <td data-label="Age">{{ assessment['age'] }}</td>
+                        <td data-label="Income">KES {{ "{:,.0f}".format(assessment['income']) }}</td>
+                        <td data-label="Employment">
+                            <span class="employment-badge">{{ assessment['employment_status'] }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="cards-container mobile-only">
+            {% for assessment in assessments %}
+            <div class="assessment-card" data-risk="{{ assessment['risk_level'].lower().replace(' ', '-').replace('risk', '').strip() }}">
+                <!-- Card Header -->
+                <div class="card-header-section">
+                    <div class="card-date">
+                        <i class="fas fa-calendar-alt"></i>
+                        {{ assessment['created_at'][:10] }}
+                    </div>
+                    <div class="risk-indicator">
+                        <span class="risk-dot risk-dot-{{ assessment['risk_level'].lower().replace(' ', '-').replace('risk', '').strip() }}"></span>
+                        <span class="risk-label">{{ assessment['risk_level'] }}</span>
+                    </div>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body-section">
+                    <div class="card-field">
+                        <span class="field-label">ML Probability</span>
+                        <span class="field-value">{{ "%.1f"|format(assessment['probability']) }}%</span>
+                    </div>
+                    
+                    <div class="card-field rule-score-field">
+                        <span class="field-label">Rule Score</span>
+                        <div class="field-value-group">
+                            <strong class="score-value">{{ assessment['rule_based_score'] or 'N/A' }}/100</strong>
+                            <small class="score-category">{{ assessment['rule_based_category'] or 'N/A' }}</small>
+                        </div>
+                    </div>
+
+                    <div class="card-field">
+                        <span class="field-label">Age</span>
+                        <span class="field-value">{{ assessment['age'] }}</span>
+                    </div>
+
+                    <div class="card-field">
+                        <span class="field-label">Monthly Income</span>
+                        <span class="field-value">KES {{ "{:,.0f}".format(assessment['income']) }}</span>
+                    </div>
+
+                    <div class="card-field">
+                        <span class="field-label">Employment Status</span>
+                        <span class="field-value employment-badge">{{ assessment['employment_status'] }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination Placeholder (Visual Only) -->
+        <div class="pagination-container">
+            <button class="pagination-btn" disabled>
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-clipboard-list"></i>
+            </div>
+            <h3 class="empty-title">No Assessment History Yet</h3>
+            <p class="empty-text">You haven't completed any risk assessments yet. Start your first assessment to see your results here.</p>
+            <a href="{{ url_for('assess') }}" class="btn-modern btn-primary">
+                <i class="fas fa-plus-circle"></i> Start Your First Assessment
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Simple search functionality
+        document.getElementById('searchInput')?.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            filterAssessments();
+        });
+
+        // Simple filter functionality
+        document.getElementById('riskFilter')?.addEventListener('change', function(e) {
+            filterAssessments();
+        });
+
+        function filterAssessments() {
+            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            const riskFilter = document.getElementById('riskFilter')?.value || '';
+
+            // Filter desktop table rows
+            document.querySelectorAll('.table-row').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const riskLevel = row.dataset.risk || '';
+                
+                const matchesSearch = !searchTerm || text.includes(searchTerm);
+                const matchesRisk = !riskFilter || riskLevel === riskFilter;
+                
+                row.style.display = (matchesSearch && matchesRisk) ? '' : 'none';
+            });
+
+            // Filter mobile cards
+            document.querySelectorAll('.assessment-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const riskLevel = card.dataset.risk || '';
+                
+                const matchesSearch = !searchTerm || text.includes(searchTerm);
+                const matchesRisk = !riskFilter || riskLevel === riskFilter;
+                
+                card.style.display = (matchesSearch && matchesRisk) ? '' : 'none';
+            });
+        }
+    </script>
+    
+    <!-- Hamburger Menu Script -->
+    <script>
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburgerBtn.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
