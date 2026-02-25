@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import os
+import contextlib
 from risk_engine import RiskAssessmentEngine
 import logging
 
@@ -92,10 +93,8 @@ def init_db():
     ''')
     
     # Add is_admin column to existing users table if not exists
-    try:
+    with contextlib.suppress(Exception):
         cursor.execute('ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0')
-    except Exception:
-        pass  # Column already exists
     
     conn.commit()
     conn.close()
