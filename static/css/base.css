@@ -152,8 +152,8 @@ body::before {
 }
 
 .btn-secondary {
-    background: linear-gradient(90deg, #87888a, #565e66) !important;
-    color: #635a5a !important;
+    background: linear-gradient(90deg, #6c757d, #495057) !important;
+    color: #ffffff !important;
     border: none !important;
 }
 
@@ -500,10 +500,9 @@ h1, h2, h3, p {
     word-wrap: break-word;
 }
 
-/* Prevent all elements from causing horizontal overflow */
-.container, .container-fluid, section, div {
+/* Prevent layout containers from causing horizontal overflow */
+.container, .container-fluid {
     max-width: 100%;
-    box-sizing: border-box;
 }
 
 /* Ensure all containers respect viewport */

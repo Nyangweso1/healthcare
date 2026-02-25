@@ -94,7 +94,7 @@ def init_db():
     # Add is_admin column to existing users table if not exists
     try:
         cursor.execute('ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0')
-    except:
+    except Exception:
         pass  # Column already exists
     
     conn.commit()
@@ -111,9 +111,7 @@ def get_db_connection():
 
 def is_admin():
     """Check if current user is admin."""
-    if not session.get('logged_in'):
-        return False
-    return session.get('is_admin', 0) == 1
+    return bool(session.get('logged_in')) and session.get('is_admin', 0) == 1
 
 
 def admin_required(f):
