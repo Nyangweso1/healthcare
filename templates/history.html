@@ -1,56 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessment History - Healthcare Insurance System</title>
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Base CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    
-    <!-- History CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg bg-white shadow-sm px-4">
-        <div class="container-fluid">
-            <div class="logo"><i class="fa-solid fa-circle-h"></i>HealthSecure</div>
-            
-            <!-- Hamburger Menu Button -->
-            <button class="hamburger-menu" id="hamburgerBtn" aria-label="Toggle navigation">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            
-            <ul class="nav-links" id="navLinks">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('blog') }}">Insurance Guide</a></li>
-                <li><a href="{{ url_for('health_tips') }}">Health Tips</a></li>
-                <li><a href="{{ url_for('contact') }}">Messages</a></li>
-                <li><a href="{{ url_for('eda') }}">Data Insights</a></li>
-                {% if session.logged_in %}
-                    <li><a href="{{ url_for('assess') }}">Risk Assessment</a></li>
-                    <li><a href="{{ url_for('history') }}" class="active">My History</a></li>
-                    {% if session.is_admin == 1 %}
-                    <li><a href="{{ url_for('admin_dashboard') }}" style="color: #0b5ed7; font-weight: bold;"><i class="fa-solid fa-circle-user"></i>Admin Panel</a></li>
-                    {% endif %}
-                {% endif %}
-            </ul>
-            
-            <div class="nav-right">
-                {% if session.logged_in %}
-                    <span style="margin-right: 10px; color: #555;">{{ session.username }}</span>
-                    <a href="{{ url_for('logout') }}" style="margin-left:15px; color:#dc3545; text-decoration:none;"><i class="fa-solid fa-circle-user"></i>Logout</a>
-                {% else %}
-                    <a href="{{ url_for('login') }}" style="margin-left:15px; color:#0b5ed7; text-decoration:none;"><i class="fa-solid fa-circle-user"></i>Login</a>
-                {% endif %}
-            </div>
-        </div>
-    </nav>
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+{% endblock %}
+
+{% block content %}
     
     <!-- Header Section -->
     <div class="history-page-header">
@@ -266,17 +220,4 @@
         }
     </script>
     
-    <!-- Hamburger Menu Script -->
-    <script>
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const navLinks = document.getElementById('navLinks');
-        
-        if (hamburgerBtn) {
-            hamburgerBtn.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                hamburgerBtn.classList.toggle('active');
-            });
-        }
-    </script>
-</body>
-</html>
+{% endblock %}
