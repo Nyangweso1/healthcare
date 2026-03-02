@@ -1,32 +1,107 @@
 {% extends "base.html" %}
 
+{% block title %}Create Account – HealthSecure{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h2>Register</h2>
-    
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+<div class="auth-page">
+    <div class="auth-card">
+
+        <!-- Header -->
+        <div class="auth-header">
+            <div class="auth-logo">
+                <i class="fas fa-user-plus" aria-hidden="true"></i>
+            </div>
+            <h2>Create Account</h2>
+            <p>Join HealthSecure and take control of your health</p>
+        </div>
+
+        <!-- Body -->
+        <div class="auth-body">
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="auth-alerts">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'danger' else category }} alert-dismissible fade show" role="alert">
+                                <i class="fas fa-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-circle{% else %}info-circle{% endif %} me-2" aria-hidden="true"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('register') }}" novalidate>
+
+                <div class="auth-input-group">
+                    <label for="username">Username</label>
+                    <i class="fas fa-user input-icon" aria-hidden="true"></i>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username"
+                        autocomplete="username"
+                        required
+                    >
                 </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    
-    <form method="POST" action="{{ url_for('register') }}">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+
+                <div class="auth-input-group">
+                    <label for="email">Email Address</label>
+                    <i class="fas fa-envelope input-icon" aria-hidden="true"></i>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="auth-input-group">
+                    <label for="password">Password</label>
+                    <i class="fas fa-lock input-icon" aria-hidden="true"></i>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a strong password"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+
+                <div class="auth-input-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <i class="fas fa-lock input-icon" aria-hidden="true"></i>
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        placeholder="Re-enter your password"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="auth-submit-btn">
+                    <i class="fas fa-rocket" aria-hidden="true"></i> Create My Account
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a href="{{ url_for('login') }}">Sign In</a>
+            </div>
+
+        </div>
+    </div>
 </div>
 {% endblock %}

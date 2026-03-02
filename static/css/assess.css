@@ -19,8 +19,52 @@ body {
 
 /* ===== ASSESSMENT PAGE CONTAINER ===== */
 .assessment-page-container {
-    min-height: 100vh;
-    padding: 3rem 0;
+    min-height: calc(100vh - 70px);
+    padding: 2.5rem 0 4rem;
+}
+
+/* ===== ASSESSMENT CARD WRAPPER ===== */
+.assessment-card {
+    max-width: 880px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+}
+
+/* ===== FORM HEADER SECTION ===== */
+.form-header-section {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding: 2rem 1rem 1.75rem;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid #0d6efd;
+}
+
+.form-main-title {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: #0d6efd;
+    font-weight: 800;
+    margin-bottom: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.form-main-title i {
+    font-size: 1.75rem;
+}
+
+.form-subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: #6c757d;
+    margin: 0;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ===== ASSESSMENT CONTENT ===== */
