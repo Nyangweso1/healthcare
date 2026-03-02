@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import os
 import contextlib
-from risk_engine import RiskAssessmentEngine
+from ml.risk_engine import RiskAssessmentEngine
 import logging
 
 # Configure logging
@@ -446,6 +446,98 @@ def health_tips():
                              insured_pct=85.7, 
                              income_mean={'low_bucket_label': '<10k', 'low_bucket_pct': 65.0},
                              username=session.get('username'))
+
+
+# Tips data used by the detail route
+HEALTH_TIPS_DATA = {
+    1: {
+        'icon': '🏥', 'title': 'Regular Check-ups Matter',
+        'date': 'February 2026',
+        'summary': 'People who schedule routine health check-ups are significantly more likely to have health insurance coverage.',
+        'detail': 'Regular preventive care helps catch issues early and can reduce long-term healthcare costs. Studies consistently show that individuals who engage with the healthcare system proactively are more likely to maintain continuous insurance coverage and better health outcomes.',
+        'points': [
+            'Schedule annual physical examinations',
+            'Stay up-to-date with recommended screenings',
+            'Monitor chronic conditions regularly',
+            'Build a relationship with a primary care physician',
+        ],
+    },
+    2: {
+        'icon': '', 'title': 'Income & Insurance Coverage',
+        'date': 'February 2026',
+        'summary': 'Data shows a strong correlation between income levels and insurance coverage.',
+        'detail': 'Lower-income households often face significant barriers to accessing affordable coverage. Government assistance programs and employer-sponsored options can bridge this gap for many families.',
+        'points': [
+            'Explore SHA subsidised plans (from KES 500/month)',
+            'Check employer-sponsored insurance options',
+            'Compare community-based health plans',
+            'Ask your county health office about subsidies',
+        ],
+    },
+    3: {
+        'icon': '🦷', 'title': "Don't Neglect Dental Health",
+        'date': 'February 2026',
+        'summary': 'Dental check-ups are an important indicator of overall health consciousness.',
+        'detail': 'Poor oral health can lead to serious systemic health issues including cardiovascular disease and diabetes complications. Including dental cover in your insurance plan is highly recommended.',
+        'points': [
+            'Visit a dentist every 6 months',
+            'Brush twice daily and floss regularly',
+            'Consider insurance plans that include dental add-ons',
+            'Address tooth pain early — do not delay treatment',
+        ],
+    },
+    4: {
+        'icon': '🧠', 'title': 'Mental Health Support',
+        'date': 'February 2026',
+        'summary': 'Mental health is as important as physical health.',
+        'detail': 'Access to mental health support correlates with better overall health outcomes and insurance coverage. Many Kenyans overlook mental health services — but stress, anxiety, and depression directly affect physical health.',
+        'points': [
+            'Seek counselling if experiencing stress or anxiety',
+            'Practice stress management techniques (exercise, sleep, community)',
+            'Check if your insurance covers mental health services',
+            'Use community health centres for low-cost support',
+        ],
+    },
+    5: {
+        'icon': '🩺', 'title': 'Cancer Screening Saves Lives',
+        'date': 'February 2026',
+        'summary': 'Early detection through regular cancer screenings dramatically improves treatment outcomes and survival rates.',
+        'detail': 'Many cancers are highly treatable when caught early. Kenya has seen a rise in cancer cases yet screening rates remain low. Most insurance plans cover basic cancer screenings.',
+        'points': [
+            'Follow age-appropriate screening guidelines',
+            'Know your family medical history',
+            'Discuss screening options with your healthcare provider',
+            'Cervical, breast, and prostate screenings are widely available',
+        ],
+    },
+    6: {
+        'icon': '📚', 'title': 'Healthcare Knowledge is Power',
+        'date': 'February 2026',
+        'summary': 'Understanding healthcare systems, insurance options, and your rights as a patient helps you make better decisions.',
+        'detail': 'Many uninsured individuals simply do not know what options are available to them. Reading your policy, knowing your benefits, and asking questions are the simplest steps toward better coverage.',
+        'points': [
+            'Read your insurance policy thoroughly',
+            'Understand your benefits and coverage limits',
+            'Ask questions during medical appointments',
+            'Use the Insurance Guide page on this platform',
+        ],
+    },
+}
+
+
+@app.route('/health-tips/<int:tip_id>')
+def health_tip_detail(tip_id):
+    """Individual health tip detail view — rendered inside health_tips.html."""
+    if not session.get('logged_in'):
+        flash('Please log in to access this page.', 'warning')
+        return redirect(url_for('login'))
+
+    tip = HEALTH_TIPS_DATA.get(tip_id)
+    return render_template('health_tips.html',
+                           tip=tip,
+                           insured_pct=None,
+                           income_mean=None,
+                           username=session.get('username'))
 
 
 @app.route('/eda')

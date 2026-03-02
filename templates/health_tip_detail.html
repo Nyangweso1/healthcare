@@ -1,34 +1,4 @@
-{% extends "base.html" %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/health_tips.css') }}">
-{% endblock %}
-
-{% block content %}
-
-  {% if not tip %}
-    <div class="container mt-4">
-      <h1>Tip not found</h1>
-      <p>The requested health tip could not be found. Go back to the <a href="{{ url_for('health_tips') }}">Health Tips</a> page.</p>
-    </div>
-  {% else %}
-    <div class="container mt-4">
-      <h2>{{ tip.title }}</h2>
-      <p class="text-muted">{{ tip.date }}</p>
-
-      {% if tip.image and tip.image.startswith('http') %}
-        <img src="{{ tip.image }}" class="img-fluid mb-3" alt="{{ tip.title }}" onerror="this.onerror=null;this.src='https://via.placeholder.com/800x400?text=No+Image'">
-      {% else %}
-        <img src="{{ url_for('static', filename=tip.image) }}" class="img-fluid mb-3" alt="{{ tip.title }}" onerror="this.onerror=null;this.src='https://via.placeholder.com/800x400?text=No+Image'">
-      {% endif %}
-
-      <p>{{ tip.content }}</p>
-
-      <a href="{{ url_for('health_tips') }}" class="btn btn-secondary mt-3">← Back to Health Tips</a>
-
-      <hr>
-      <p class="small text-muted">This content is for general educational purposes and not a substitute for professional medical advice.</p>
-    </div>
-  {% endif %}
-
-{% endblock %}
+{# This template has been merged into health_tips.html.
+   The detail view is now handled by the health_tip_detail route
+   in app.py, which renders health_tips.html with a `tip` variable.
+   This file is kept only as a reference and is no longer used. #}

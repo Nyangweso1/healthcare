@@ -5,6 +5,42 @@
 {% endblock %}
 
 {% block content %}
+
+{% if tip %}
+<!-- ===================== DETAIL VIEW ===================== -->
+<div class="mb-3">
+  <a href="{{ url_for('health_tips') }}" class="btn btn-secondary">
+    <i class="fas fa-arrow-left"></i> Back to Health Tips
+  </a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header" style="background: linear-gradient(135deg, #0b5ed7 0%, #084298 100%); color: white;">
+    <h2 class="mb-0">{{ tip.icon }} {{ tip.title }}</h2>
+  </div>
+  <div class="card-body">
+    <p class="text-muted small mb-3"><i class="fas fa-calendar-alt"></i> {{ tip.date }}</p>
+    <p class="lead">{{ tip.summary }}</p>
+    <hr>
+    <h5>Key Points:</h5>
+    <ul class="mt-2">
+      {% for point in tip.points %}
+      <li class="mb-2">{{ point }}</li>
+      {% endfor %}
+    </ul>
+    <hr>
+    <p>{{ tip.detail }}</p>
+  </div>
+</div>
+
+<blockquote class="mt-4 p-3 bg-light border-left">
+  <strong>Disclaimer:</strong> This page provides high-level, data-driven guidance.
+  It is not medical or financial advice — consult healthcare professionals
+  or licensed insurance advisors for personalized assistance.
+</blockquote>
+
+{% else %}
+<!-- ===================== LIST VIEW ===================== -->
 <h1>Health Tips & Data Insights </h1>
 
 <p>
@@ -33,118 +69,94 @@
 
 <hr>
 
-<!-- ================= HEALTH TIPS SECTION ================= -->
 <h2 class="mt-4"> Evidence-Based Health Tips</h2>
 
 <div class="row mt-4">
   <div class="col-md-6 mb-4">
-    <div class="card">
-      <div class="card-body">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
         <h5 class="card-title"> Regular Check-ups Matter</h5>
         <p class="card-text">
-          People who schedule routine health check-ups are significantly more likely to have 
-          health insurance coverage. Regular preventive care helps catch issues early and 
-          can reduce long-term healthcare costs.
+          People who schedule routine health check-ups are significantly more likely to have
+          health insurance coverage. Regular preventive care helps catch issues early.
         </p>
-        <ul>
-          <li>Schedule annual physical examinations</li>
-          <li>Stay up-to-date with recommended screenings</li>
-          <li>Monitor chronic conditions regularly</li>
-        </ul>
+        <a href="{{ url_for('health_tip_detail', tip_id=1) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card">
-      <div class="card-body">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
         <h5 class="card-title"> Income & Insurance Coverage</h5>
         <p class="card-text">
-          Data shows a strong correlation between income levels and insurance coverage. 
+          Data shows a strong correlation between income levels and insurance coverage.
           Lower-income households often face barriers to accessing affordable coverage.
         </p>
-        <ul>
-          <li>Explore government assistance programs (Medicaid, subsidies)</li>
-          <li>Check employer-sponsored insurance options</li>
-          <li>Compare marketplace plans during open enrollment</li>
-        </ul>
+        <a href="{{ url_for('health_tip_detail', tip_id=2) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card">
-      <div class="card-body">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
         <h5 class="card-title"> Don't Neglect Dental Health</h5>
         <p class="card-text">
-          Dental check-ups are an important indicator of overall health consciousness. 
+          Dental check-ups are an important indicator of overall health consciousness.
           Poor oral health can lead to serious systemic health issues.
         </p>
-        <ul>
-          <li>Visit dentist every 6 months</li>
-          <li>Brush twice daily and floss regularly</li>
-          <li>Consider dental insurance or discount plans</li>
-        </ul>
+        <a href="{{ url_for('health_tip_detail', tip_id=3) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card">
-      <div class="card-body">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
         <h5 class="card-title"> Mental Health Support</h5>
         <p class="card-text">
-          Mental health is as important as physical health. Access to mental health 
+          Mental health is as important as physical health. Access to mental health
           support correlates with better overall health outcomes and insurance coverage.
         </p>
-        <ul>
-          <li>Seek counseling if experiencing stress or anxiety</li>
-          <li>Practice stress management techniques</li>
-          <li>Check if your insurance covers mental health services</li>
-        </ul>
+        <a href="{{ url_for('health_tip_detail', tip_id=4) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card">
-      <div class="card-body">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
         <h5 class="card-title"> Cancer Screening Saves Lives</h5>
         <p class="card-text">
-          Early detection through regular cancer screenings dramatically improves treatment 
+          Early detection through regular cancer screenings dramatically improves treatment
           outcomes and survival rates.
         </p>
-        <ul>
-          <li>Follow age-appropriate screening guidelines</li>
-          <li>Know your family medical history</li>
-          <li>Discuss screening options with your healthcare provider</li>
-        </ul>
+        <a href="{{ url_for('health_tip_detail', tip_id=5) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card">
-      <div class="card-body">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
         <h5 class="card-title"> Healthcare Knowledge is Power</h5>
         <p class="card-text">
-          Understanding healthcare systems, insurance options, and your rights as a patient 
+          Understanding healthcare systems, insurance options, and your rights as a patient
           helps you make better decisions about your health and coverage.
         </p>
-        <ul>
-          <li>Read your insurance policy thoroughly</li>
-          <li>Understand your benefits and coverage limits</li>
-          <li>Ask questions during medical appointments</li>
-        </ul>
+        <a href="{{ url_for('health_tip_detail', tip_id=6) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
       </div>
     </div>
   </div>
 </div>
 
 <blockquote class="mt-4 p-3 bg-light border-left">
-   <strong>Disclaimer:</strong> This page provides high-level, data-driven guidance.
+  <strong>Disclaimer:</strong> This page provides high-level, data-driven guidance.
   It is not medical or financial advice — consult healthcare professionals
   or licensed insurance advisors for personalized assistance.
 </blockquote>
+
+{% endif %}
 
 {% endblock %}

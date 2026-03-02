@@ -95,6 +95,49 @@
                 </div>
             </section>
 
+             <!-- Insurance Options Section -->
+            {% if result.eligible_insurance %}
+                <section class="section-spacing">
+                    <div class="card-modern">
+                        <h2 class="section-heading">
+                            <i class="fas fa-shield-alt"></i> Insurance Options You May Be Eligible For
+                        </h2>
+                        <p class="section-subtext">
+                            Based on your profile, here are insurance providers from our dataset that match your situation:
+                        </p>
+                        
+                        {% for insurance in result.eligible_insurance %}
+                            <div class="insurance-card">
+                                <div class="insurance-card-header">
+                                    <h3 class="insurance-card-title">{{ insurance.name }}</h3>
+                                    <span class="insurance-badge insurance-badge-{% if insurance.priority == 'High Priority' %}high{% elif insurance.priority == 'Recommended' %}recommended{% elif insurance.priority == 'Premium Option' %}premium{% else %}affordable{% endif %}">
+                                        {{ insurance.priority }}
+                                    </span>
+                                </div>
+                                <div class="insurance-card-body">
+                                    <p class="insurance-reason"><strong>Why This Fits:</strong> {{ insurance.reason }}</p>
+                                    <p class="insurance-coverage"><strong>Coverage:</strong> {{ insurance.coverage }}</p>
+                                    <p class="insurance-cost"><strong>Estimated Cost:</strong> {{ insurance.estimated_cost }}</p>
+                                </div>
+                                <div class="insurance-card-actions">
+                                    <a href="{{ insurance.website }}" target="_blank" class="btn-primary-modern">
+                                        <i class="fas fa-external-link-alt"></i> Visit Provider Website
+                                    </a>
+                                    <a href="{{ insurance.learn_more }}" class="btn-secondary-modern">
+                                        Learn More
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                        <div class="info-notice">
+                            <i class="fas fa-info-circle"></i>
+                            <p>These recommendations are based on patterns from real insurance enrollments in Kenya. Contact these providers directly for personalized quotes and detailed benefits.</p>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
             <!-- Government Assistance Recommendation -->
             {% if result.rule_based_recommendation and result.rule_based_category == 'High Risk' %}
                 <section class="section-spacing">
@@ -178,48 +221,7 @@
                 </section>
             {% endif %}
 
-            <!-- Insurance Options Section -->
-            {% if result.eligible_insurance %}
-                <section class="section-spacing">
-                    <div class="card-modern">
-                        <h2 class="section-heading">
-                            <i class="fas fa-shield-alt"></i> Insurance Options You May Be Eligible For
-                        </h2>
-                        <p class="section-subtext">
-                            Based on your profile, here are insurance providers from our dataset that match your situation:
-                        </p>
-                        
-                        {% for insurance in result.eligible_insurance %}
-                            <div class="insurance-card">
-                                <div class="insurance-card-header">
-                                    <h3 class="insurance-card-title">{{ insurance.name }}</h3>
-                                    <span class="insurance-badge insurance-badge-{% if insurance.priority == 'High Priority' %}high{% elif insurance.priority == 'Recommended' %}recommended{% elif insurance.priority == 'Premium Option' %}premium{% else %}affordable{% endif %}">
-                                        {{ insurance.priority }}
-                                    </span>
-                                </div>
-                                <div class="insurance-card-body">
-                                    <p class="insurance-reason"><strong>Why This Fits:</strong> {{ insurance.reason }}</p>
-                                    <p class="insurance-coverage"><strong>Coverage:</strong> {{ insurance.coverage }}</p>
-                                    <p class="insurance-cost"><strong>Estimated Cost:</strong> {{ insurance.estimated_cost }}</p>
-                                </div>
-                                <div class="insurance-card-actions">
-                                    <a href="{{ insurance.website }}" target="_blank" class="btn-primary-modern">
-                                        <i class="fas fa-external-link-alt"></i> Visit Provider Website
-                                    </a>
-                                    <a href="{{ insurance.learn_more }}" class="btn-secondary-modern">
-                                        Learn More
-                                    </a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        
-                        <div class="info-notice">
-                            <i class="fas fa-info-circle"></i>
-                            <p>These recommendations are based on patterns from real insurance enrollments in Kenya. Contact these providers directly for personalized quotes and detailed benefits.</p>
-                        </div>
-                    </div>
-                </section>
-            {% endif %}
+           
 
             <!-- User Data Summary -->
             {% if user_data %}
