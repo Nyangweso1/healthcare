@@ -1,17 +1,21 @@
 # Healthcare Insurance Risk Prediction System
 
-##  Project Overview
+![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-3.0.0-000000?logo=flask&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-F7931E?logo=scikit-learn&logoColor=white)
+![SQLite](https://img.shields.io/badge/Database-SQLite-003B57?logo=sqlite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-The **Healthcare Insurance Risk Prediction System** is an intelligent web-based application that predicts whether individuals are at risk of being uninsured based on their demographic, socioeconomic, and healthcare access patterns. The system provides actionable recommendations to help vulnerable populations access affordable health insurance.
+## Project Overview
 
-**Developed by:** Prudence
-**Date:** January 3, 2026
-**Institution:** [university of embu]
-**Target:** Academic Project & Real-world Application
+The **Healthcare Insurance Risk Prediction System** is an intelligent web-based application that predicts whether individuals are at risk of being uninsured, based on their demographic, socioeconomic, and healthcare access patterns. The system provides actionable, personalised recommendations to help vulnerable populations secure affordable health insurance.
 
----
+**Developer:** Prudence
+**Institution:** University of Embu
+**Version:** 1.0.0
+**Last Updated:** March 3, 2026
 
-##  Problem Statement
+## Problem Statement
 
 In many regions, particularly rural and low-income communities, individuals face significant barriers to accessing health insurance. This leads to:
 
@@ -22,92 +26,97 @@ In many regions, particularly rural and low-income communities, individuals face
 
 ### The Challenge
 
-How can we identify individuals at highest risk of being uninsured **before** they need medical care, and provide them with targeted interventions to secure coverage?
+How can we identify individuals at highest risk of being uninsured before they need medical care, and provide targeted interventions to secure coverage?
 
 ---
 
-##  Solution
+## Solution
 
-Our system uses **machine learning** to:
+The system uses machine learning to:
 
-1. **Predict insurance risk** based on:
+1. **Predict insurance risk** using:
    - Demographic factors (age, gender, marital status)
-   - Socioeconomic indicators (income, employment, family size)
-   - Healthcare access behaviors (hospital visits, preventive care)
+   - Socioeconomic indicators (income, employment, education, family size)
+   - Healthcare access behaviours (hospital visits, preventive care, screenings)
 
-2. **Classify risk levels**:
-   - **Low Risk** (< 30% probability of being uninsured)
-   - **Medium Risk** (30-60% probability of being uninsured)
-   - **High Risk** (> 60% probability)
+2. **Classify risk levels:**
+   - **Low Risk** — < 30% probability of being uninsured
+   - **Medium Risk** — 30–60% probability
+   - **High Risk** — > 60% probability
 
-3. **Provide personalized recommendations**:
-   - NHIF enrollment guidance
-   - Subsidized insurance programs
+3. **Provide personalised recommendations:**
+   - SHA/NHIF enrolment guidance
+   - Subsidised insurance programmes
    - Community-based health insurance
    - Preventive care education
 
 ---
 
-##  Dataset Description
+## Features
 
-### Source
-- **Survey Data**: Healthcare access survey from [Region]
-- **Sample Size**: [6158] respondents
-- **Collection Period**: [may 2025]
-
-### Key Features
-
-#### Target Variable
-- **Have you ever had health insurance?**
-  - `Yes` → 1 (insured)
-  - `No` → 0 (uninsured - HIGH RISK)
-
-#### Input Features
-
-**Demographics:**
-- Age
-- Gender
-- Marital Status
-- Number of Children
-
-**Socioeconomic:**
-- Monthly Household Income
-- Employment Status
-
-**Healthcare Access:**
-- When was the last time you visited a hospital?
-- Have you ever had a routine check-up?
-- Have you ever had a cancer screening?
-- Did you have insurance during your last hospital visit?
-
-#### Engineered Features
-- `hospital_visit_gap`: Months since last hospital visit
-- `preventive_care_score`: Sum of routine checkups + cancer screening (0-2)
-- `age_group`: Categorical age buckets (18-25, 26-35, 36-50, 50+)
-- `income_bucket`: Income categories (Low, Medium, High, Very High)
-- `num_children`: Numeric count of dependents
+| Feature | Description |
+| ------- | ----------- |
+| User Authentication | Secure registration and login with hashed passwords |
+| Risk Assessment Form | Guided 4-section questionnaire (demographics, finances, health, access) |
+| ML-Powered Prediction | Instant insurance risk classification: Low, Medium, or High |
+| Personalised Results | Probability score, top risk factors, and tailored action steps |
+| Assessment History | Review all your past assessments with date, score, and risk level |
+| Health Tips | Curated articles on preventive care and staying healthy |
+| Data Insights (EDA) | Interactive charts and statistics from the training dataset |
+| Insurance Guide | Plain-language explanations of insurance types and benefits |
+| Admin Dashboard | Manage users, view all assessments, send messages to users |
+| Contact & Messaging | Users can send messages to the support team |
 
 ---
 
-##  Machine Learning Approach
+## Dataset
 
-### Model Selection
+| Attribute | Details |
+| --------- | ------- |
+| Source | Healthcare access survey |
+| Sample size | 6,158 respondents |
+| Collection period | May 2025 |
+| Region | Kenya |
 
-We use **interpretable models** suitable for academic and policy applications:
+### Target Variable
 
-1. **Logistic Regression**
-   - Linear model with clear coefficient interpretation
-   - Shows which factors increase/decrease risk
-   - Best for reporting to stakeholders
+**Have you ever had health insurance?**
 
-2. **Decision Tree (max_depth=5)**
-   - Rule-based predictions
-   - Easy to visualize decision paths
-   - Captures non-linear relationships
+- `Yes` → Insured
+- `No` → Uninsured (High Risk)
+
+### Input Features
+
+| Category | Features |
+| -------- | -------- |
+| Demographics | Age, Gender, Marital Status, Number of Children |
+| Socioeconomic | Monthly Household Income, Employment Status, Education Level, Residence Type, Family Size |
+| Health Status | Chronic Illness, Healthcare Knowledge |
+| Healthcare Access | Hospital Visit Gap, Routine Checkups, Cancer Screening, Dental Checkup, Mental Health Support |
+
+### Engineered Features
+
+| Feature | Description |
+| ------- | ----------- |
+| `hospital_visit_gap` | Months since last hospital visit |
+| `preventive_care_score` | Sum of all preventive care activities |
+| `age_group` | Categorical age buckets (18-25, 26-35, 36-50, 50+) |
+| `income_bucket` | Income category (Low, Medium, High, Very High) |
+
+---
+
+## Machine Learning Approach
+
+### Models
+
+| Model | Description |
+| --- | --- |
+| Logistic Regression | Linear model with interpretable coefficients. Best for stakeholder reporting. |
+| Decision Tree (max_depth=5) | Rule-based predictions. Captures non-linear patterns. |
 
 ### Training Pipeline
 
-```
+```text
 1. Data Preprocessing
    ├── Load Excel dataset
    ├── Drop metadata columns
@@ -135,9 +144,9 @@ We use **interpretable models** suitable for academic and policy applications:
    └── Decision Tree feature importance
 ```
 
-### Key Findings (Example)
+### Key Findings
 
-Based on model analysis, **strongest predictors** of insurance risk include:
+Strongest predictors of insurance risk:
 
 1. **Monthly Household Income** (strongest factor)
 2. **Employment Status** (unemployed = higher risk)
@@ -147,30 +156,20 @@ Based on model analysis, **strongest predictors** of insurance risk include:
 
 ---
 
-##  System Architecture
+## System Architecture
 
 ### Technology Stack
 
-**Backend:**
-- Python 3.11+
-- Flask (Web Framework)
-- SQLite (User Authentication)
-- scikit-learn (ML Models)
-
-**Frontend:**
-- HTML5 / CSS3
-- Bootstrap 5 (Responsive Design)
-- JavaScript (Form Validation)
-
-**Machine Learning:**
-- pandas (Data Processing)
-- NumPy (Numerical Operations)
-- scikit-learn (Model Training & Evaluation)
-- joblib (Model Serialization)
+| Layer | Technologies |
+| --- | --- |
+| Backend | Python 3.11+, Flask 3.0.0, SQLite |
+| Frontend | HTML5, CSS3, Bootstrap 5.3, JavaScript |
+| Machine Learning | scikit-learn, pandas, NumPy, joblib |
+| Visualisation | matplotlib, seaborn |
 
 ### System Flow
 
-```
+```text
 User Registration/Login
         ↓
 Risk Assessment Form
@@ -197,83 +196,126 @@ Results Display
 
 ### File Structure
 
-```
+```text
 healthcare_prediction_system/
 │
-├── app.py                          # Flask web application
-├── requirements.txt                # Python dependencies
-├── start_app.bat                   # Windows startup script
+├── app.py                              # Flask web application (all routes)
+├── requirements.txt                    # Python dependencies
+├── start_app.bat                       # Windows one-click startup
+├── .python-version                     # Python version pin
 │
 ├── data/
-│   └── healthcare_clean.csv        # Processed dataset for training
+│   └── healthcare_clean.csv            # Processed dataset for training
 │
 ├── documents/
-│   └── README.md                   # Project documentation
+│   └── README.md                       # This file
 │
 ├── instance/
-│   └── users.db                    # SQLite user database
+│   └── users.db                        # SQLite database (users, assessments)
 │
 ├── ml/
 │   ├── __init__.py
-│   ├── data_preprocessing.py       # Data cleaning & feature engineering
-│   ├── model_training.py           # Train ML models
-│   ├── risk_engine.py              # Risk assessment logic
-│   ├── model_evaluation.py         # Model evaluation utilities
-│   ├── feature_engineering.py      # Feature engineering helpers
-│   └── predict.py                  # Prediction utilities
+│   ├── risk_engine.py                  # Core risk assessment & prediction logic
+│   ├── model_training.py               # Train and save ML models
+│   ├── data_preprocessing.py           # Data cleaning & feature engineering
+│   ├── feature_engineering.py          # Feature engineering helpers
+│   ├── model_evaluation.py             # Model evaluation utilities
+│   ├── predict.py                      # Standalone prediction utility
+│   ├── ada_analysis.py                 # AdaBoost model analysis
+│   ├── generate_analysis_charts.py     # EDA chart generation
+│   └── diagnose.py                     # Model diagnostics
 │
 ├── models/
-│   ├── insurance_risk_model.pkl    # Trained ML model
-│   └── insurance_risk_model_features.pkl  # Feature names
+│   ├── insurance_risk_model.pkl        # Primary trained model
+│   ├── insurance_risk_model_features.pkl
+│   ├── insurance_model.pkl
+│   └── feature_columns.pkl
 │
 ├── static/
-│   ├── css/                        # Per-page stylesheets
+│   ├── css/
+│   │   ├── base.css   assess.css   results.css  history.css
+│   │   ├── auth.css   home.css     blog.css      health_tips.css
+│   │   ├── eda.css    about.css    contact.css   admin.css
+│   │   ├── messaging.css  errors.css   style.css
 │   └── js/
 │       └── script.js
 │
 ├── templates/
-│   ├── base.html                   # Base layout template
+│   ├── base.html                   # Master layout (navbar, footer)
 │   ├── index.html                  # Landing page
-│   ├── register.html               # User registration
-│   ├── login.html                  # User login
+│   ├── register.html / login.html  # Authentication
 │   ├── assess.html                 # Risk assessment form
-│   ├── results.html                # Results display
+│   ├── results.html                # Prediction results
 │   ├── history.html                # Assessment history
 │   ├── blog.html                   # Insurance guide
-│   ├── health_tips.html            # Health tips
+│   ├── health_tips.html            # Health tips list
+│   ├── health_tip_detail.html      # Individual health tip
 │   ├── eda.html                    # Data insights
-│   ├── about.html                  # About page
-│   ├── contact.html                # Contact / messages
+│   ├── about.html / contact.html   # Info & messaging
 │   ├── admin_dashboard.html        # Admin panel
-│   ├── 404.html                    # 404 error page
-│   └── 500.html                    # 500 error page
+│   ├── admin_user_view.html        # Admin: user detail
+│   ├── 404.html / 500.html         # Error pages
 │
 └── utils/
-    ├── create_admin.py             # Create a new admin user
-    ├── make_admin.py               # Promote existing user to admin
+    ├── create_admin.py             # Create admin account
+    ├── make_admin.py               # Promote user to admin
     ├── check_users.py              # List database users
-    └── test_template.py            # Template testing utility
+    └── test_template.py            # Template testing
 ```
 
 ---
 
-##  Installation & Setup
+## Pages & Routes
+
+| Page | Route | Login Required |
+| ---- | ----- | :------------: |
+| Home | `/` | No |
+| Register | `/register` | No |
+| Login | `/login` | No |
+| Risk Assessment | `/assess` | Yes |
+| Results | `/results` | Yes |
+| My History | `/history` | Yes |
+| Insurance Guide | `/blog` | No |
+| Health Tips | `/health_tips` | No |
+| Data Insights | `/eda` | No |
+| About | `/about` | No |
+| Contact | `/contact` | Yes |
+| Admin Panel | `/admin` | Admin only |
+
+---
+
+## Installation & Setup
 
 ### Prerequisites
 
-- Python 3.11 or higher
-- pip (Python package manager)
-- Virtual environment (recommended)
+Make sure the following are installed on your machine before you begin:
 
-### Step-by-Step Installation
+| Tool | Version | Download |
+| ---- | ------- | -------- |
+| Python | 3.11 or higher | [python.org/downloads](https://www.python.org/downloads/) |
+| Git | Any recent version | [git-scm.com](https://git-scm.com/) |
+| pip | Comes with Python | — |
 
-#### 1. Clone or Download the Project
+> **Check your Python version:**
+>
+> ```bash
+> python --version
+> ```
+>
+> You should see `Python 3.11.x` or higher.
+
+---
+
+### Step 0 — Clone the Repository
 
 ```bash
-cd healthcare_prediction_system
+git clone https://github.com/Nyangweso1/healthcare.git
+cd healthcare
 ```
 
-#### 2. Create Virtual Environment
+> If you downloaded the project as a ZIP, unzip it and open a terminal inside the project folder instead.
+
+### Step 1 — Create Virtual Environment
 
 ```bash
 # Windows
@@ -285,97 +327,128 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-#### 3. Install Dependencies
+### Step 2 — Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-#### 4. Prepare the Data
+### Step 3 — Train the Model
 
-**Ensure you have the dataset:**
-- `data/healthcare_clean.csv` should already be present. If missing, re-run preprocessing.
+`data/healthcare_clean.csv` is included. Run:
 
-#### 5. Run Data Preprocessing
+#### Run Data Preprocessing
 
 ```bash
 python ml/data_preprocessing.py
 ```
 
-**Expected Output:**
-- Creates `data/healthcare_clean.csv`
-- Displays data cleaning statistics
-- Shows target variable distribution
-
-#### 6. Train the Model
+#### Train the Model
 
 ```bash
 python ml/model_training.py
 ```
 
-**Expected Output:**
-- Creates `models/insurance_risk_model.pkl`
-- Creates `models/insurance_risk_model_features.pkl`
-- Displays model performance metrics
-- Shows feature importance
-
-#### 7. Test the Risk Engine (Optional)
-
-```bash
-python ml/risk_engine.py
-```
-
-This runs a test prediction with sample data.
-
----
-
-##  Running the System
-
-### Start the Web Application
+### Step 4 — Run the Application
 
 ```bash
 python app.py
 ```
 
-**Expected Output:**
-```
-INFO: Starting Healthcare Insurance Risk Prediction System
+Or double-click **start_app.bat** on Windows.
+
+Expected output:
+
+```text
 INFO: ✓ Risk Assessment Engine initialized
 INFO: ✓ Database initialized
 * Running on http://0.0.0.0:5000
 ```
 
-### Access the Application
+### Step 5 — Open in Browser
 
-Open your web browser and navigate to:
-```
+```text
 http://localhost:5000
 ```
 
-### Using the System
+---
 
-1. **Register** a new account (or use existing)
-2. **Login** with your credentials
-3. Navigate to **Risk Assessment**
-4. Fill in the assessment form:
-   - Demographics (age, gender, marital status)
-   - Socioeconomic info (employment, income, children)
-   - Healthcare access (last visit, checkups, screenings)
-5. Click **"Assess My Risk"**
-6. View your results:
-   - Risk level (Low/Medium/High)
-   - Probability of being uninsured
-   - Key risk factors
-   - Personalized recommendations
+## Quick Start
+
+> For full step-by-step instructions see [Installation & Setup](#installation--setup).
+
+```bash
+# 1. Clone the project
+git clone https://github.com/Nyangweso1/healthcare.git
+cd healthcare
+
+# 2. Create and activate virtual environment (Windows)
+python -m venv venv
+venv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Prepare data and train the model
+python ml/data_preprocessing.py
+python ml/model_training.py
+
+# 5. Start the app
+python app.py
+```
+
+Open your browser and go to: **<http://localhost:5000>**
 
 ---
 
-##  Model Performance
+## Using the System
+
+### First-Time Setup
+
+1. Open **<http://localhost:5000>** in your browser.
+2. Click **Register** to create a new account (username, email, password).
+3. Log in with the username and password you just created.
+
+> ⚠️ **Note:** Login uses your **username**, not your email address. Passwords are case-sensitive.
+
+### Running a Risk Assessment
+
+1. Click **"Risk Assessment"** in the navigation bar (or go to `/assess`).
+2. Complete all four sections of the form:
+
+   | Section | Fields |
+   | ------- | ------ |
+   | Demographics | Age, Gender, Marital Status, Number of Children |
+   | Socioeconomic | Employment, Monthly Income, Education, Residence, Family Size |
+   | Health Status | Chronic Illness, Healthcare Knowledge Level |
+   | Healthcare Access | Last Hospital Visit, Routine Checkups, Screenings |
+
+3. Click **"Assess My Risk"** to submit.
+4. Your results page will show:
+   - **Risk Level** — Low, Medium, or High
+   - **Probability Score** — percentage chance of being uninsured
+   - **Top Risk Factors** — the specific inputs driving your risk
+   - **Recommendations** — personalised action steps (e.g. NHIF registration, subsidised programmes)
+
+### Exploring Other Pages
+
+| Page | What it does |
+| ---- | ------------ |
+| **My History** (`/history`) | View all your previous assessments with dates and risk levels |
+| **Insurance Guide** (`/blog`) | Read articles explaining health insurance types and benefits |
+| **Health Tips** (`/health_tips`) | Browse preventive care tips and healthy lifestyle articles |
+| **Data Insights** (`/eda`) | Explore charts and statistics from the underlying dataset |
+| **About** (`/about`) | Learn about the project, its goals, and the team |
+| **Contact** (`/contact`) | Send a message to the support team |
+
+---
+
+## Model Performance
 
 ### Evaluation Metrics (Example)
 
-| Model                | Accuracy | Precision | Recall | F1-Score |
-|---------------------|----------|-----------|--------|----------|
+| Model               | Accuracy | Precision | Recall | F1-Score |
+| ------------------- | -------- | --------- | ------ | -------- |
 | Logistic Regression | 0.8234   | 0.7891    | 0.8456 | 0.8163   |
 | Decision Tree       | 0.7956   | 0.7634    | 0.8123 | 0.7871   |
 
@@ -383,7 +456,7 @@ http://localhost:5000
 
 ### Confusion Matrix
 
-```
+```text
                   Predicted
                   0     1
 Actual  0       [TN]  [FP]
@@ -391,6 +464,7 @@ Actual  0       [TN]  [FP]
 ```
 
 Where:
+
 - **TN** (True Negative): Correctly predicted insured
 - **FP** (False Positive): Predicted uninsured but actually insured
 - **FN** (False Negative): Predicted insured but actually uninsured ⚠️ *Most critical to minimize*
@@ -398,27 +472,31 @@ Where:
 
 ---
 
-##  Ethical Considerations
+## Ethical Considerations
 
 ### Data Privacy
+
 - User data is stored securely in SQLite database
 - Passwords are hashed using industry-standard algorithms
 - No sensitive health data is permanently stored
 - Complies with data protection regulations
 
 ### Bias Mitigation
+
 - Model trained on diverse demographic groups
 - Regular audits for fairness across age, gender, income
 - Transparent feature importance reporting
 - Clear explanation of predictions
 
 ### Responsible Use
+
 - **This system is a decision-support tool, not a diagnostic system**
 - Predictions should be used to identify at-risk individuals for outreach
 - Should not be used to deny services or discriminate
 - Human oversight and expert judgment remain essential
 
 ### Limitations
+
 - Model accuracy depends on training data quality
 - May not generalize to significantly different populations
 - Requires periodic retraining with updated data
@@ -426,9 +504,10 @@ Where:
 
 ---
 
-##  Future Improvements
+## Future Improvements
 
 ### Short-term (3-6 months)
+
 - [ ] Add data visualization dashboard
 - [ ] Implement assessment history tracking
 - [ ] Export results to PDF
@@ -436,6 +515,7 @@ Where:
 - [ ] Mobile-responsive enhancements
 
 ### Medium-term (6-12 months)
+
 - [ ] Integration with NHIF database (API)
 - [ ] SMS/email notifications for high-risk individuals
 - [ ] Geographic heat maps of insurance risk
@@ -443,6 +523,7 @@ Where:
 - [ ] Advanced models (Random Forest, XGBoost)
 
 ### Long-term (1-2 years)
+
 - [ ] Real-time model retraining pipeline
 - [ ] Integration with hospital management systems
 - [ ] Predictive analytics for policy makers
@@ -451,11 +532,20 @@ Where:
 
 ---
 
-##  Contributing
+## License
+
+This project is released under the [MIT License](https://opensource.org/licenses/MIT).
+
+You are free to use, copy, modify, and distribute this software for personal, academic, or commercial purposes, provided you include the original copyright notice.
+
+---
+
+## Contributing
 
 This is an academic project, but contributions are welcome!
 
 ### How to Contribute
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/YourFeature`)
 3. Commit your changes (`git commit -m 'Add YourFeature'`)
@@ -464,24 +554,42 @@ This is an academic project, but contributions are welcome!
 
 ---
 
-##  Contact & Support
+## Admin Panel
+
+```bash
+# Create a new admin account
+python utils/create_admin.py
+
+# Promote an existing user to admin
+python utils/make_admin.py
+```
+
+Admins can: view all users, view all assessments, inspect individual user profiles, and send messages to users.
+
+---
+
+## Troubleshooting
+
+| Problem | Fix |
+| ------- | --- |
+| `No module named flask` | `pip install -r requirements.txt` |
+| Model not found error | `python ml/model_training.py` then restart `app.py` |
+| CSS not loading | Open via `python app.py`, not by opening HTML files directly |
+| Invalid credentials | Use your **username** (not email). Case-sensitive. |
+| Port 5000 already in use | Set `app.run(port=5001)` in `app.py`, access `localhost:5001` |
+| Database error on first run | Delete `instance/users.db` and restart — recreated automatically |
+
+---
+
+## Contact & Support
 
 **Developer:** Prudence  
-**Email:** [Your Email]  
-**Institution:** [Your Institution]  
-**Project Repository:** [GitHub/GitLab URL]
-
-For questions, issues, or collaboration inquiries, please contact via email or open an issue in the repository.
+**Institution:** University of Embu  
+**Project Repository:** [https://github.com/Nyangweso1/healthcare](https://github.com/Nyangweso1/healthcare)
 
 ---
 
-##  License
-
-This project is developed for academic purposes.
-
----
-
-##  Acknowledgments
+## Acknowledgements
 
 - Healthcare survey data contributors
 - Open-source community (scikit-learn, Flask, Bootstrap)
@@ -490,404 +598,9 @@ This project is developed for academic purposes.
 
 ---
 
-##  References
+## References
 
 1. World Health Organization. (2023). Universal Health Coverage.
 2. Scikit-learn Documentation. (2024). Machine Learning in Python.
 3. Flask Documentation. (2024). Web Development with Python.
 4. Kenya National Bureau of Statistics. (2023). Healthcare Access Survey.
-
----
-
-**Built with  for improving healthcare access**
-
----
-
-## Quick Start Commands
-
-```bash
-# Setup
-python -m venv venv
-venv\Scripts\activate  # Windows
-pip install -r requirements.txt
-
-# Data & Model Preparation
-python ml/data_preprocessing.py
-python ml/model_training.py
-
-# Run Application
-python app.py
-# Open http://localhost:5000 in browser
-```
-
----
-
-**Last Updated:** January 3, 2026
-**Version:** 1.0.0
-
----
-
----
-
-# 📘 Complete Beginner's Guide — Start Here If You Are New
-
-> This section is written for someone who has **never used this system before**.  
-> Read it from top to bottom before touching anything else.
-
----
-
-## 🧭 What Is This System, In Simple Terms?
-
-Imagine you go to a doctor and describe your lifestyle — your income, your job, your family, when you last went to hospital. The doctor then tells you: *"Based on what you've told me, you are at HIGH risk of not having health insurance — here is what you should do."*
-
-That is exactly what this system does — but automatically, using a machine learning model trained on real survey data.
-
-**In one sentence:**  
-> This system collects basic information about you, runs it through a trained AI model, and tells you how likely you are to be uninsured — then gives you specific steps to fix it.
-
----
-
-## 🗺️ Step 1 — Understand the Pages (What Each Page Does)
-
-When you open the app at `http://localhost:5000`, you will see a website with several pages. Here is what each one does:
-
-| Page | URL | What It Does |
-|------|-----|--------------|
-| **Home** | `/` | Landing page. Introduction to the system. Links to register or log in. |
-| **Register** | `/register` | Create a new account with username, email, and password. |
-| **Login** | `/login` | Log in to your existing account. |
-| **Risk Assessment** | `/assess` | The main form. Fill in your details to get your risk prediction. **Requires login.** |
-| **Results** | `/results` | Displays your risk level, probability score, risk factors, and recommendations after submitting assessment. |
-| **My History** | `/history` | Shows all your past assessments in a table. You can search and filter by risk level. **Requires login.** |
-| **Insurance Guide** | `/blog` | Explains all Kenyan insurance options — SHA/NHIF, Britam, Jubilee, APA, community plans, etc. |
-| **Health Tips** | `/health_tips` | Articles and tips on staying healthy and reducing insurance risk. |
-| **Data Insights** | `/eda` | Visual charts and graphs from the dataset. Useful for understanding trends. |
-| **About** | `/about` | Information about the project, its purpose, and the developer. |
-| **Messages / Contact** | `/contact` | Send or receive messages within the system. |
-| **Admin Panel** | `/admin` | Manage users and view all assessments. **Admin accounts only.** |
-
----
-
-## 👣 Step 2 — Your First Time Using the System (Full Walkthrough)
-
-Follow these steps **in order** the very first time you use the system.
-
-### ✅ Step 2.1 — Start the Server
-
-Open a terminal (Command Prompt on Windows) in the project folder and run:
-
-```bash
-python app.py
-```
-
-You should see:
-```
-INFO: ✓ Risk Assessment Engine initialized
-INFO: ✓ Database initialized
-* Running on http://0.0.0.0:5000
-```
-
-Leave this terminal open. Do not close it while using the app.
-
-### ✅ Step 2.2 — Open the App in Your Browser
-
-Open any web browser (Chrome, Edge, Firefox) and go to:
-```
-http://localhost:5000
-```
-
-You will see the **Home page**.
-
-### ✅ Step 2.3 — Create an Account
-
-1. Click **Register** in the navigation bar
-2. Fill in:
-   - **Username** — any name you want (e.g. `john_doe`)
-   - **Email** — your email address
-   - **Password** — choose a strong password
-   - **Confirm Password** — type it again
-3. Click **Register**
-4. You will be redirected to the login page
-
-### ✅ Step 2.4 — Log In
-
-1. Enter your username and password
-2. Click **Login**
-3. You are now logged in — you will see your username in the top navigation bar
-
-### ✅ Step 2.5 — Take Your First Risk Assessment
-
-1. Click **Risk Assessment** in the navigation bar
-2. Fill in **all fields** in the form:
-
-   **Section A — Demographics:**
-   - **Age** — your age in years (e.g. `28`)
-   - **Gender** — Male / Female
-   - **Marital Status** — Single / Married / Divorced / Widowed
-   - **Number of Children** — how many children you have (enter `0` if none)
-
-   **Section B — Socioeconomic:**
-   - **Monthly Income (KES)** — your household income per month (e.g. `25000`)
-   - **Employment Status** — Employed / Self-employed / Unemployed / Student
-
-   **Section C — Healthcare Access:**
-   - **Last Hospital Visit** — when did you last go to a hospital? (select from the dropdown)
-   - **Routine Check-up** — have you ever had a routine medical check-up? (Yes / No)
-   - **Cancer Screening** — have you ever had a cancer screening? (Yes / No)
-   - **Insurance During Last Visit** — did you have insurance the last time you visited a hospital? (Yes / No)
-
-3. Click the **"Assess My Risk"** button
-4. You will be taken to the **Results page** automatically
-
----
-
-## 📊 Step 3 — Understanding Your Results
-
-Your results page has **four main sections**. Here is how to read each one:
-
-### 3.1 — Risk Level Badge
-
-You will see one of three badges:
-
-| Badge | Colour | Meaning |
-|-------|--------|---------|
-| 🟢 **LOW RISK** | Green | You are likely already insured OR have factors that protect you. Keep it up. |
-| 🟡 **MEDIUM RISK** | Orange/Yellow | You have some gaps. Action recommended but not urgent. |
-| 🔴 **HIGH RISK** | Red | You are very likely uninsured or at high risk. Immediate action needed. |
-
-### 3.2 — Probability Score
-
-This is a **percentage** — for example `72.4%`.
-
-> It means: *"Based on your data, there is a 72.4% chance that you do not have health insurance."*
-
-- Below 30% → Low Risk
-- 30% to 60% → Medium Risk
-- Above 60% → High Risk
-
-### 3.3 — Rule-Based Score
-
-This is a **score out of 100** calculated separately from the ML model using fixed rules (income thresholds, employment status, etc.).
-
-- **0–39** → Very High Risk
-- **40–59** → High Risk
-- **60–74** → Medium Risk
-- **75–100** → Low Risk
-
-Both the ML probability and the rule score are shown so you can see two perspectives on your risk.
-
-### 3.4 — Risk Factors & Recommendations
-
-Below the scores, you will see:
-
-- **Why you are at risk** — a list of the specific things about your profile that increased your risk (e.g. "Low income", "No routine check-up", "Long gap since hospital visit")
-- **What to do** — personalised recommendations such as:
-  - Register for SHA (Social Health Authority)
-  - Consider community-based insurance
-  - Schedule a routine check-up
-  - Explore employer-sponsored insurance
-
-> 💡 **Tip:** Click the links in the recommendations to go directly to the **Insurance Guide** page for detailed instructions on each option.
-
----
-
-## 📁 Step 4 — Viewing Your History
-
-After completing one or more assessments:
-
-1. Click **My History** in the navigation bar
-2. You will see a table with all your past assessments
-3. Each row shows: Date, Risk Level, Probability, Rule Score, Age, Income, Employment
-4. Use the **search bar** to look for specific entries
-5. Use the **Risk Level filter** dropdown to show only High / Medium / Low risk entries
-6. On mobile, the table becomes individual cards automatically
-
----
-
-## 📖 Step 5 — Using the Insurance Guide
-
-If you are unsure which insurance to choose:
-
-1. Click **Insurance Guide** in the navigation bar
-2. You will see sections for:
-   - **SHA/NHIF** — government-run universal health coverage (cheapest option, best for low income)
-   - **Linda Mama** — free maternity cover for all Kenyan women
-   - **Private Insurance** — Britam, Jubilee, APA (better hospitals, more features, higher cost)
-   - **Family Plans** — cover your whole family under one policy
-   - **Affordable Options** — for those earning under KES 25,000/month
-   - **Chronic Illness Coverage** — for diabetes, hypertension, cancer
-   - **Community-Based Insurance** — local cooperative schemes
-3. Each section has direct links to the insurer's website
-
----
-
-## 🔐 Step 6 — Admin Panel (Admin Users Only)
-
-The admin panel is for **system administrators** — not regular users.
-
-### How to Become an Admin
-
-Run this in your terminal (with the virtual environment active):
-
-```bash
-python utils/create_admin.py
-```
-
-Or to promote an existing user:
-```bash
-python utils/make_admin.py
-```
-
-Follow the prompts to promote a user to admin.
-
-### What Admins Can Do
-
-1. Log in normally, then click **Admin Panel** in the navigation bar
-2. **View all registered users** — names, emails, registration dates
-3. **View all assessments** across all users
-4. **Manage users** — view individual user profiles and their assessment history
-
-> ⚠️ Admin credentials should never be shared. Only give admin access to trusted system managers.
-
----
-
-## ⚠️ Step 7 — Troubleshooting Common Problems
-
-### Problem: App won't start — "No module named flask"
-**Fix:** You haven't installed dependencies. Run:
-```bash
-pip install -r requirements.txt
-```
-
-### Problem: App starts but shows "Model not found" error
-**Fix:** You haven't trained the model yet. Run:
-```bash
-python data_preprocessing.py
-python model_training.py
-```
-Then restart `python app.py`.
-
-### Problem: "Internal Server Error" on the Results page
-**Fix:** The dataset file may be missing. Make sure `data/Healthcare Dataset.xlsx` exists in the `data/` folder, then re-run preprocessing.
-
-### Problem: Can't log in — "Invalid credentials"
-**Fix:** Make sure you are entering the exact username (not email) and password you registered with. Passwords are case-sensitive.
-
-### Problem: Page shows but CSS/styles are broken (unstyled page)
-**Fix:** Make sure you are running `python app.py` — do NOT open the HTML files directly from the folder. The CSS only loads correctly through the Flask server.
-
-### Problem: Port 5000 already in use
-**Fix:** Another app is using port 5000. Either close it, or change the port in `app.py`:
-```python
-app.run(debug=True, port=5001)
-```
-Then access the app at `http://localhost:5001`.
-
-### Problem: Database error on first run
-**Fix:** Delete the file `instance/users.db` if it exists and restart the app. The database will be recreated automatically.
-
----
-
-## 📚 Step 8 — Glossary of Terms
-
-If you see a word you do not understand, look it up here:
-
-| Term | Plain English Meaning |
-|------|----------------------|
-| **ML / Machine Learning** | A type of AI that learns patterns from data and makes predictions |
-| **Model** | The trained AI brain of the system — stored as a `.pkl` file |
-| **Probability** | A percentage chance, e.g. 72% probability of being uninsured |
-| **Feature** | A piece of information used to make a prediction (e.g. age, income) |
-| **Risk Level** | A label — Low, Medium, or High — summarising your overall risk |
-| **Flask** | The Python framework that runs the web server |
-| **SQLite** | A lightweight database used to store user accounts and assessments |
-| **SHA** | Social Health Authority — Kenya's national health insurance body (replaced NHIF in 2024) |
-| **NHIF** | National Hospital Insurance Fund — predecessor to SHA |
-| **Admin** | A special user account with extra permissions to manage the system |
-| **Virtual Environment (venv)** | An isolated Python workspace so project packages don't conflict with other projects |
-| **pip** | Python's package installer — used to install libraries from `requirements.txt` |
-| **localhost:5000** | Your local computer acting as a web server on port 5000 |
-| **Preprocessing** | Cleaning and preparing raw data before feeding it to the model |
-| **F1-Score** | A measure of model accuracy that balances precision and recall (higher = better) |
-| **Rule-Based Score** | A score calculated using fixed logical rules, separate from the ML model |
-
----
-
-## ❓ Step 9 — Frequently Asked Questions (FAQ)
-
-**Q: Do I need internet access to use this system?**  
-A: No. Once set up, the system runs entirely on your local computer. Internet is only needed to install packages the first time.
-
----
-
-**Q: Can I use this system on my phone?**  
-A: Yes, the interface is mobile-responsive. As long as your phone is on the same Wi-Fi network as the computer running the server, navigate to `http://[your-computer-IP]:5000`.
-
----
-
-**Q: Is my data safe?**  
-A: Your data is stored locally in `instance/users.db` on your own computer. It is not sent anywhere online. Passwords are stored as hashed values, not plain text.
-
----
-
-**Q: How accurate is the prediction?**  
-A: The Logistic Regression model achieves approximately **82% accuracy** on test data. This means about 1 in 5 predictions may not perfectly reflect your real situation. Use the results as guidance, not as a definitive diagnosis.
-
----
-
-**Q: Can I retake the assessment?**  
-A: Yes, as many times as you want. Each submission is saved separately in your history. This is useful for tracking how your risk changes over time (e.g. after getting a new job or enrolling in insurance).
-
----
-
-**Q: What if I fill in the form incorrectly?**  
-A: The form has validation — it will highlight fields that are missing or invalid before submitting. If you submitted incorrect data, simply take a new assessment with the correct values.
-
----
-
-**Q: How do I update the model with new data?**  
-A: Replace `data/Healthcare Dataset.xlsx` with your updated dataset, then run:
-```bash
-python data_preprocessing.py
-python model_training.py
-```
-Restart `python app.py` to use the newly trained model.
-
----
-
-**Q: What does "rule-based score" mean vs "ML probability"?**  
-A: The **ML probability** is what the AI model calculated based on patterns it learned from thousands of survey responses. The **rule-based score** is calculated using straightforward logical rules (e.g. "if income < 15,000 and unemployed, add 30 penalty points"). Having both gives a more complete picture.
-
----
-
-**Q: I am a developer — where do I start reading the code?**  
-A: Start with these files in order:
-1. `app.py` — all routes and logic
-2. `ml/risk_engine.py` — how risk is calculated
-3. `ml/model_training.py` — how the ML model is built
-4. `ml/data_preprocessing.py` — how raw data is cleaned
-5. `templates/` — all HTML pages
-6. `static/css/` — all styling
-
----
-
-## 🧪 Step 10 — Quick Sanity Check (Confirm Everything Works)
-
-Run through this checklist after setup to confirm the system is working correctly:
-
-- [ ] `python app.py` starts without errors
-- [ ] `http://localhost:5000` loads the home page in your browser
-- [ ] You can register a new account
-- [ ] You can log in with that account
-- [ ] The Risk Assessment form loads at `/assess`
-- [ ] Submitting the form takes you to a Results page with a risk level shown
-- [ ] Your history appears at `/history`
-- [ ] The Insurance Guide loads at `/blog`
-- [ ] Logging out works and redirects you to the home page
-
-If all boxes are checked ✅ — your system is fully working.
-
----
-
-**Last Updated:** January 3, 2026  
-**Version:** 1.0.0
