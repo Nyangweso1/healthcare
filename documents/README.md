@@ -201,37 +201,58 @@ Results Display
 healthcare_prediction_system/
 │
 ├── app.py                          # Flask web application
-├── data_preprocessing.py           # Data cleaning & feature engineering
-├── model_training.py               # Train ML models
-├── risk_engine.py                  # Risk assessment logic
 ├── requirements.txt                # Python dependencies
-├── README.md                       # Project documentation
+├── start_app.bat                   # Windows startup script
 │
 ├── data/
-│   ├── Healthcare Dataset.xlsx    # Original survey data
-│   └── healthcare_clean.csv       # Processed data for training
+│   └── healthcare_clean.csv        # Processed dataset for training
+│
+├── documents/
+│   └── README.md                   # Project documentation
+│
+├── instance/
+│   └── users.db                    # SQLite user database
+│
+├── ml/
+│   ├── __init__.py
+│   ├── data_preprocessing.py       # Data cleaning & feature engineering
+│   ├── model_training.py           # Train ML models
+│   ├── risk_engine.py              # Risk assessment logic
+│   ├── model_evaluation.py         # Model evaluation utilities
+│   ├── feature_engineering.py      # Feature engineering helpers
+│   └── predict.py                  # Prediction utilities
 │
 ├── models/
-│   ├── insurance_risk_model.pkl   # Trained ML model
+│   ├── insurance_risk_model.pkl    # Trained ML model
 │   └── insurance_risk_model_features.pkl  # Feature names
 │
-├── templates/
-│   ├── index.html                 # Landing page
-│   ├── home.html                  # Home page
-│   ├── register.html              # User registration
-│   ├── login.html                 # User login
-│   ├── assess.html                # Risk assessment form
-│   ├── results.html               # Results display
-│   └── [other pages...404.html,500.html,about.html ]
-│
 ├── static/
-│   ├── css/
-│   │   └── style.css
+│   ├── css/                        # Per-page stylesheets
 │   └── js/
 │       └── script.js
 │
-└── instance/
-    └── users.db                   # SQLite database
+├── templates/
+│   ├── base.html                   # Base layout template
+│   ├── index.html                  # Landing page
+│   ├── register.html               # User registration
+│   ├── login.html                  # User login
+│   ├── assess.html                 # Risk assessment form
+│   ├── results.html                # Results display
+│   ├── history.html                # Assessment history
+│   ├── blog.html                   # Insurance guide
+│   ├── health_tips.html            # Health tips
+│   ├── eda.html                    # Data insights
+│   ├── about.html                  # About page
+│   ├── contact.html                # Contact / messages
+│   ├── admin_dashboard.html        # Admin panel
+│   ├── 404.html                    # 404 error page
+│   └── 500.html                    # 500 error page
+│
+└── utils/
+    ├── create_admin.py             # Create a new admin user
+    ├── make_admin.py               # Promote existing user to admin
+    ├── check_users.py              # List database users
+    └── test_template.py            # Template testing utility
 ```
 
 ---
@@ -273,12 +294,12 @@ pip install -r requirements.txt
 #### 4. Prepare the Data
 
 **Ensure you have the dataset:**
-- Place `Healthcare Dataset.xlsx` in the `data/` folder
+- `data/healthcare_clean.csv` should already be present. If missing, re-run preprocessing.
 
 #### 5. Run Data Preprocessing
 
 ```bash
-python data_preprocessing.py
+python ml/data_preprocessing.py
 ```
 
 **Expected Output:**
@@ -289,7 +310,7 @@ python data_preprocessing.py
 #### 6. Train the Model
 
 ```bash
-python model_training.py
+python ml/model_training.py
 ```
 
 **Expected Output:**
@@ -301,7 +322,7 @@ python model_training.py
 #### 7. Test the Risk Engine (Optional)
 
 ```bash
-python risk_engine.py
+python ml/risk_engine.py
 ```
 
 This runs a test prediction with sample data.
@@ -491,8 +512,8 @@ venv\Scripts\activate  # Windows
 pip install -r requirements.txt
 
 # Data & Model Preparation
-python data_preprocessing.py
-python model_training.py
+python ml/data_preprocessing.py
+python ml/model_training.py
 
 # Run Application
 python app.py
@@ -709,12 +730,12 @@ The admin panel is for **system administrators** — not regular users.
 Run this in your terminal (with the virtual environment active):
 
 ```bash
-python create_admin.py
+python utils/create_admin.py
 ```
 
-Or manually in Python:
+Or to promote an existing user:
 ```bash
-python make_admin.py
+python utils/make_admin.py
 ```
 
 Follow the prompts to promote a user to admin.
@@ -842,9 +863,9 @@ A: The **ML probability** is what the AI model calculated based on patterns it l
 **Q: I am a developer — where do I start reading the code?**  
 A: Start with these files in order:
 1. `app.py` — all routes and logic
-2. `risk_engine.py` — how risk is calculated
-3. `model_training.py` — how the ML model is built
-4. `data_preprocessing.py` — how raw data is cleaned
+2. `ml/risk_engine.py` — how risk is calculated
+3. `ml/model_training.py` — how the ML model is built
+4. `ml/data_preprocessing.py` — how raw data is cleaned
 5. `templates/` — all HTML pages
 6. `static/css/` — all styling
 
@@ -870,5 +891,3 @@ If all boxes are checked ✅ — your system is fully working.
 
 **Last Updated:** January 3, 2026  
 **Version:** 1.0.0
-# healthcare
-# healthcare
