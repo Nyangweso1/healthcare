@@ -226,10 +226,9 @@ healthcare_prediction_system/
 │   └── diagnose.py                     # Model diagnostics
 │
 ├── models/
-│   ├── insurance_risk_model.pkl        # Primary trained model
-│   ├── insurance_risk_model_features.pkl
-│   ├── insurance_model.pkl
-│   └── feature_columns.pkl
+│   ├── insurance_risk_model.pkl        # Primary trained model (used by web app)
+│   ├── insurance_risk_model_features.pkl  # Feature names companion file
+│   └── insurance_model.pkl             # Standalone scripts only (predict.py, model_evaluation.py)
 │
 ├── static/
 │   ├── css/
