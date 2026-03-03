@@ -1,4 +1,5 @@
 
+
 import joblib
 import pandas as pd
 import numpy as np
@@ -138,12 +139,11 @@ class RiskAssessmentEngine:
             'Monthly Household Income': 'Monthly Household Income',
             'num_children': 'How many children do you have, if any?',
             'hospital_visit_gap': 'When was the last time you visited a hospital for medical treatment? (In Months)',
-            'preventive_care_score': 'preventive_care_score',
-            'routine_check': 'routine_check',
-            'cancer_screening': 'cancer_screening',
-            'dental_checkup': 'dental_checkup',
-            'mental_health_support': 'mental_health_support',
-            'family_size': 'family_size'
+            # Binary checkup flags map to the one-hot encoded feature columns used during training
+            'routine_check': 'Have you ever had a routine check-up with a doctor or healthcare provider?_Yes',
+            'cancer_screening': 'Have you ever had a cancer screening (e.g. mammogram, colonoscopy, etc.)?_Yes',
+            # Note: preventive_care_score, dental_checkup, mental_health_support, family_size
+            # are not features in the trained model; they are used only for rule-based scoring
         }
         
         for user_key, feature_key in numerical_mappings.items():
@@ -211,20 +211,18 @@ class RiskAssessmentEngine:
             rule_recommendation = get_insurance_recommendation(rule_category)
             
             # Build response with both ML and rule-based insights
-            response = {
+            return {
                 "risk_level": risk_level,
-                "probability": round(prob_uninsured * 100, 2),  # Probability of being uninsured
-                "insurance_likelihood": round(prob_insured * 100, 2),  # Probability of being insured (for display)
+                "probability": float(round(prob_uninsured * 100, 2)),  # Probability of being uninsured
+                "insurance_likelihood": float(round(prob_insured * 100, 2)),  # Probability of being insured (for display)
                 "reasons": risk_factors,
                 "recommendations": recommendations,
                 "eligible_insurance": eligible_insurance,
                 "interpretation": self._get_interpretation(risk_level, prob_uninsured),
-                "rule_based_score": rule_score,
+                "rule_based_score": int(rule_score),
                 "rule_based_category": rule_category,
                 "rule_based_recommendation": rule_recommendation
             }
-            
-            return response
             
         except Exception as e:
             logger.error(f"✗ Error during prediction: {e}")
@@ -335,11 +333,11 @@ class RiskAssessmentEngine:
             risk_factors.append("Single parent household")
         
         # If no specific factors identified but high risk
-        if len(risk_factors) == 0 and probability > 0.5:
+        if not risk_factors and probability > 0.5:
             risk_factors.append("Multiple demographic and socioeconomic factors")
         
         # Return top 6 factors
-        return risk_factors[:6][:5]  # Return top 5 factors
+        return risk_factors[:5]  # Return top 5 factors
     
     def _get_recommendations(self, risk_level, risk_factors, user_data):
         """
@@ -357,20 +355,24 @@ class RiskAssessmentEngine:
         
         # General recommendations by risk level
         if risk_level == "High Risk":
-            recommendations.append(" Enroll in National Hospital Insurance Fund (NHIF) immediately")
-            recommendations.append(" Apply for subsidized insurance programs for low-income households")
-            recommendations.append(" Register for the Chronic Illness Fund to manage pre-existing conditions")
-            recommendations.append(" Prioritize visits to Level 4 or 5 hospitals for specialized care")
-            recommendations.append(" Connect with a local Community Health Promoter (CHP) for home-based monitoring")
-            recommendations.append(" Verify eligibility for the Essential Drug List to access subsidized medication")
+            recommendations.extend([
+                " Enroll in National Hospital Insurance Fund (NHIF) immediately",
+                " Apply for subsidized insurance programs for low-income households",
+                " Register for the Chronic Illness Fund to manage pre-existing conditions",
+                " Prioritize visits to Level 4 or 5 hospitals for specialized care",
+                " Connect with a local Community Health Promoter (CHP) for home-based monitoring",
+                " Verify eligibility for the Essential Drug List to access subsidized medication"
+            ])
         
         if risk_level in ["High Risk", "Medium Risk"]:
-            recommendations.append(" Explore community-based health insurance options")
-            recommendations.append(" Consider family-based insurance packages for better coverage")
-            recommendations.append(" Map out the nearest SHIF-accredited facilities for quick access")
-            recommendations.append(" Evaluate private 'Top-up' covers to supplement basic SHA benefits")
-            recommendations.append(" Explore SACCO-based medical savings products as a secondary safety net")
-            recommendations.append(" Start a digital health folder to track screenings and diagnostic history")
+            recommendations.extend([
+                " Explore community-based health insurance options",
+                " Consider family-based insurance packages for better coverage",
+                " Map out the nearest SHIF-accredited facilities for quick access",
+                " Evaluate private 'Top-up' covers to supplement basic SHA benefits",
+                " Explore SACCO-based medical savings products as a secondary safety net",
+                " Start a digital health folder to track screenings and diagnostic history"
+            ])
         
         # Specific recommendations based on risk factors
         for factor in risk_factors:
@@ -381,8 +383,10 @@ class RiskAssessmentEngine:
                 recommendations.append(" Join cooperative insurance schemes or community health funds")
             
             if "preventive care" in factor.lower() or "routine" in factor.lower():
-                recommendations.append("🩺 Schedule regular health checkups to detect issues early")
-                recommendations.append(" Learn about preventive healthcare and available screening programs")
+                recommendations.extend([
+                    "🩺 Schedule regular health checkups to detect issues early",
+                    " Learn about preventive healthcare and available screening programs"
+                ])
             
             if "hospital visit" in factor.lower():
                 recommendations.append(" Visit nearby health facilities for routine wellness checks")

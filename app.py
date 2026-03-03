@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import os
 import contextlib
+import traceback
 from ml.risk_engine import RiskAssessmentEngine
 import logging
 
@@ -20,10 +21,14 @@ DATABASE = 'instance/users.db'
 
 # Initialize Risk Assessment Engine
 try:
-    risk_engine = RiskAssessmentEngine(model_path="models/insurance_risk_model.pkl")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(base_dir, "models", "insurance_risk_model.pkl")
+    logger.info(f"Initializing Risk Assessment Engine with model: {model_path}")
+    risk_engine = RiskAssessmentEngine(model_path=model_path)
     logger.info("✓ Risk Assessment Engine initialized")
 except Exception as e:
     logger.error(f"✗ Failed to initialize Risk Engine: {e}")
+    logger.error(traceback.format_exc())
     risk_engine = None
 
 
@@ -409,7 +414,7 @@ def health_tips():
         data_path = os.path.join('data', 'healthcare_clean.csv')
         if os.path.exists(data_path):
             df = pd.read_csv(data_path)
-            insured_pct = round((df['Insurance'].sum() / len(df)) * 100, 1)
+            insured_pct = round((df['insured'].sum() / len(df)) * 100, 1)
             
             # Calculate income bracket statistics
             if 'Monthly Household Income' in df.columns:
@@ -451,7 +456,7 @@ def health_tips():
 # Tips data used by the detail route
 HEALTH_TIPS_DATA = {
     1: {
-        'icon': '🏥', 'title': 'Regular Check-ups Matter',
+        'icon': '', 'title': 'Regular Check-ups Matter',
         'date': 'February 2026',
         'summary': 'People who schedule routine health check-ups are significantly more likely to have health insurance coverage.',
         'detail': 'Regular preventive care helps catch issues early and can reduce long-term healthcare costs. Studies consistently show that individuals who engage with the healthcare system proactively are more likely to maintain continuous insurance coverage and better health outcomes.',
@@ -475,7 +480,7 @@ HEALTH_TIPS_DATA = {
         ],
     },
     3: {
-        'icon': '🦷', 'title': "Don't Neglect Dental Health",
+        'icon': '', 'title': "Don't Neglect Dental Health",
         'date': 'February 2026',
         'summary': 'Dental check-ups are an important indicator of overall health consciousness.',
         'detail': 'Poor oral health can lead to serious systemic health issues including cardiovascular disease and diabetes complications. Including dental cover in your insurance plan is highly recommended.',
@@ -487,7 +492,7 @@ HEALTH_TIPS_DATA = {
         ],
     },
     4: {
-        'icon': '🧠', 'title': 'Mental Health Support',
+        'icon': '', 'title': 'Mental Health Support',
         'date': 'February 2026',
         'summary': 'Mental health is as important as physical health.',
         'detail': 'Access to mental health support correlates with better overall health outcomes and insurance coverage. Many Kenyans overlook mental health services — but stress, anxiety, and depression directly affect physical health.',
@@ -499,7 +504,7 @@ HEALTH_TIPS_DATA = {
         ],
     },
     5: {
-        'icon': '🩺', 'title': 'Cancer Screening Saves Lives',
+        'icon': '', 'title': 'Cancer Screening Saves Lives',
         'date': 'February 2026',
         'summary': 'Early detection through regular cancer screenings dramatically improves treatment outcomes and survival rates.',
         'detail': 'Many cancers are highly treatable when caught early. Kenya has seen a rise in cancer cases yet screening rates remain low. Most insurance plans cover basic cancer screenings.',
@@ -511,7 +516,7 @@ HEALTH_TIPS_DATA = {
         ],
     },
     6: {
-        'icon': '📚', 'title': 'Healthcare Knowledge is Power',
+        'icon': '', 'title': 'Healthcare Knowledge is Power',
         'date': 'February 2026',
         'summary': 'Understanding healthcare systems, insurance options, and your rights as a patient helps you make better decisions.',
         'detail': 'Many uninsured individuals simply do not know what options are available to them. Reading your policy, knowing your benefits, and asking questions are the simplest steps toward better coverage.',

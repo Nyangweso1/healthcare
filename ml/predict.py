@@ -4,8 +4,8 @@ import pandas as pd
 import joblib
 
 def main():
-    model_path = "models/insurance_model.pkl"
-    data_path = "data/safra_feature_engineered.csv"
+    model_path = "models/insurance_risk_model.pkl"
+    data_path = "data/healthcare_clean.csv"
 
     # --- Check files ---
     if not os.path.exists(model_path):

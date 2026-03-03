@@ -15,6 +15,13 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
 
+def _train_and_log(model, name, x_train, y_train):
+    logger.info(f"\n  → Training {name}...")
+    model.fit(x_train, y_train)
+    logger.info(f"  ✓ {name} trained")
+    return model
+
+
 def train_models(data_path="data/healthcare_clean.csv", model_output_path="models/insurance_risk_model.pkl"):
     """
     Train and evaluate machine learning models for insurance risk prediction.
@@ -71,21 +78,26 @@ def train_models(data_path="data/healthcare_clean.csv", model_output_path="model
     # ========== STEP 4: TRAIN MODELS ==========
     logger.info("\n[4/7] Training machine learning models...")
     
-    models = {}
-    
     # Model 1: Logistic Regression (interpretable, best for reports)
-    logger.info("\n  → Training Logistic Regression...")
-    lr_model = LogisticRegression(max_iter=1000, random_state=42, class_weight='balanced')
-    lr_model.fit(X_train, y_train)
-    models['Logistic Regression'] = lr_model
-    logger.info("  ✓ Logistic Regression trained")
-    
+    lr_model = _train_and_log(
+        LogisticRegression(max_iter=1000, random_state=42, class_weight='balanced'),
+        "Logistic Regression",
+        X_train,
+        y_train,
+    )
+
     # Model 2: Decision Tree (interpretable, limited depth)
-    logger.info("  → Training Decision Tree...")
-    dt_model = DecisionTreeClassifier(max_depth=5, random_state=42, class_weight='balanced')
-    dt_model.fit(X_train, y_train)
-    models['Decision Tree'] = dt_model
-    logger.info("  ✓ Decision Tree trained")
+    dt_model = _train_and_log(
+        DecisionTreeClassifier(max_depth=5, random_state=42, class_weight='balanced'),
+        "Decision Tree",
+        X_train,
+        y_train,
+    )
+
+    models = {
+        "Logistic Regression": lr_model,
+        "Decision Tree": dt_model,
+    }
     
     # ========== STEP 5: EVALUATE MODELS ==========
     logger.info("\n[5/7] Evaluating models...")
@@ -119,7 +131,7 @@ def train_models(data_path="data/healthcare_clean.csv", model_output_path="model
         
         # Confusion matrix
         cm = confusion_matrix(y_test, y_pred)
-        logger.info(f"  ✓ Confusion Matrix:")
+        logger.info("  ✓ Confusion Matrix:")
         logger.info(f"     [[TN={cm[0][0]}, FP={cm[0][1]}],")
         logger.info(f"      [FN={cm[1][0]}, TP={cm[1][1]}]]")
     
@@ -187,7 +199,7 @@ def train_models(data_path="data/healthcare_clean.csv", model_output_path="model
     logger.info("=" * 70)
     logger.info(f"✓ Best model: {best_model_name}")
     logger.info(f"✓ Model saved: {model_output_path}")
-    logger.info(f"✓ Ready for deployment!")
+    logger.info("✓ Ready for deployment!")
     
     return best_model, X.columns.tolist(), results_df
 
