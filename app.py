@@ -381,13 +381,8 @@ def history():
 
 @app.route('/about')
 def about():
-    """about page."""
-    # Check if user is logged in
-    if not session.get('logged_in'):
-        flash('Please log in to access this page.', 'warning')
-        return redirect(url_for('login'))
-    
-    return render_template('about.html', username=session.get('username'))
+    """Redirect deprecated about page to home."""
+    return redirect(url_for('index'))
 
 
 @app.route('/blog')

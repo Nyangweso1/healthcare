@@ -44,23 +44,49 @@
     <div class="section-container">
         <div class="how-it-works-header">
             <h2>How HealthSecure Works</h2>
-            <p>Understand what the risk assessment does, what you need to enter, and the result you will receive in just a few minutes.</p>
+            <p>Follow this simple workflow interface to submit your details, run analysis, and receive guided recommendations.</p>
         </div>
-        <div class="how-it-works-copy">
-            <div class="how-flow-item">
-                <span class="ui-bookmark"><i class="fas fa-bookmark"></i> STEP 1</span>
-                <p>
-                    <span class="ui-big-word">TAKE A RISK ASSESSMENT:</span>
-                    Enter your key health and lifestyle details such as age, income, health history, and preventive-care habits. The interface guides you step by step so you can complete it quickly and clearly.
-                </p>
-            </div>
-            <div class="how-flow-item">
-                <span class="ui-bookmark"><i class="fas fa-bookmark"></i> STEP 2</span>
-                <p>
-                    <span class="ui-big-word">GET INSIGHTS & RECOMMENDATIONS:</span>
-                    HealthSecure runs a smart analysis on your data, estimates your risk level, and then returns personalized health tips plus practical insurance recommendations. You can continue learning through Health Tips and Data Insights.
-                </p>
-            </div>
+        <div class="how-gui-caption">Workflow View</div>
+        <div class="how-z-flow" role="list" aria-label="How HealthSecure works steps">
+            <article class="z-step left" role="listitem">
+                <div class="z-step-head">
+                    <span class="z-step-badge">Step 1</span>
+                    <span class="z-step-icon"><i class="fas fa-clipboard-list"></i></span>
+                </div>
+                <h3>Input Your Profile</h3>
+                <p>Enter age, income, habits, and care history using guided prompts designed for clarity.</p>
+                <span class="z-step-state">Data Collected</span>
+            </article>
+
+            <span class="z-connector" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
+
+            <article class="z-step right" role="listitem">
+                <div class="z-step-head">
+                    <span class="z-step-badge">Step 2</span>
+                    <span class="z-step-icon"><i class="fas fa-gears"></i></span>
+                </div>
+                <h3>Analyze Risk Pattern</h3>
+                <p>The prediction engine compares your inputs with cleaned healthcare trends and risk signals.</p>
+                <span class="z-step-state">Model Running</span>
+            </article>
+
+            <span class="z-connector reverse" aria-hidden="true"><i class="fas fa-arrow-left"></i></span>
+
+            <article class="z-step left" role="listitem">
+                <div class="z-step-head">
+                    <span class="z-step-badge">Step 3</span>
+                    <span class="z-step-icon"><i class="fas fa-chart-line"></i></span>
+                </div>
+                <h3>View Action Guidance</h3>
+                <p>Get risk results, insurance direction, and practical next steps through insights, tips, and messages.</p>
+                <span class="z-step-state">Recommendations Ready</span>
+            </article>
+        </div>
+
+        <div class="how-gui-footer">
+            <span><i class="fas fa-circle-check"></i> Simple interface</span>
+            <span><i class="fas fa-shield-halved"></i> Secure processing</span>
+            <span><i class="fas fa-clock"></i> Fast results</span>
         </div>
     </div>
 </section>
@@ -156,19 +182,23 @@
             <p>See clear, data-based trends on insurance coverage and health behavior to support better healthcare decisions.</p>
         </div>
         <div class="insights-preview-content">
+            <h3>Key Viewpoints</h3>
             <p>
-                The Data Insights page summarizes patterns from our cleaned healthcare dataset in a simple, readable format.
-                It helps you understand how income level, preventive care habits, and hospital visit frequency can affect
-                insurance planning and risk awareness.
+                <strong>Coverage by income:</strong> The dashboard highlights how insurance access changes across income groups,
+                helping you compare where financial support may be needed most.
             </p>
             <p>
-                You can use these insights to compare practical trends before choosing coverage, then continue to
+                <strong>Preventive care impact:</strong> Regular checkups and preventive habits are linked with healthier outcomes,
+                lower emergency pressure, and better long-term planning.
+            </p>
+            <p>
+                <strong>From insights to action:</strong> After reviewing trends, continue to
                 <a class="insights-inline-link" href="{{ url_for('health_tips') }}">Health Tips</a>
-                for prevention guidance tailored to everyday lifestyle decisions.
+                and Messages for practical steps you can apply in daily life.
             </p>
             <div class="insights-actions">
                 <a class="insights-link" href="{{ url_for('eda') }}">Open Data Insights</a>
-                <a class="insights-link" href="{{ url_for('health_tips') }}">Read Health Tips</a>
+                <a class="insights-link" href="{{ url_for('contact') }}">Open Messages</a>
             </div>
         </div>
     </div>
