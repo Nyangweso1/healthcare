@@ -547,25 +547,187 @@ def health_tip_detail(tip_id):
 
 @app.route('/eda')
 def eda():
-    """Exploratory Data Analysis page."""
+    """Interactive data insights dashboard powered by Chart.js."""
     # Check if user is logged in
     if not session.get('logged_in'):
         flash('Please log in to access this page.', 'warning')
         return redirect(url_for('login'))
-    
-    import os
-    
-    # Check for existing plots in static/eda directory
-    eda_dir = os.path.join('static', 'eda')
-    plots = []
-    
-    if os.path.exists(eda_dir):
-        # Get all plot files
-        plot_files = [f for f in os.listdir(eda_dir) if f.endswith(('.png', '.jpg', '.jpeg'))]
-        # Add relative path for template (eda/filename.png)
-        plots = [f'eda/{f}' for f in plot_files]
-    
-    return render_template('eda.html', plots=plots, username=session.get('username'))
+
+    import pandas as pd
+
+    data_path = os.path.join('data', 'healthcare_clean.csv')
+    if not os.path.exists(data_path):
+        flash('Dataset not found. Please run preprocessing first.', 'warning')
+        return render_template('eda.html', username=session.get('username'), dashboard_data=None)
+
+    try:
+        df = pd.read_csv(data_path)
+    except Exception as exc:
+        logger.error(f"Failed to load dashboard dataset: {exc}")
+        flash('Unable to load insights data right now.', 'danger')
+        return render_template('eda.html', username=session.get('username'), dashboard_data=None)
+
+    if 'insured' not in df.columns or df.empty:
+        flash("Dataset does not contain the 'insured' target column.", 'warning')
+        return render_template('eda.html', username=session.get('username'), dashboard_data=None)
+
+    # Ensure target is numeric for all downstream coverage calculations.
+    df['insured'] = pd.to_numeric(df['insured'], errors='coerce').fillna(0)
+
+    def _first_col(candidates):
+        cols_lower = {c.lower(): c for c in df.columns}
+        for candidate in candidates:
+            if candidate.lower() in cols_lower:
+                return cols_lower[candidate.lower()]
+        for c in df.columns:
+            c_lower = c.lower()
+            if any(candidate.lower() in c_lower for candidate in candidates):
+                return c
+        return None
+
+    def _coverage(labels, subsets):
+        counts = []
+        rates = []
+        for subset in subsets:
+            subset_len = int(subset.shape[0])
+            counts.append(subset_len)
+            rate = float(round((subset['insured'].mean() * 100), 1)) if subset_len > 0 else 0.0
+            rates.append(rate)
+        return {'labels': labels, 'counts': counts, 'coverage': rates}
+
+    dashboard_data = {
+        'overview': {
+            'samples': len(df),
+            'features': max(df.shape[1] - 1, 0),
+            'insured_pct': round(df['insured'].mean() * 100, 1),
+            'uninsured_pct': round((1 - df['insured'].mean()) * 100, 1),
+        }
+    }
+
+    # 1) Insurance coverage by income level
+    income_col = _first_col(['Monthly Household Income', 'household income', 'income'])
+    if income_col:
+        income_series = pd.to_numeric(df[income_col], errors='coerce')
+        income_bins = pd.cut(
+            income_series,
+            bins=[0, 10000, 20000, 40000, 80000, float('inf')],
+            labels=['<10k', '10k-20k', '20k-40k', '40k-80k', '80k+'],
+            include_lowest=True,
+        )
+        income_df = df.copy()
+        income_df['income_band'] = income_bins
+        income_summary = income_df.dropna(subset=['income_band']).groupby('income_band', observed=False).agg(
+            count=('insured', 'size'),
+            coverage=('insured', 'mean')
+        )
+        dashboard_data['income_coverage'] = {
+            'labels': [str(label) for label in income_summary.index],
+            'counts': [int(v) for v in income_summary['count'].tolist()],
+            'coverage': [float(round(v * 100, 1)) for v in income_summary['coverage'].tolist()],
+        }
+    else:
+        dashboard_data['income_coverage'] = {'labels': [], 'counts': [], 'coverage': []}
+
+    # 2) Frequency of medical check-ups (routine + recency)
+    routine_col = _first_col(['routine_check', 'routine check-up'])
+    if routine_col:
+        routine_vals = pd.to_numeric(df[routine_col], errors='coerce').fillna(0)
+        yes_mask = routine_vals >= 1
+        dashboard_data['checkup_frequency'] = {
+            'labels': ['Routine Check-up: Yes', 'Routine Check-up: No'],
+            'counts': [int(yes_mask.sum()), int((~yes_mask).sum())],
+            'coverage': [
+                float(round(df.loc[yes_mask, 'insured'].mean() * 100, 1)) if yes_mask.any() else 0.0,
+                float(round(df.loc[~yes_mask, 'insured'].mean() * 100, 1)) if (~yes_mask).any() else 0.0,
+            ]
+        }
+    else:
+        dashboard_data['checkup_frequency'] = {'labels': [], 'counts': [], 'coverage': []}
+
+    visit_gap_col = _first_col(['hospital_visit_gap', 'last time you visited a hospital'])
+    if visit_gap_col:
+        visit_gap = pd.to_numeric(df[visit_gap_col], errors='coerce')
+        visit_band = pd.cut(
+            visit_gap,
+            bins=[-0.001, 1, 3, 6, 12, float('inf')],
+            labels=['<1 month', '1-3 months', '3-6 months', '6-12 months', '12+ months'],
+            include_lowest=True,
+        )
+        visit_df = df.copy()
+        visit_df['visit_band'] = visit_band
+        visit_summary = visit_df.dropna(subset=['visit_band']).groupby('visit_band', observed=False).agg(
+            count=('insured', 'size'),
+            coverage=('insured', 'mean')
+        )
+        dashboard_data['hospital_visit_pattern'] = {
+            'labels': [str(label) for label in visit_summary.index],
+            'counts': [int(v) for v in visit_summary['count'].tolist()],
+            'coverage': [float(round(v * 100, 1)) for v in visit_summary['coverage'].tolist()],
+        }
+    else:
+        dashboard_data['hospital_visit_pattern'] = {'labels': [], 'counts': [], 'coverage': []}
+
+    # 3) Common health conditions from condition-like columns
+    condition_keywords = ['chronic', 'condition', 'illness', 'disease', 'diabetes', 'hypertension', 'asthma', 'cancer']
+    excluded_terms = ['score', 'risk', 'insurance', 'insured']
+    condition_cols = []
+    for col in df.columns:
+        col_lower = col.lower()
+        if any(k in col_lower for k in condition_keywords) and all(ex not in col_lower for ex in excluded_terms) and col != 'insured':
+            condition_cols.append(col)
+
+    condition_rows = []
+    for col in condition_cols:
+        numeric_col = pd.to_numeric(df[col], errors='coerce')
+        if numeric_col.notna().sum() == 0:
+            continue
+        prevalence = float(round((numeric_col.fillna(0) > 0).mean() * 100, 1))
+        coverage = float(round(df.loc[numeric_col.fillna(0) > 0, 'insured'].mean() * 100, 1)) if (numeric_col.fillna(0) > 0).any() else 0.0
+        if prevalence > 0:
+            label = col.split('_')[-1].replace('-', ' ').strip().title()
+            if len(label) < 3:
+                label = col[:45]
+            condition_rows.append((label, prevalence, coverage))
+
+    condition_rows = sorted(condition_rows, key=lambda x: x[1], reverse=True)[:8]
+    dashboard_data['common_conditions'] = {
+        'labels': [r[0] for r in condition_rows],
+        'prevalence': [r[1] for r in condition_rows],
+        'coverage': [r[2] for r in condition_rows],
+    }
+
+    # 4) Additional insights: employment and preventive care
+    employment_cols = [c for c in df.columns if c.lower().startswith('employment status_')]
+    if employment_cols:
+        emp_labels = []
+        emp_subsets = []
+        for col in employment_cols:
+            label = col.split('_')[-1]
+            mask = pd.to_numeric(df[col], errors='coerce').fillna(0) == 1
+            emp_labels.append(label)
+            emp_subsets.append(df[mask])
+        dashboard_data['employment_coverage'] = _coverage(emp_labels, emp_subsets)
+    else:
+        dashboard_data['employment_coverage'] = {'labels': [], 'counts': [], 'coverage': []}
+
+    preventive_col = _first_col(['preventive_care_score'])
+    if preventive_col:
+        preventive_vals = pd.to_numeric(df[preventive_col], errors='coerce').fillna(0)
+        p_df = df.copy()
+        p_df['preventive_score'] = preventive_vals.round().astype(int)
+        p_summary = p_df.groupby('preventive_score', observed=False).agg(
+            count=('insured', 'size'),
+            coverage=('insured', 'mean')
+        ).sort_index()
+        dashboard_data['preventive_care_impact'] = {
+            'labels': [str(v) for v in p_summary.index.tolist()],
+            'counts': [int(v) for v in p_summary['count'].tolist()],
+            'coverage': [float(round(v * 100, 1)) for v in p_summary['coverage'].tolist()],
+        }
+    else:
+        dashboard_data['preventive_care_impact'] = {'labels': [], 'counts': [], 'coverage': []}
+
+    return render_template('eda.html', dashboard_data=dashboard_data, username=session.get('username'))
 
 
 @app.route('/contact', methods=['GET', 'POST'])

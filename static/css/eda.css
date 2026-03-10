@@ -1,112 +1,159 @@
 /* =========================
-   EDA PAGE (eda.html)
+   EDA DASHBOARD (eda.html)
 ========================= */
 
-.eda-container {
-    padding: 80px 5%;
-    width: 100%;
-    margin: 0 0 40px 0;
-    background: #f8f9fa;
-    min-height: 60vh;
-    border-bottom: 4px solid #e0e0e0;
+.eda-dashboard {
+    padding: 32px 5% 44px;
+    background: radial-gradient(circle at top right, #e7f2ff 0%, #f8fbff 42%, #f4f7fb 100%);
+    min-height: 70vh;
 }
 
-.eda-header {
-    text-align: center;
-    margin-bottom: 40px;
+.eda-hero {
+    background: linear-gradient(130deg, #0b5ed7 0%, #084298 58%, #07306f 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: 0 14px 28px rgba(4, 40, 89, 0.22);
+    margin-bottom: 16px;
 }
 
-.eda-header h1 {
-    color: #1a365d;
+.eda-hero h1 {
+    margin: 0 0 8px;
+    font-size: 1.72rem;
+    font-weight: 800;
+}
+
+.eda-hero p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.eda-live-controls {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.live-pill {
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
     font-weight: 700;
-    margin-bottom: 10px;
 }
 
-.eda-header p {
-    color: #718096;
-    font-size: 1.1rem;
+.live-time {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.eda-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+    gap: 10px;
+    margin: 0 0 14px;
+}
+
+.kpi-card {
+    background: #fff;
+    border: 1px solid #dbe7f5;
+    border-radius: 12px;
+    padding: 11px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 4px 14px rgba(17, 58, 104, 0.08);
+}
+
+.kpi-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #5d748f;
+    font-weight: 700;
+}
+
+.kpi-value {
+    color: #0a3d7f;
+    font-weight: 800;
+    font-size: 1.3rem;
 }
 
 .eda-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 30px;
-    margin-bottom: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 12px;
 }
 
 .eda-card {
-    background: white;
-    border-radius: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    padding: 40px;
-    border: 1px solid #e0e0e0;
+    background: #fff;
+    border: 1px solid #d7e5f5;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(17, 58, 104, 0.08);
+    padding: 12px 12px 8px;
 }
 
 .eda-card h3 {
-    color: #1a365d;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #e9ecef;
-    padding-bottom: 10px;
+    margin: 0 0 4px;
+    color: #173d73;
+    font-size: 1rem;
+    font-weight: 800;
 }
 
-.eda-chart {
-    width: 100%;
-    height: auto;
+.eda-card p {
+    margin: 0 0 8px;
+    color: #54708d;
+    font-size: 0.88rem;
+}
+
+.chart-note {
+    margin-top: 8px;
+    color: #3f5f7f;
+    background: #f2f7ff;
+    border: 1px solid #d9e7f9;
     border-radius: 8px;
+    padding: 6px 8px;
+    font-size: 0.82rem;
 }
 
-.eda-description {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 15px;
-    color: #4a5568;
-    line-height: 1.6;
+.chart-shell {
+    height: 210px;
+    max-height: 210px;
 }
 
-.eda-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
+.eda-card canvas {
+    width: 100% !important;
+    height: 100% !important;
 }
 
-.eda-stat-item {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    border-left: 3px solid #0b5ed7;
-}
-
-.eda-stat-item .label {
-    font-size: 0.85rem;
-    color: #6c757d;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.eda-stat-item .value {
-    font-size: 1.5rem;
-    color: #0b5ed7;
-    font-weight: 700;
-}
-
-/* =========================
-   MOBILE RESPONSIVE
-========================= */
-@media (max-width: 768px) {
-    .eda-container {
-        min-height: auto;
-        padding: 50px 5%;
+@media (max-width: 900px) {
+    .eda-kpis {
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
     }
-    
+}
+
+@media (max-width: 768px) {
+    .eda-dashboard {
+        padding: 20px 5% 30px;
+    }
+
+    .eda-hero {
+        padding: 18px 14px;
+    }
+
+    .eda-hero h1 {
+        font-size: 1.5rem;
+    }
+
     .eda-grid {
         grid-template-columns: 1fr;
     }
-    
-    .eda-card {
-        padding: 30px 5%;
+
+    .chart-shell {
+        height: 190px;
+        max-height: 190px;
     }
 }
