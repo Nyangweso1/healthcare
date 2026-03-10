@@ -16,25 +16,6 @@
     </div>
 
     {% if dashboard_data %}
-    <div class="eda-kpis">
-        <article class="kpi-card">
-            <span class="kpi-label">Total Records</span>
-            <span class="kpi-value">{{ dashboard_data.overview.samples }}</span>
-        </article>
-        <article class="kpi-card">
-            <span class="kpi-label">Model Features</span>
-            <span class="kpi-value">{{ dashboard_data.overview.features }}</span>
-        </article>
-        <article class="kpi-card">
-            <span class="kpi-label">Insured</span>
-            <span class="kpi-value">{{ dashboard_data.overview.insured_pct }}%</span>
-        </article>
-        <article class="kpi-card">
-            <span class="kpi-label">Uninsured</span>
-            <span class="kpi-value">{{ dashboard_data.overview.uninsured_pct }}%</span>
-        </article>
-    </div>
-
     <div class="eda-grid">
         <article class="eda-card">
             <h3>Insurance Coverage by Income Level</h3>
@@ -76,15 +57,7 @@
             </div>
         </article>
 
-        <article class="eda-card">
-            <h3>Preventive Care Impact</h3>
-            <p>Insurance coverage trend as preventive care score increases.</p>
-            <div class="chart-shell">
-                <canvas id="preventiveCareChart"></canvas>
-            </div>
-            <p id="preventiveCareNote" class="chart-note">Insight: preventive care trend will appear after chart loads.</p>
-        </article>
-    </div>
+    
     {% else %}
     <div class="alert alert-warning">
         <i class="fas fa-exclamation-triangle"></i>
