@@ -26,6 +26,7 @@
 .eda-hero p {
     margin: 0;
     color: rgba(255, 255, 255, 0.92);
+    font-size: 1.03rem;
 }
 
 .eda-live-controls {
@@ -34,6 +35,13 @@
     gap: 10px;
     flex-wrap: wrap;
     align-items: center;
+}
+
+.eda-export-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .live-pill {
@@ -46,7 +54,7 @@
 }
 
 .live-time {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -99,14 +107,14 @@
 .eda-card h3 {
     margin: 0 0 4px;
     color: #173d73;
-    font-size: 1rem;
+    font-size: 1.08rem;
     font-weight: 800;
 }
 
 .eda-card p {
     margin: 0 0 8px;
     color: #54708d;
-    font-size: 0.88rem;
+    font-size: 0.98rem;
 }
 
 .chart-note {
@@ -116,7 +124,7 @@
     border: 1px solid #d9e7f9;
     border-radius: 8px;
     padding: 6px 8px;
-    font-size: 0.82rem;
+    font-size: 0.92rem;
 }
 
 .chart-shell {

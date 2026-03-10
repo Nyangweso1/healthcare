@@ -11,9 +11,9 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <h1>Simplifying Your Path to Better Care</h1>
-        <p class="hero-subtitle">
-           Don't leave your health to chance. Our platform analyzes your medical needs, lifestyle factors, and financial situation to help you understand your health risks and find the right insurance coverage in Kenya. Through data-driven insights, we provide personalized health tips, prevention guidance, and smart insurance recommendations to support better health decisions.
-        </p>
+        <p class="hero-subtitle"><strong>
+        Don't leave your health to chance. Our platform analyzes your medical needs, lifestyle factors, and financial situation to help you understand your health risks and find the right insurance coverage in Kenya. Through data-driven insights, we provide personalized health tips, prevention guidance, and smart insurance recommendations to support better health decisions.
+        </strong></p>
            <div class="cta-buttons">
             {% if session.logged_in %}
                 <a class="btn-cta btn-cta-primary" href="{{ url_for('assess') }}">
@@ -46,34 +46,21 @@
             <h2>How HealthSecure Works</h2>
             <p>Understand what the risk assessment does, what you need to enter, and the result you will receive in just a few minutes.</p>
         </div>
-        <div class="how-it-works-grid">
-            <article class="how-step-card">
-                <span class="step-badge">Step 1</span>
-                <div class="how-step-icon"><i class="fas fa-notes-medical"></i></div>
-                <h3>Enter Health Information</h3>
-                <p>Users provide basic details such as age, income, lifestyle habits, and health history.</p>
-            </article>
-
-            <article class="how-step-card">
-                <span class="step-badge">Step 2</span>
-                <div class="how-step-icon"><i class="fas fa-chart-line"></i></div>
-                <h3>Smart Risk Analysis</h3>
-                <p>The system analyzes the data to calculate a health risk score.</p>
-            </article>
-
-            <article class="how-step-card">
-                <span class="step-badge">Step 3</span>
-                <div class="how-step-icon"><i class="fas fa-lightbulb"></i></div>
-                <h3>Personalized Recommendations</h3>
-                <p>Users receive health tips and insurance recommendations tailored to their risk level.</p>
-            </article>
-
-            <article class="how-step-card">
-                <span class="step-badge">Step 4</span>
-                <div class="how-step-icon"><i class="fas fa-chart-pie"></i></div>
-                <h3>Learn with Tips & Insights</h3>
-                <p>Explore Health Tips and Data Insights to build long-term health literacy and better decisions.</p>
-            </article>
+        <div class="how-it-works-copy">
+            <div class="how-flow-item">
+                <span class="ui-bookmark"><i class="fas fa-bookmark"></i> STEP 1</span>
+                <p>
+                    <span class="ui-big-word">TAKE A RISK ASSESSMENT:</span>
+                    Enter your key health and lifestyle details such as age, income, health history, and preventive-care habits. The interface guides you step by step so you can complete it quickly and clearly.
+                </p>
+            </div>
+            <div class="how-flow-item">
+                <span class="ui-bookmark"><i class="fas fa-bookmark"></i> STEP 2</span>
+                <p>
+                    <span class="ui-big-word">GET INSIGHTS & RECOMMENDATIONS:</span>
+                    HealthSecure runs a smart analysis on your data, estimates your risk level, and then returns personalized health tips plus practical insurance recommendations. You can continue learning through Health Tips and Data Insights.
+                </p>
+            </div>
         </div>
     </div>
 </section>
@@ -115,32 +102,47 @@
 <!-- Trust Section -->
 <section class="trust-section">
     <div class="section-container">
-        <div class="trust-card">
-            <h2><i class="fas fa-shield-heart"></i> Why Use HealthSecure?</h2>
-            <p class="trust-intro">
-                Our recommendations are based on healthcare research and secure data analysis to help you make informed health decisions.
-            </p>
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <span class="trust-icon"><i class="fas fa-notes-medical"></i></span>
-                    <h3>Evidence-Based Tips</h3>
-                    <p>Health guidance is grounded in practical preventive-care principles and validated healthcare patterns.</p>
-                </div>
-                <div class="trust-item">
-                    <span class="trust-icon"><i class="fas fa-chart-column"></i></span>
-                    <h3>Data-Driven Insights</h3>
-                    <p>Risk and insurance insights are generated from cleaned dataset analysis used by our prediction workflow.</p>
-                </div>
-                <div class="trust-item">
-                    <span class="trust-icon"><i class="fas fa-user-shield"></i></span>
-                    <h3>Privacy Protection</h3>
-                    <p>Your information is processed securely, and access to personal records is protected by authenticated sessions.</p>
-                </div>
-                <div class="trust-item">
-                    <span class="trust-icon"><i class="fas fa-house-medical"></i></span>
-                    <h3>Insurance Awareness</h3>
-                    <p>Built for Kenyan households to improve preventive care understanding and insurance awareness.</p>
-                </div>
+        <div class="trust-panel">
+            <div class="trust-overview">
+                <p class="trust-label">TRUSTED HEALTH PLATFORM</p>
+                <h2><i class="fas fa-shield-heart"></i> Why Use HealthSecure?</h2>
+                <p class="trust-intro">
+                    Our recommendations are based on healthcare research and secure data analysis to help you make informed health decisions.
+                </p>
+            </div>
+
+            <div class="trust-points" role="list" aria-label="HealthSecure trust points">
+                <article class="trust-point" role="listitem">
+                    <span class="trust-dot"><i class="fas fa-notes-medical"></i></span>
+                    <div>
+                        <h3>Evidence-Based Tips</h3>
+                        <p>Health guidance is grounded in practical preventive-care principles and validated healthcare patterns.</p>
+                    </div>
+                </article>
+
+                <article class="trust-point" role="listitem">
+                    <span class="trust-dot"><i class="fas fa-chart-column"></i></span>
+                    <div>
+                        <h3>Data-Driven Insights</h3>
+                        <p>Risk and insurance insights are generated from cleaned dataset analysis used by our prediction workflow.</p>
+                    </div>
+                </article>
+
+                <article class="trust-point" role="listitem">
+                    <span class="trust-dot"><i class="fas fa-user-shield"></i></span>
+                    <div>
+                        <h3>Privacy Protection</h3>
+                        <p>Your information is processed securely, and access to personal records is protected by authenticated sessions.</p>
+                    </div>
+                </article>
+
+                <article class="trust-point" role="listitem">
+                    <span class="trust-dot"><i class="fas fa-house-medical"></i></span>
+                    <div>
+                        <h3>Insurance Awareness</h3>
+                        <p>Built for Kenyan households to improve preventive care understanding and insurance awareness.</p>
+                    </div>
+                </article>
             </div>
         </div>
     </div>

@@ -13,6 +13,16 @@
             <span id="liveStatus" class="live-pill"><i class="fas fa-sync-alt"></i> Auto-updating</span>
             <span id="lastUpdated" class="live-time">Last updated: just now</span>
         </div>
+        {% if session.is_admin == 1 %}
+        <div class="eda-export-actions">
+            <a href="{{ url_for('export_eda_csv') }}" class="btn btn-sm btn-light">
+                <i class="fas fa-file-csv"></i> Download CSV
+            </a>
+            <a href="{{ url_for('export_eda_pdf') }}" class="btn btn-sm btn-outline-light">
+                <i class="fas fa-file-pdf"></i> Download PDF Report
+            </a>
+        </div>
+        {% endif %}
     </div>
 
     {% if dashboard_data %}
@@ -56,7 +66,15 @@
                 <canvas id="employmentCoverageChart"></canvas>
             </div>
         </article>
-
+        <article class="eda-card">
+            <h3>Preventive Care Impact</h3>
+            <p>Insurance coverage trend as preventive care score increases.</p>
+            <div class="chart-shell">
+                <canvas id="preventiveCareChart"></canvas>
+            </div>
+            <p id="preventiveCareNote" class="chart-note">Insight: preventive care trend will appear after chart loads.</p>
+        </article>
+    </div>
     
     {% else %}
     <div class="alert alert-warning">

@@ -21,6 +21,8 @@
     --font-display: "Manrope", "Segoe UI", sans-serif;
     --font-body: "Source Sans 3", "Segoe UI", sans-serif;
     --section-space: clamp(2.2rem, 4vw, 3.6rem);
+    --fs-body: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
+    --fs-small: clamp(0.95rem, 0.9rem + 0.15vw, 1rem);
 }
 
 * {
@@ -31,6 +33,7 @@
 }
 
 html {
+    font-size: 17px;
     overflow-x: hidden;
     width: 100%;
 }
@@ -45,11 +48,18 @@ body {
     width: 100%;
     max-width: 100vw;
     overflow-x: hidden;
+    font-size: var(--fs-body);
+    line-height: 1.65;
 }
 
 h1, h2, h3, h4, h5 {
     font-family: var(--font-display);
     letter-spacing: -0.01em;
+    line-height: 1.3;
+}
+
+p, li, label, input, select, textarea, .btn, .form-hint, .text-muted {
+    font-size: var(--fs-body);
 }
 
 main {
@@ -156,6 +166,7 @@ body::before {
     border-radius: 6px;
     transition: all 0.22s ease;
     display: block;
+    font-size: 0.98rem;
 }
 
 .nav-links a:hover,
@@ -175,7 +186,7 @@ body::before {
 .nav-username {
     font-weight: 600;
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.98rem;
     padding: 6px 10px;
     background: var(--primary-light);
     border-radius: 20px;
@@ -191,7 +202,7 @@ body::before {
     padding: 8px 16px;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.96rem;
     text-decoration: none;
     transition: var(--transition);
 }
@@ -640,7 +651,7 @@ footer {
 }
 
 .footer-text {
-    font-size: 0.9rem;
+    font-size: 0.98rem;
     line-height: 1.7;
     color: #a0aec0;
     margin-bottom: 16px;
@@ -684,7 +695,7 @@ footer {
 .footer-links a {
     color: #a0aec0;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.96rem;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -704,7 +715,7 @@ footer {
 
 .footer-contact-list li {
     color: #a0aec0;
-    font-size: 0.9rem;
+    font-size: 0.96rem;
     display: flex;
     align-items: flex-start;
     gap: 10px;
@@ -776,7 +787,7 @@ footer {
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
-    font-size: 0.85rem;
+    font-size: 0.94rem;
     color: #718096;
 }
 
@@ -931,7 +942,7 @@ h1, h2, h3, p {
 
 @media (max-width: 480px) {
     body {
-        font-size: 14px;
+        font-size: 15px;
     }
     
     .logo {

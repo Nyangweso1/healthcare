@@ -1,10 +1,13 @@
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, Response
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import os
 import contextlib
 import traceback
+import io
+import csv
+from datetime import datetime
 from ml.risk_engine import RiskAssessmentEngine
 import logging
 
@@ -545,31 +548,22 @@ def health_tip_detail(tip_id):
                            username=session.get('username'))
 
 
-@app.route('/eda')
-def eda():
-    """Interactive data insights dashboard powered by Chart.js."""
-    # Check if user is logged in
-    if not session.get('logged_in'):
-        flash('Please log in to access this page.', 'warning')
-        return redirect(url_for('login'))
-
+def _build_dashboard_data():
+    """Build dashboard data payload from cleaned dataset."""
     import pandas as pd
 
     data_path = os.path.join('data', 'healthcare_clean.csv')
     if not os.path.exists(data_path):
-        flash('Dataset not found. Please run preprocessing first.', 'warning')
-        return render_template('eda.html', username=session.get('username'), dashboard_data=None)
+        return None, 'Dataset not found. Please run preprocessing first.'
 
     try:
         df = pd.read_csv(data_path)
     except Exception as exc:
         logger.error(f"Failed to load dashboard dataset: {exc}")
-        flash('Unable to load insights data right now.', 'danger')
-        return render_template('eda.html', username=session.get('username'), dashboard_data=None)
+        return None, 'Unable to load insights data right now.'
 
     if 'insured' not in df.columns or df.empty:
-        flash("Dataset does not contain the 'insured' target column.", 'warning')
-        return render_template('eda.html', username=session.get('username'), dashboard_data=None)
+        return None, "Dataset does not contain the 'insured' target column."
 
     # Ensure target is numeric for all downstream coverage calculations.
     df['insured'] = pd.to_numeric(df['insured'], errors='coerce').fillna(0)
@@ -727,7 +721,161 @@ def eda():
     else:
         dashboard_data['preventive_care_impact'] = {'labels': [], 'counts': [], 'coverage': []}
 
+    return dashboard_data, None
+
+
+def _dashboard_export_rows(dashboard_data):
+    """Flatten dashboard data into rows for export."""
+    rows = []
+
+    overview = dashboard_data.get('overview', {})
+    rows.append(['overview', 'samples', overview.get('samples', ''), '', ''])
+    rows.append(['overview', 'features', overview.get('features', ''), '', ''])
+    rows.append(['overview', 'insured_pct', '', overview.get('insured_pct', ''), ''])
+    rows.append(['overview', 'uninsured_pct', '', overview.get('uninsured_pct', ''), ''])
+
+    def add_rows(section_key, metric_map):
+        section = dashboard_data.get(section_key, {})
+        labels = section.get('labels', [])
+        for idx, label in enumerate(labels):
+            row = [section_key, label, '', '', '']
+            for target_idx, metric_key in metric_map:
+                metric_values = section.get(metric_key, [])
+                row[target_idx] = metric_values[idx] if idx < len(metric_values) else ''
+            rows.append(row)
+
+    add_rows('income_coverage', [(2, 'counts'), (3, 'coverage')])
+    add_rows('checkup_frequency', [(2, 'counts'), (3, 'coverage')])
+    add_rows('hospital_visit_pattern', [(2, 'counts'), (3, 'coverage')])
+    add_rows('employment_coverage', [(2, 'counts'), (3, 'coverage')])
+    add_rows('preventive_care_impact', [(2, 'counts'), (3, 'coverage')])
+    add_rows('common_conditions', [(4, 'prevalence'), (3, 'coverage')])
+
+    return rows
+
+
+def _build_simple_pdf(title, lines):
+    """Build a simple text-based PDF without external dependencies."""
+
+    def pdf_escape(text):
+        return str(text).replace('\\', '\\\\').replace('(', '\\(').replace(')', '\\)')
+
+    report_lines = [title, "", *lines[:42]]
+
+    content = [
+        "BT",
+        "/F1 14 Tf",
+        "50 810 Td",
+        f"({pdf_escape(report_lines[0])}) Tj",
+        "T*",
+        "/F1 10 Tf",
+    ]
+
+    for line in report_lines[1:]:
+        content.append(f"({pdf_escape(line)}) Tj")
+        content.append("T*")
+
+    content.append("ET")
+    stream = "\n".join(content).encode('latin-1', errors='replace')
+
+    objects = [
+        b"1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n",
+        b"2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
+        b"3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\nendobj\n",
+        b"4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n",
+        f"5 0 obj\n<< /Length {len(stream)} >>\nstream\n".encode('latin-1') + stream + b"\nendstream\nendobj\n",
+    ]
+
+    pdf = bytearray(b"%PDF-1.4\n")
+    offsets = [0]
+    for obj in objects:
+        offsets.append(len(pdf))
+        pdf.extend(obj)
+
+    xref_start = len(pdf)
+    pdf.extend(f"xref\n0 {len(objects) + 1}\n".encode('latin-1'))
+    pdf.extend(b"0000000000 65535 f \n")
+    for offset in offsets[1:]:
+        pdf.extend(f"{offset:010d} 00000 n \n".encode('latin-1'))
+
+    pdf.extend(
+        f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\nstartxref\n{xref_start}\n%%EOF".encode('latin-1')
+    )
+    return bytes(pdf)
+
+
+@app.route('/eda')
+def eda():
+    """Interactive data insights dashboard powered by Chart.js."""
+    # Check if user is logged in
+    if not session.get('logged_in'):
+        flash('Please log in to access this page.', 'warning')
+        return redirect(url_for('login'))
+
+    dashboard_data, error_message = _build_dashboard_data()
+    if error_message:
+        flash(error_message, 'warning')
+        return render_template('eda.html', username=session.get('username'), dashboard_data=None)
+
     return render_template('eda.html', dashboard_data=dashboard_data, username=session.get('username'))
+
+
+@app.route('/eda/export/csv')
+def export_eda_csv():
+    """Export dashboard summary statistics in CSV format."""
+    if not session.get('logged_in'):
+        flash('Please log in to access this page.', 'warning')
+        return redirect(url_for('login'))
+    if not is_admin():
+        flash('Only admin users can download Data Insights exports.', 'danger')
+        return redirect(url_for('eda'))
+
+    dashboard_data, error_message = _build_dashboard_data()
+    if error_message:
+        flash(error_message, 'warning')
+        return redirect(url_for('eda'))
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['section', 'label', 'count', 'coverage_pct', 'prevalence_pct'])
+    writer.writerows(_dashboard_export_rows(dashboard_data))
+
+    filename = f"healthsecure_insights_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
+    return Response(
+        output.getvalue(),
+        mimetype='text/csv',
+        headers={'Content-Disposition': f'attachment; filename={filename}'}
+    )
+
+
+@app.route('/eda/export/pdf')
+def export_eda_pdf():
+    """Export dashboard summary report in PDF format."""
+    if not session.get('logged_in'):
+        flash('Please log in to access this page.', 'warning')
+        return redirect(url_for('login'))
+    if not is_admin():
+        flash('Only admin users can download Data Insights exports.', 'danger')
+        return redirect(url_for('eda'))
+
+    dashboard_data, error_message = _build_dashboard_data()
+    if error_message:
+        flash(error_message, 'warning')
+        return redirect(url_for('eda'))
+
+    export_rows = _dashboard_export_rows(dashboard_data)
+    lines = [
+        f"{section} | {label} | count={count if count != '' else '-'} | coverage={coverage if coverage != '' else '-'} | prevalence={prevalence if prevalence != '' else '-'}"
+        for section, label, count, coverage, prevalence in export_rows
+    ]
+
+    pdf_bytes = _build_simple_pdf("HealthSecure Data Insights Report", lines)
+    filename = f"healthsecure_insights_{datetime.now().strftime('%Y%m%d_%H%M')}.pdf"
+    return Response(
+        pdf_bytes,
+        mimetype='application/pdf',
+        headers={'Content-Disposition': f'attachment; filename={filename}'}
+    )
 
 
 @app.route('/contact', methods=['GET', 'POST'])
