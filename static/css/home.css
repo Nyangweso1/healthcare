@@ -531,13 +531,149 @@
 
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 2rem;
     margin-bottom: 2rem;
 }
 
 .footer-column h4 {
     color: white;
+.insights-preview-section {
+    background: #ffffff;
+    padding: 56px 0;
+}
+
+.insights-preview-header {
+    text-align: center;
+    margin: 0 auto 20px;
+    max-width: 880px;
+}
+
+.insights-preview-header h2 {
+    margin: 0 0 8px;
+    color: #15477f;
+    font-size: clamp(1.5rem, 3.8vw, 2.1rem);
+    font-weight: 800;
+}
+
+.insights-preview-header p {
+    margin: 0;
+    color: #587086;
+}
+
+.insights-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+}
+
+.insight-preview-card {
+    border: 1px solid #dceaf9;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fbfdff 0%, #f3f8ff 100%);
+    padding: 14px;
+}
+
+.insight-preview-card h3 {
+    margin: 0 0 10px;
+    color: #183f73;
+    font-size: 1.04rem;
+}
+
+.insight-preview-card p {
+    margin: 0 0 10px;
+    color: #56718a;
+    line-height: 1.6;
+}
+
+.insights-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.insights-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: 1px solid #0b5ed7;
+    border-radius: 8px;
+    padding: 7px 10px;
+    color: #0b5ed7;
+    font-weight: 700;
+    font-size: 0.88rem;
+    background: #fff;
+}
+
+.insights-link:hover {
+    color: #fff;
+    background: #0b5ed7;
+}
+
+.mini-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.mini-bar {
+    --bar-size: 50%;
+    position: relative;
+    background: linear-gradient(90deg, #0b5ed7 var(--bar-size), #e8f0fb var(--bar-size));
+    border-radius: 8px;
+    min-height: 38px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #123f74;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.mini-bar strong {
+    color: #082f5d;
+    font-weight: 800;
+}
+
+/* =========================
+   WHO THIS IS FOR
+========================= */
+.who-for-section {
+    background: #f8fbff;
+    padding: 46px 0 56px;
+}
+
+.who-for-section h2 {
+    margin: 0 0 14px;
+    color: #15477f;
+    font-size: clamp(1.45rem, 3.7vw, 2rem);
+    font-weight: 800;
+}
+
+.who-for-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px;
+}
+
+.who-for-item {
+    background: #ffffff;
+    border: 1px solid #dde9f7;
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: #3f5f7b;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.who-for-item i {
+    color: #0b5ed7;
+}
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -639,6 +775,8 @@
     .features-section,
     .how-it-works-section,
     .trust-section,
+    .insights-preview-section,
+    .who-for-section,
     .why-matters-section,
     .partners-section,
     .cta-section,

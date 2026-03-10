@@ -43,7 +43,7 @@
 <section class="how-it-works-section">
     <div class="section-container">
         <div class="how-it-works-header">
-            <h2>How It Works</h2>
+            <h2>How HealthSecure Works</h2>
             <p>Understand what the risk assessment does, what you need to enter, and the result you will receive in just a few minutes.</p>
         </div>
         <div class="how-it-works-grid">
@@ -66,6 +66,13 @@
                 <div class="how-step-icon"><i class="fas fa-lightbulb"></i></div>
                 <h3>Personalized Recommendations</h3>
                 <p>Users receive health tips and insurance recommendations tailored to their risk level.</p>
+            </article>
+
+            <article class="how-step-card">
+                <span class="step-badge">Step 4</span>
+                <div class="how-step-icon"><i class="fas fa-chart-pie"></i></div>
+                <h3>Learn with Tips & Insights</h3>
+                <p>Explore Health Tips and Data Insights to build long-term health literacy and better decisions.</p>
             </article>
         </div>
     </div>
@@ -109,7 +116,7 @@
 <section class="trust-section">
     <div class="section-container">
         <div class="trust-card">
-            <h2><i class="fas fa-shield-heart"></i> Why You Can Trust HealthSecure</h2>
+            <h2><i class="fas fa-shield-heart"></i> Why Use HealthSecure?</h2>
             <p class="trust-intro">
                 Our recommendations are based on healthcare research and secure data analysis to help you make informed health decisions.
             </p>
@@ -129,7 +136,45 @@
                     <h3>Privacy Protection</h3>
                     <p>Your information is processed securely, and access to personal records is protected by authenticated sessions.</p>
                 </div>
+                <div class="trust-item">
+                    <span class="trust-icon"><i class="fas fa-house-medical"></i></span>
+                    <h3>Insurance Awareness</h3>
+                    <p>Built for Kenyan households to improve preventive care understanding and insurance awareness.</p>
+                </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- Data Insights Preview Section -->
+<section class="insights-preview-section">
+    <div class="section-container">
+        <div class="insights-preview-header">
+            <h2>Data Insights</h2>
+            <p>See simple, data-based trends on insurance coverage and health behavior to support better decisions.</p>
+        </div>
+        <div class="insights-preview-grid">
+            <article class="insight-preview-card">
+                <h3>What It Does</h3>
+                <p>HealthSecure analyzes training data to show patterns like coverage by income and preventive care impact.</p>
+                <div class="insights-actions">
+                    <a class="insights-link" href="{{ url_for('eda') }}">View Data Insights</a>
+                    <a class="insights-link" href="{{ url_for('health_tips') }}">View Health Tips</a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Who This Is For Section -->
+<section class="who-for-section">
+    <div class="section-container">
+        <h2>Who This Is For</h2>
+        <div class="who-for-grid">
+            <div class="who-for-item"><i class="fas fa-user"></i> Individuals seeking better health decisions</div>
+            <div class="who-for-item"><i class="fas fa-people-roof"></i> Families looking for insurance options</div>
+            <div class="who-for-item"><i class="fas fa-user-graduate"></i> Students learning about health literacy</div>
+            <div class="who-for-item"><i class="fas fa-briefcase-medical"></i> Professionals managing health risks</div>
         </div>
     </div>
 </section>
@@ -167,7 +212,7 @@
     <div class="section-container">
         <p class="partners-subtitle">Supported Insurance Networks</p>
         <div class="partners-grid">
-            <a href="{{ url_for('blog') }}#nhif-guide" class="partner-logo">NHIF</a>
+            <a href="{{ url_for('blog') }}#nhif-guide" class="partner-logo">SHA</a>
             <a href="{{ url_for('blog') }}#britam" class="partner-logo">BRITAM</a>
             <a href="{{ url_for('blog') }}#jubilee" class="partner-logo">JUBILEE</a>
             <a href="{{ url_for('blog') }}#apa" class="partner-logo">APA</a>
