@@ -17,7 +17,7 @@
            <div class="cta-buttons">
             {% if session.logged_in %}
                 <a class="btn-cta btn-cta-primary" href="{{ url_for('assess') }}">
-                    <i class="fas fa-heartbeat"></i> Start Risk Assessment
+                 Start Risk Assessment
                 </a>
                 <a class="btn-cta btn-cta-secondary" href="{{ url_for('history') }}">
                     View History
@@ -91,7 +91,7 @@
                 <div class="feature-icon">
                     <i class="fa-solid fa-list"></i>
                 </div>
-                <h3>Health Literacy</h3>
+                <h3>Messages</h3>
                 <p>Understand preventive care choices that improve long-term outcomes.</p>
                 <a href="{{ url_for('health_tips') }}" class="feature-link">Explore Health Tips →</a>
             </div>
@@ -153,17 +153,23 @@
     <div class="section-container">
         <div class="insights-preview-header">
             <h2>Data Insights</h2>
-            <p>See simple, data-based trends on insurance coverage and health behavior to support better decisions.</p>
+            <p>See clear, data-based trends on insurance coverage and health behavior to support better healthcare decisions.</p>
         </div>
-        <div class="insights-preview-grid">
-            <article class="insight-preview-card">
-                <h3>What It Does</h3>
-                <p>HealthSecure analyzes training data to show patterns like coverage by income and preventive care impact.</p>
-                <div class="insights-actions">
-                    <a class="insights-link" href="{{ url_for('eda') }}">View Data Insights</a>
-                    <a class="insights-link" href="{{ url_for('health_tips') }}">View Health Tips</a>
-                </div>
-            </article>
+        <div class="insights-preview-content">
+            <p>
+                The Data Insights page summarizes patterns from our cleaned healthcare dataset in a simple, readable format.
+                It helps you understand how income level, preventive care habits, and hospital visit frequency can affect
+                insurance planning and risk awareness.
+            </p>
+            <p>
+                You can use these insights to compare practical trends before choosing coverage, then continue to
+                <a class="insights-inline-link" href="{{ url_for('health_tips') }}">Health Tips</a>
+                for prevention guidance tailored to everyday lifestyle decisions.
+            </p>
+            <div class="insights-actions">
+                <a class="insights-link" href="{{ url_for('eda') }}">Open Data Insights</a>
+                <a class="insights-link" href="{{ url_for('health_tips') }}">Read Health Tips</a>
+            </div>
         </div>
     </div>
 </section>
@@ -175,7 +181,7 @@
         <div class="who-for-grid">
             <div class="who-for-item"><i class="fas fa-user"></i> Individuals seeking better health decisions</div>
             <div class="who-for-item"><i class="fas fa-people-roof"></i> Families looking for insurance options</div>
-            <div class="who-for-item"><i class="fas fa-user-graduate"></i> Students learning about health literacy</div>
+            <div class="who-for-item"><i class="fas fa-user-graduate"></i> Students learning through messages</div>
             <div class="who-for-item"><i class="fas fa-briefcase-medical"></i> Professionals managing health risks</div>
         </div>
     </div>

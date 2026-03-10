@@ -37,13 +37,12 @@
 
     <ul class="nav-links" id="navLinks" role="menubar">
         <li><a href="{{ url_for('index') }}"{% if request.endpoint == 'index' %} class="active" aria-current="page"{% endif %}>Home</a></li>
-        <li><a href="{{ url_for('about') }}"{% if request.endpoint == 'about' %} class="active" aria-current="page"{% endif %}>About</a></li>
         <li><a href="{{ url_for('blog') }}"{% if request.endpoint == 'blog' %} class="active" aria-current="page"{% endif %}>Insurance Guide</a></li>
         <li><a href="{{ url_for('health_tips') }}"{% if request.endpoint == 'health_tips' or request.endpoint == 'health_tip_detail' %} class="active" aria-current="page"{% endif %}>Health Tips</a></li>
         <li><a href="{{ url_for('contact') }}"{% if request.endpoint == 'contact' %} class="active" aria-current="page"{% endif %}>Messages</a></li>
         {% if session.logged_in %}
             <li><a href="{{ url_for('assess') }}"{% if request.endpoint == 'assess' %} class="active" aria-current="page"{% endif %}>
-                <i class="fas fa-heartbeat" aria-hidden="true"></i> Risk Assessment
+                </i> Risk Assessment
             </a></li>
             <li><a href="{{ url_for('history') }}"{% if request.endpoint == 'history' %} class="active" aria-current="page"{% endif %}>My History</a></li>
         {% endif %}
@@ -118,7 +117,6 @@
             <h5 class="footer-section-title">Quick Links</h5>
             <ul class="footer-links">
                 <li><a href="{{ url_for('index') }}"><i class="fas fa-angle-right" aria-hidden="true"></i> Home</a></li>
-                <li><a href="{{ url_for('about') }}"><i class="fas fa-angle-right" aria-hidden="true"></i> About Us</a></li>
                 <li><a href="{{ url_for('assess') if session.logged_in else url_for('register') }}"><i class="fas fa-angle-right" aria-hidden="true"></i> Risk Assessment</a></li>
                 <li><a href="{{ url_for('health_tips') }}"><i class="fas fa-angle-right" aria-hidden="true"></i> Health Tips</a></li>
                 <li><a href="{{ url_for('blog') }}"><i class="fas fa-angle-right" aria-hidden="true"></i> Insurance Guide</a></li>
