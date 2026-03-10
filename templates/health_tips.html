@@ -33,39 +33,13 @@
   </div>
 </div>
 
-<blockquote class="mt-4 p-3 bg-light border-left">
-  <strong>Disclaimer:</strong> This page provides high-level, data-driven guidance.
-  It is not medical or financial advice — consult healthcare professionals
-  or licensed insurance advisors for personalized assistance.
-</blockquote>
-
 {% else %}
 <!-- ===================== LIST VIEW ===================== -->
-<h1>Health Tips & Data Insights </h1>
+<h1>Health Tips</h1>
 
 <p>
-  Our model predicts the likelihood of someone having health insurance based on
-  features such as <strong>age</strong>, <strong>income</strong>,
-  <strong>routine check-ups</strong>, and other demographic indicators.
-  Below are concise, actionable tips grounded in what the data shows.
+  Empowering healthier lives through practical healthcare tips and meaningful guidance. Explore evidence-based information, prevention strategies, and simple steps you can take to improve your health and well-being.
 </p>
-
-{% if insured_pct is not none %}
-<p>
-  <strong>Dataset snapshot:</strong>
-  Approximately <strong>{{ "%.1f"|format(insured_pct) }}%</strong>
-  of people in the dataset report having had health insurance.
-</p>
-{% endif %}
-
-{% if income_mean %}
-<p>
-  <strong>Insight:</strong>
-  The income bracket with the lowest coverage is
-  <em>{{ income_mean.low_bucket_label }}</em>
-  (about <strong>{{ "%.1f"|format(income_mean.low_bucket_pct) }}%</strong> insured).
-</p>
-{% endif %}
 
 <hr>
 
@@ -73,89 +47,108 @@
 
 <div class="row mt-4">
   <div class="col-md-6 mb-4">
-    <div class="card h-100">
-      <div class="card-body d-flex flex-column">
+    <div class="card h-100 tip-info-card">
+      <!-- Replace this image path with your own: static/images/tips/checkups.jpg -->
+      <div class="tip-card-image" style="--tip-bg: url('https://images.unsplash.com/photo-1631507623121-eaaba8d4e7dc?w=1200&auto=format&fit=crop&q=80');"></div>
+      <div class="card-body d-flex flex-column tip-card-content">
         <h5 class="card-title"> Regular Check-ups Matter</h5>
         <p class="card-text">
           People who schedule routine health check-ups are significantly more likely to have
           health insurance coverage. Regular preventive care helps catch issues early.
         </p>
-        <a href="{{ url_for('health_tip_detail', tip_id=1) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
+      </div>
+      <div class="tip-card-action">
+        <a href="{{ url_for('health_tip_detail', tip_id=1) }}" class="tip-read-more-link">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card h-100">
-      <div class="card-body d-flex flex-column">
+    <div class="card h-100 tip-info-card">
+      <div class="tip-card-image" style="--tip-bg: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1170&auto=format&fit=crop');"></div>
+      <div class="card-body d-flex flex-column tip-card-content">
         <h5 class="card-title"> Income & Insurance Coverage</h5>
         <p class="card-text">
           Data shows a strong correlation between income levels and insurance coverage.
           Lower-income households often face barriers to accessing affordable coverage.
         </p>
-        <a href="{{ url_for('health_tip_detail', tip_id=2) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
+      </div>
+      <div class="tip-card-action">
+        <a href="{{ url_for('health_tip_detail', tip_id=2) }}" class="tip-read-more-link">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card h-100">
-      <div class="card-body d-flex flex-column">
+    <div class="card h-100 tip-info-card">
+      <div class="tip-card-image" style="--tip-bg: url('https://media.istockphoto.com/id/2205617489/photo/happy-healthcare-worker-designing-a-dental-mold-at-a-3d-laboratory.jpg?s=612x612&w=is&k=20&c=IM_y5PgeM09AoEJI3x1wtxtoewHm-hZe6qHqLqpu2CA=');"></div>
+      <div class="card-body d-flex flex-column tip-card-content">
         <h5 class="card-title"> Don't Neglect Dental Health</h5>
         <p class="card-text">
           Dental check-ups are an important indicator of overall health consciousness.
           Poor oral health can lead to serious systemic health issues.
         </p>
-        <a href="{{ url_for('health_tip_detail', tip_id=3) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
+      </div>
+      <div class="tip-card-action">
+        <a href="{{ url_for('health_tip_detail', tip_id=3) }}" class="tip-read-more-link">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card h-100">
-      <div class="card-body d-flex flex-column">
+    <div class="card h-100 tip-info-card">
+      <div class="tip-card-image" style="--tip-bg: url('https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=1200&auto=format&fit=crop&q=80');"></div>
+      <div class="card-body d-flex flex-column tip-card-content">
         <h5 class="card-title"> Mental Health Support</h5>
         <p class="card-text">
           Mental health is as important as physical health. Access to mental health
           support correlates with better overall health outcomes and insurance coverage.
         </p>
-        <a href="{{ url_for('health_tip_detail', tip_id=4) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
+      </div>
+      <div class="tip-card-action">
+        <a href="{{ url_for('health_tip_detail', tip_id=4) }}" class="tip-read-more-link">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card h-100">
-      <div class="card-body d-flex flex-column">
+    <div class="card h-100 tip-info-card">
+      <div class="tip-card-image" style="--tip-bg: url('https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1200&auto=format&fit=crop&q=80');"></div>
+      <div class="card-body d-flex flex-column tip-card-content">
         <h5 class="card-title"> Cancer Screening Saves Lives</h5>
         <p class="card-text">
           Early detection through regular cancer screenings dramatically improves treatment
           outcomes and survival rates.
         </p>
-        <a href="{{ url_for('health_tip_detail', tip_id=5) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
+      </div>
+      <div class="tip-card-action">
+        <a href="{{ url_for('health_tip_detail', tip_id=5) }}" class="tip-read-more-link">Read More</a>
       </div>
     </div>
   </div>
 
   <div class="col-md-6 mb-4">
-    <div class="card h-100">
-      <div class="card-body d-flex flex-column">
+    <div class="card h-100 tip-info-card">
+      <div class="tip-card-image" style="--tip-bg: url('https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=1200&auto=format&fit=crop&q=80');"></div>
+      <div class="card-body d-flex flex-column tip-card-content">
         <h5 class="card-title"> Healthcare Knowledge is Power</h5>
         <p class="card-text">
           Understanding healthcare systems, insurance options, and your rights as a patient
           helps you make better decisions about your health and coverage.
         </p>
-        <a href="{{ url_for('health_tip_detail', tip_id=6) }}" class="btn btn-sm btn-primary mt-auto">Read More</a>
+      </div>
+      <div class="tip-card-action">
+        <a href="{{ url_for('health_tip_detail', tip_id=6) }}" class="tip-read-more-link">Read More</a>
       </div>
     </div>
   </div>
 </div>
 
-<blockquote class="mt-4 p-3 bg-light border-left">
-  <strong>Disclaimer:</strong> This page provides high-level, data-driven guidance.
-  It is not medical or financial advice — consult healthcare professionals
-  or licensed insurance advisors for personalized assistance.
-</blockquote>
+<div class="mt-2 mb-4 text-center">
+  <a href="{{ url_for('eda') }}" class="btn btn-outline-primary">
+    <i class="fas fa-chart-line"></i> Tap to View Data Insights
+  </a>
+</div>
 
 {% endif %}
 

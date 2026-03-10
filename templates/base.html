@@ -40,7 +40,6 @@
         <li><a href="{{ url_for('blog') }}"{% if request.endpoint == 'blog' %} class="active" aria-current="page"{% endif %}>Insurance Guide</a></li>
         <li><a href="{{ url_for('health_tips') }}"{% if request.endpoint == 'health_tips' or request.endpoint == 'health_tip_detail' %} class="active" aria-current="page"{% endif %}>Health Tips</a></li>
         <li><a href="{{ url_for('contact') }}"{% if request.endpoint == 'contact' %} class="active" aria-current="page"{% endif %}>Messages</a></li>
-        <li><a href="{{ url_for('eda') }}"{% if request.endpoint == 'eda' %} class="active" aria-current="page"{% endif %}>Data Insights</a></li>
         {% if session.logged_in %}
             <li><a href="{{ url_for('assess') }}"{% if request.endpoint == 'assess' %} class="active" aria-current="page"{% endif %}>
                 <i class="fas fa-heartbeat" aria-hidden="true"></i> Risk Assessment
@@ -122,7 +121,6 @@
                 <li><a href="{{ url_for('assess') if session.logged_in else url_for('register') }}"><i class="fas fa-angle-right" aria-hidden="true"></i> Risk Assessment</a></li>
                 <li><a href="{{ url_for('health_tips') }}"><i class="fas fa-angle-right" aria-hidden="true"></i> Health Tips</a></li>
                 <li><a href="{{ url_for('blog') }}"><i class="fas fa-angle-right" aria-hidden="true"></i> Insurance Guide</a></li>
-                <li><a href="{{ url_for('eda') }}"><i class="fas fa-angle-right" aria-hidden="true"></i> Data Insights</a></li>
             </ul>
         </div>
 

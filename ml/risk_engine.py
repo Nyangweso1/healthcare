@@ -376,25 +376,27 @@ class RiskAssessmentEngine:
         
         # Specific recommendations based on risk factors
         for factor in risk_factors:
-            if "low" in factor.lower() and "income" in factor.lower():
+            factor_lower = factor.lower()
+
+            if "low" in factor_lower and "income" in factor_lower:
                 recommendations.append(" Seek government subsidies or income-based insurance plans")
             
-            if "unemployed" in factor.lower() or "employment" in factor.lower():
+            if "unemployed" in factor_lower or "employment" in factor_lower:
                 recommendations.append(" Join cooperative insurance schemes or community health funds")
             
-            if "preventive care" in factor.lower() or "routine" in factor.lower():
+            if "preventive care" in factor_lower or "routine" in factor_lower:
                 recommendations.extend([
                     "🩺 Schedule regular health checkups to detect issues early",
                     " Learn about preventive healthcare and available screening programs"
                 ])
             
-            if "hospital visit" in factor.lower():
+            if "hospital visit" in factor_lower:
                 recommendations.append(" Visit nearby health facilities for routine wellness checks")
             
-            if "family size" in factor.lower() or "children" in factor.lower():
+            if "family size" in factor_lower or "children" in factor_lower:
                 recommendations.append(" Explore family health insurance plans with dependent coverage")
             
-            if "rural" in factor.lower() or "location" in factor.lower():
+            if "rural" in factor_lower or "location" in factor_lower:
                 recommendations.append(" Access mobile clinic services and rural health programs")
         
         # Remove duplicates while preserving order
@@ -425,12 +427,9 @@ class RiskAssessmentEngine:
         employment = user_data.get('Employment Status', '')
         age = user_data.get('Age', 0)
         chronic = user_data.get('chronic_illness', 'None')
-        family_size = user_data.get('family_size', 1)
-        children = user_data.get('num_children', 0)
         
         # NHIF (National Hospital Insurance Fund) - Government scheme
         # Most common in dataset (5325 people), suitable for all Kenyans
-        nhif_eligible = True
         nhif_reason = "Government-mandated health insurance for all Kenyans"
         if employment == 'Employed':
             nhif_reason = "Mandatory for employed individuals, contributions deducted from salary"
@@ -461,27 +460,27 @@ class RiskAssessmentEngine:
         
         # Private insurance recommendations based on income
         if income >= 40000:
-            # Britam (125 people in dataset)
-            eligible_options.append({
-                'name': 'Britam Insurance',
-                'priority': 'Recommended',
-                'reason': 'Comprehensive private cover for middle to high-income earners',
-                'coverage': 'Inpatient, outpatient, dental, optical, maternity',
-                'estimated_cost': 'KES 3,000 - 15,000/month',
-                'website': 'https://www.britam.com',
-                'learn_more': '/blog#private-insurance-comparison'
-            })
-            
-            # Jubilee Insurance (149 people in dataset)
-            eligible_options.append({
-                'name': 'Jubilee Insurance',
-                'priority': 'Recommended',
-                'reason': 'Wide network of hospitals, good for families',
-                'coverage': 'Comprehensive medical, dental, optical',
-                'estimated_cost': 'KES 3,500 - 12,000/month',
-                'website': 'https://www.jubileeinsurance.com/ke',
-                'learn_more': '/blog#family-insurance-plans'
-            })
+            # Britam (125 people in dataset) and Jubilee (149 people in dataset)
+            eligible_options.extend([
+                {
+                    'name': 'Britam Insurance',
+                    'priority': 'Recommended',
+                    'reason': 'Comprehensive private cover for middle to high-income earners',
+                    'coverage': 'Inpatient, outpatient, dental, optical, maternity',
+                    'estimated_cost': 'KES 3,000 - 15,000/month',
+                    'website': 'https://www.britam.com',
+                    'learn_more': '/blog#private-insurance-comparison'
+                },
+                {
+                    'name': 'Jubilee Insurance',
+                    'priority': 'Recommended',
+                    'reason': 'Wide network of hospitals, good for families',
+                    'coverage': 'Comprehensive medical, dental, optical',
+                    'estimated_cost': 'KES 3,500 - 12,000/month',
+                    'website': 'https://www.jubileeinsurance.com/ke',
+                    'learn_more': '/blog#family-insurance-plans'
+                }
+            ])
         
         if income >= 50000 or employment == 'Employed':
             # APA Insurance (108 people in dataset)
@@ -544,6 +543,8 @@ class RiskAssessmentEngine:
             })
         
         # Family packages for large families
+        family_size = user_data.get('family_size', 1)
+        children = user_data.get('num_children', 0)
         if family_size > 4 or children > 2:
             eligible_options.append({
                 'name': 'Family Health Package (Various Providers)',

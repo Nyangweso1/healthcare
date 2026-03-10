@@ -28,6 +28,13 @@ def preprocess_data(input_path="data/Healthcare Dataset.xlsx", output_path="data
     logger.info("=" * 60)
     logger.info("HEALTHCARE INSURANCE RISK PREDICTION - DATA PREPROCESSING")
     logger.info("=" * 60)
+
+    def _impute_columns(dataframe, columns, strategy):
+        """Impute a set of columns with a given strategy."""
+        if not columns:
+            return
+        imputer = SimpleImputer(strategy=strategy)
+        dataframe[columns] = imputer.fit_transform(dataframe[columns])
     
     # ========== STEP 1: LOAD DATASET ==========
     logger.info("\n[1/7] Loading dataset...")
@@ -86,7 +93,7 @@ def preprocess_data(input_path="data/Healthcare Dataset.xlsx", output_path="data
         logger.warning(f"⚠ {df['insured'].isnull().sum()} missing values in target - dropping these rows")
         df = df.dropna(subset=['insured'])
     
-    logger.info(f"✓ Target variable created:")
+    logger.info("✓ Target variable created:")
     logger.info(f"  - Insured (1): {(df['insured'] == 1).sum()} ({(df['insured'] == 1).sum()/len(df)*100:.1f}%)")
     logger.info(f"  - Uninsured (0): {(df['insured'] == 0).sum()} ({(df['insured'] == 0).sum()/len(df)*100:.1f}%)")
     
@@ -108,15 +115,13 @@ def preprocess_data(input_path="data/Healthcare Dataset.xlsx", output_path="data
     logger.info(f"✓ Categorical columns: {len(categorical_cols)}")
     
     # Impute numerical columns with median
+    _impute_columns(df, numerical_cols, 'median')
     if numerical_cols:
-        num_imputer = SimpleImputer(strategy='median')
-        df[numerical_cols] = num_imputer.fit_transform(df[numerical_cols])
         logger.info(f"✓ Imputed {len(numerical_cols)} numerical columns with median")
     
     # Impute categorical columns with most frequent value
+    _impute_columns(df, categorical_cols, 'most_frequent')
     if categorical_cols:
-        cat_imputer = SimpleImputer(strategy='most_frequent')
-        df[categorical_cols] = cat_imputer.fit_transform(df[categorical_cols])
         logger.info(f"✓ Imputed {len(categorical_cols)} categorical columns with most_frequent")
     
     # ========== STEP 5: FEATURE ENGINEERING ==========
@@ -234,7 +239,7 @@ def preprocess_data(input_path="data/Healthcare Dataset.xlsx", output_path="data
     logger.info(f"✓ Dataset saved to: {output_path}")
     logger.info(f"✓ Final shape: {df.shape}")
     logger.info(f"✓ Features (X): {df.shape[1] - 1} columns")
-    logger.info(f"✓ Target (y): insured (binary: 0=uninsured, 1=insured)")
+    logger.info("✓ Target (y): insured (binary: 0=uninsured, 1=insured)")
     
     # Display feature summary
     logger.info("\n" + "=" * 60)
@@ -242,7 +247,7 @@ def preprocess_data(input_path="data/Healthcare Dataset.xlsx", output_path="data
     logger.info("=" * 60)
     logger.info(f"Total samples: {len(df)}")
     logger.info(f"Total features: {df.shape[1] - 1}")
-    logger.info(f"Target distribution:")
+    logger.info("Target distribution:")
     logger.info(f"  Insured: {(df['insured']==1).sum()}")
     logger.info(f"  Uninsured: {(df['insured']==0).sum()}")
     
