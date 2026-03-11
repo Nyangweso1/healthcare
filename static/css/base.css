@@ -218,6 +218,18 @@ body::before {
     color: #ffffff;
 }
 
+.nav-register-link {
+    color: #ffffff;
+    border: 2px solid var(--primary);
+    background: var(--primary);
+}
+
+.nav-register-link:hover {
+    background: #084298;
+    border-color: #084298;
+    color: #ffffff;
+}
+
 .nav-logout-link {
     color: #dc3545;
     border: 2px solid #dc3545;
