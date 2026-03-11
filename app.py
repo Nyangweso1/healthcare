@@ -7,7 +7,7 @@ import contextlib
 import traceback
 import io
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 from ml.risk_engine import RiskAssessmentEngine
 import logging
 
@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = "healthcare_insurance_risk_secret_key_2026"
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
 # Database configuration
 DATABASE = 'instance/users.db'
@@ -148,14 +149,18 @@ def index():
 def register():
     """User registration."""
     if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
+        username = (request.form.get('username') or '').strip()
+        email = (request.form.get('email') or '').strip().lower()
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         
         # Validation
         if not username or not email or not password:
             flash('All fields are required!', 'danger')
+            return redirect(url_for('register'))
+
+        if len(username) < 3:
+            flash('Username must be at least 3 characters long.', 'danger')
             return redirect(url_for('register'))
         
         if password != confirm_password:
@@ -166,21 +171,26 @@ def register():
         hashed_password = generate_password_hash(password)
         
         # Insert into database
+        conn = get_db_connection()
         try:
-            conn = get_db_connection()
+            existing = conn.execute(
+                'SELECT id FROM users WHERE lower(username) = ? OR lower(email) = ?',
+                (username.lower(), email)
+            ).fetchone()
+            if existing:
+                flash('Username or email already exists!', 'danger')
+                return redirect(url_for('register'))
+
             conn.execute(
                 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
                 (username, email, hashed_password)
             )
             conn.commit()
-            conn.close()
-            
-            flash('Registration successful! Please log in.', 'success')
+
+            flash('Registration successful! Please log in with your username or email.', 'success')
             return redirect(url_for('login'))
-        
-        except sqlite3.IntegrityError:
-            flash('Username or email already exists!', 'danger')
-            return redirect(url_for('register'))
+        finally:
+            conn.close()
     
     return render_template('register.html')
 
@@ -189,8 +199,9 @@ def register():
 def login():
     """User login."""
     if request.method == 'POST':
-        username = request.form.get('username')
+        username = (request.form.get('username') or '').strip()
         password = request.form.get('password')
+        remember_me = request.form.get('remember_me') == 'on'
         
         # Validation
         if not username or not password:
@@ -199,17 +210,38 @@ def login():
         
         # Check credentials
         conn = get_db_connection()
-        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+        user = conn.execute(
+            'SELECT * FROM users WHERE lower(username) = ? OR lower(email) = ?',
+            (username.lower(), username.lower())
+        ).fetchone()
         conn.close()
         
-        if user and check_password_hash(user['password'], password):
+        is_valid_login = False
+        if user:
+            stored_password = user['password']
+            # Normal flow: hashed password verification.
+            if check_password_hash(stored_password, password):
+                is_valid_login = True
+            # Backward compatibility: support legacy plain-text passwords and re-hash.
+            elif stored_password == password:
+                is_valid_login = True
+                conn = get_db_connection()
+                conn.execute(
+                    'UPDATE users SET password = ? WHERE id = ?',
+                    (generate_password_hash(password), user['id'])
+                )
+                conn.commit()
+                conn.close()
+
+        if is_valid_login:
             # Set session
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['is_admin'] = user['is_admin']
             session['logged_in'] = True
+            session.permanent = remember_me
             
-            flash(f'Welcome back, {username}!', 'success')
+            flash(f"Welcome back, {user['username']}!", 'success')
             return redirect(url_for('index'))
         else:
             flash('Invalid username or password!', 'danger')

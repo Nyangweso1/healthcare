@@ -40,13 +40,13 @@
             <form method="POST" action="{{ url_for('login') }}" novalidate>
 
                 <div class="auth-input-group">
-                    <label for="username">Username</label>
+                    <label for="username">Username or Email</label>
                     <i class="fas fa-user input-icon" aria-hidden="true"></i>
                     <input
                         type="text"
                         id="username"
                         name="username"
-                        placeholder="Enter your username"
+                        placeholder="Enter your username or email"
                         autocomplete="username"
                         required
                     >
@@ -63,6 +63,11 @@
                         autocomplete="current-password"
                         required
                     >
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="on" id="remember_me" name="remember_me">
+                    <label class="form-check-label" for="remember_me">Remember me on this device</label>
                 </div>
 
                 <button type="submit" class="auth-submit-btn">
