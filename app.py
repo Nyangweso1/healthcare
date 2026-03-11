@@ -173,11 +173,10 @@ def register():
         # Insert into database
         conn = get_db_connection()
         try:
-            existing = conn.execute(
+            if existing := conn.execute(
                 'SELECT id FROM users WHERE lower(username) = ? OR lower(email) = ?',
                 (username.lower(), email)
-            ).fetchone()
-            if existing:
+            ).fetchone():
                 flash('Username or email already exists!', 'danger')
                 return redirect(url_for('register'))
 
@@ -409,12 +408,6 @@ def history():
     return render_template('history.html', 
                           assessments=assessments,
                           username=session.get('username'))
-
-
-@app.route('/about')
-def about():
-    """Redirect deprecated about page to home."""
-    return redirect(url_for('index'))
 
 
 @app.route('/blog')
