@@ -1,7 +1,3 @@
-# Healthcare Insurance Risk Prediction System
-# Requirements file with all necessary Python dependencies
-# Generated: January 3, 2026
-
 # Core Web Framework
 Flask==3.0.0
 Werkzeug==3.0.1
