@@ -12,7 +12,6 @@
 
     const liveStatus = document.getElementById("liveStatus");
     const lastUpdatedEl = document.getElementById("lastUpdated");
-    const preventiveNote = document.getElementById("preventiveCareNote");
     let lastRefreshAt = Date.now();
 
     const setLastUpdatedText = () => {
@@ -234,53 +233,6 @@
             }
         }
     });
-
-    const preventive = data.preventive_care_impact || {};
-    makeChart("preventiveCareChart", {
-        type: "line",
-        _empty: !hasPoints(preventive.labels),
-        data: {
-            labels: preventive.labels || [],
-            datasets: [
-                {
-                    label: "Coverage Rate (%)",
-                    data: preventive.coverage || [],
-                    borderColor: "#6f42c1",
-                    backgroundColor: "rgba(111, 66, 193, 0.16)",
-                    fill: true,
-                    tension: 0.3,
-                    pointRadius: 3
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: true, suggestedMax: 100 },
-                x: { title: { display: true, text: "Preventive care score" } }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        afterLabel: function (ctx) {
-                            const count = (preventive.counts || [])[ctx.dataIndex];
-                            return `Records: ${count || 0}`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    if (preventiveNote && hasPoints(preventive.labels) && hasPoints(preventive.coverage)) {
-        const labels = preventive.labels.map((v) => Number(v));
-        const coverage = preventive.coverage.map((v) => Number(v));
-        const minIdx = coverage.indexOf(Math.min.apply(null, coverage));
-        const maxIdx = coverage.indexOf(Math.max.apply(null, coverage));
-        const delta = (coverage[maxIdx] - coverage[minIdx]).toFixed(1);
-        preventiveNote.textContent = `Insight: coverage rises from ${coverage[minIdx]}% at score ${labels[minIdx]} to ${coverage[maxIdx]}% at score ${labels[maxIdx]} (change: ${delta}%).`;
-    }
 
     setLastUpdatedText();
 
