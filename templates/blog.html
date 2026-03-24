@@ -65,7 +65,13 @@
       </ul>
       <p>
         If dependent records are incomplete, facilities may deny family treatment even when your own contribution is active.
-      </p>
+      <Main Content Wrapper (conditionally narrowed if results sidebar exists) -->
+  {% if has_results and result %}
+  <div class="row">
+    <div class="col-lg-8">
+  {% endif %}
+
+  <!-- /p>
 
       <h5>Primary Healthcare Fund (PHC) Advantage</h5>
       <p>

@@ -36,6 +36,18 @@ except Exception as e:
     risk_engine = None
 
 
+# ==================== CONTEXT PROCESSOR ====================
+
+@app.context_processor
+def inject_assessment_results():
+    """Make assessment results available to all templates."""
+    return {
+        'has_results': session.get('assessment_result') is not None,
+        'assessment_result': session.get('assessment_result'),
+        'assessment_user_data': session.get('user_data')
+    }
+
+
 # ==================== DATABASE FUNCTIONS ====================
 
 def init_db():

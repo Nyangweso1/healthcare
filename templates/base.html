@@ -72,6 +72,41 @@
     </div>
 </nav>
 
+<!-- Results Navbar (Sticky - appears when user has assessment results) -->
+{% if has_results and assessment_result %}
+<div class="results-navbar" style="position: sticky; top: 0; z-index: 99; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+    <div class="container-fluid px-3">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-auto">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600;">
+                         ASSESSMENT RESULTS
+                    </div>
+                    <span style="font-size: 14px;">
+                        Risk Level: 
+                        {% if assessment_result.risk_level == 'HIGH RISK' %}
+                            <strong style="color: #ff6b6b;">🔴 {{ assessment_result.risk_level }}</strong>
+                        {% elif assessment_result.risk_level == 'MEDIUM RISK' %}
+                            <strong style="color: #ffd93d;">🟡 {{ assessment_result.risk_level }}</strong>
+                        {% else %}
+                            <strong style="color: #6bcf7f;">🟢 {{ assessment_result.risk_level }}</strong>
+                        {% endif %}
+                    </span>
+                    <span style="margin-left: 8px; font-size: 14px; opacity: 0.95;">
+                        · {{ (assessment_result.probability * 100) | round(1) }}% uninsured risk
+                    </span>
+                </div>
+            </div>
+            <div class="col-auto">
+                <a href="{{ url_for('results') }}" class="btn btn-sm" style="background: white; color: #667eea; border: none; font-weight: 600; padding: 6px 16px; border-radius: 20px; text-decoration: none;">
+                    View Full Results →
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <!-- Flash Messages (global) -->
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
