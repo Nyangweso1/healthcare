@@ -12,30 +12,35 @@
     <div class="hero-content">
         <h1>Simplifying Your Path to Better Care</h1>
         <p class="hero-subtitle"><strong>
-        Don't leave your health to chance. Our platform analyzes your medical needs, lifestyle factors, and financial situation to help you understand your health risks and find the right insurance coverage in Kenya. Through data-driven insights, we provide personalized health tips, prevention guidance, and smart insurance recommendations to support better health decisions.
+        Don't leave your health to chance. HealthSecure analyzes your health profile and gives fast, practical insurance guidance for Kenyan households.
         </strong></p>
-           <div class="cta-buttons">
+        <div class="cta-buttons">
             {% if session.logged_in %}
                 <a class="btn-cta btn-cta-primary" href="{{ url_for('assess') }}">
-                 Start Risk Assessment
+                 Start Your Assessment Now
                 </a>
-                <a class="btn-cta btn-cta-secondary" href="{{ url_for('history') }}">
+                <a class="btn-cta btn-cta-secondary btn-cta-subtle" href="{{ url_for('history') }}">
                     View History
                 </a>
                 {% if session.is_admin == 1 %}
-                <a class="btn-cta btn-cta-admin" href="{{ url_for('admin_dashboard') }}">
+                <a class="btn-cta btn-cta-admin btn-cta-subtle" href="{{ url_for('admin_dashboard') }}">
                     Admin Dashboard
                 </a>
                 {% endif %}
             {% else %}
                 <a class="btn-cta btn-cta-primary" href="{{ url_for('register') }}">
-                    <i class="fas fa-rocket"></i> Get Started Free
+                    <i class="fas fa-rocket"></i> Start Your Assessment Now
                 </a>
-                <a class="btn-cta btn-cta-secondary" href="{{ url_for('login') }}">
+                <a class="btn-cta btn-cta-secondary btn-cta-subtle" href="{{ url_for('login') }}">
                     Member Login
                 </a>
             {% endif %}
         </div>
+        <ul class="cta-microcopy" aria-label="Assessment quick facts">
+            <li><i class="fas fa-clock"></i> Takes less than 2 minutes</li>
+            <li><i class="fas fa-file-medical"></i> No medical records required</li>
+            <li><i class="fas fa-bolt"></i> Instant personalized results</li>
+        </ul>
     </div>
 </section>
 
@@ -44,24 +49,33 @@
     <div class="section-container">
         <div class="how-it-works-header">
             <h2>How HealthSecure Works</h2>
-            <p>Understand the complete process in simple paragraphs from data entry to recommendation output.</p>
+            <p>From first input to final recommendation, your journey is clear, fast, and easy to follow.</p>
         </div>
-        <div class="how-it-works-copy">
-            <p>
-                You begin by completing a guided risk assessment form that captures important details such as age,
-                household income, health history, and preventive-care habits. This information creates a complete profile
-                that helps the platform understand your healthcare needs clearly and accurately.
-            </p>
-            <p>
-                After submission, HealthSecure analyzes your data using cleaned healthcare patterns and prediction logic.
-                The system evaluates risk indicators, compares trend behavior, and generates practical insights that
-                connect your current health profile with realistic insurance planning options.
-            </p>
-            <p>
-                Finally, you receive easy-to-read results that include risk interpretation, insurance guidance, and
-                recommended follow-up actions. You can continue learning through Data Insights, Health Tips, and Messages
-                to make better long-term health decisions.
-            </p>
+        <div class="how-it-works-steps" role="list" aria-label="How HealthSecure works in four steps">
+            <article class="step-card reveal-on-scroll" role="listitem">
+                <span class="step-number">1</span>
+                <div class="step-icon"><i class="fas fa-notes-medical"></i></div>
+                <h3>Fill Health Assessment</h3>
+                <p>Answer a short guided form about your profile, preventive habits, and health background.</p>
+            </article>
+            <article class="step-card reveal-on-scroll" role="listitem">
+                <span class="step-number">2</span>
+                <div class="step-icon"><i class="fas fa-brain"></i></div>
+                <h3>Data Analysis by AI</h3>
+                <p>Our prediction engine evaluates key indicators and compares trends from cleaned healthcare data.</p>
+            </article>
+            <article class="step-card reveal-on-scroll" role="listitem">
+                <span class="step-number">3</span>
+                <div class="step-icon"><i class="fas fa-gauge-high"></i></div>
+                <h3>Get Risk Score</h3>
+                <p>Receive an easy-to-read risk score with plain-language interpretation of what it means for you.</p>
+            </article>
+            <article class="step-card reveal-on-scroll" role="listitem">
+                <span class="step-number">4</span>
+                <div class="step-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                <h3>Receive Recommendations</h3>
+                <p>Get personalized prevention and insurance recommendations you can apply immediately.</p>
+            </article>
         </div>
     </div>
 </section>
@@ -70,31 +84,31 @@
 <section class="features-section">
     <div class="section-container">
         <div class="features-grid">
-            <div class="feature-card">
+            <div class="feature-card reveal-on-scroll">
                 <div class="feature-icon">
                     <i class="fa-solid fa-filter"></i>
                 </div>
                 <h3>Smart Risk AI</h3>
                 <p>We analyze 50+ data points to calculate your insurance risk score.</p>
-                <a href="{{ url_for('blog') }}" class="feature-link">How it works →</a>
+                <a href="{{ url_for('blog') }}" class="feature-link">Learn More →</a>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card reveal-on-scroll">
                 <div class="feature-icon">
                     <i class="fa-solid fa-handshake"></i>
                 </div>
                 <h3>Health Tips</h3>
                 <p>Personalized preventive care advice to keep your premiums low.</p>
-                <a href="{{ url_for('health_tips') }}" class="feature-link">Explore Tips →</a>
+                <a href="{{ url_for('health_tips') }}" class="feature-link">Learn More →</a>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card reveal-on-scroll">
                 <div class="feature-icon">
                     <i class="fa-solid fa-list"></i>
                 </div>
                 <h3>Messages</h3>
                 <p>Understand preventive care choices that improve long-term outcomes.</p>
-                <a href="{{ url_for('health_tips') }}" class="feature-link">Explore Health Tips →</a>
+                <a href="{{ url_for('health_tips') }}" class="feature-link">Learn More →</a>
             </div>
         </div>
     </div>
@@ -110,6 +124,7 @@
                 <p class="trust-intro">
                     Our recommendations are based on healthcare research and secure data analysis to help you make informed health decisions.
                 </p>
+                <p class="trust-tagline"><i class="fas fa-people-group"></i> Trusted by Kenyan households</p>
             </div>
 
             <div class="trust-points" role="list" aria-label="HealthSecure trust points">
@@ -156,21 +171,30 @@
             <h2>Data Insights</h2>
             <p>See clear, data-based trends on insurance coverage and health behavior to support better healthcare decisions.</p>
         </div>
-        <div class="insights-preview-content">
+        <div class="insights-preview-content reveal-on-scroll">
             <h3>Key Viewpoints</h3>
-            <p>
-                <strong>Coverage by income:</strong> The dashboard highlights how insurance access changes across income groups,
-                helping you compare where financial support may be needed most.
-            </p>
-            <p>
-                <strong>Preventive care impact:</strong> Regular checkups and preventive habits are linked with healthier outcomes,
-                lower emergency pressure, and better long-term planning.
-            </p>
-            <p>
-                <strong>From insights to action:</strong> After reviewing trends, continue to
-                <a class="insights-inline-link" href="{{ url_for('health_tips') }}">Health Tips</a>
-                and Messages for practical steps you can apply in daily life.
-            </p>
+            <div class="insights-bullets" role="list" aria-label="Data insight highlights">
+                <div class="insight-bullet" role="listitem"><i class="fas fa-chart-pie"></i> Coverage varies significantly across income groups.</div>
+                <div class="insight-bullet" role="listitem"><i class="fas fa-heart-pulse"></i> Preventive care is linked with stronger long-term outcomes.</div>
+                <div class="insight-bullet" role="listitem"><i class="fas fa-lightbulb"></i> Insight-driven planning reduces avoidable healthcare costs.</div>
+            </div>
+            <div class="insight-stat-grid" aria-label="Highlighted data statistics">
+                <article class="insight-stat-card">
+                    <span class="insight-stat-icon"><i class="fas fa-percent"></i></span>
+                    <h4>40%</h4>
+                    <p>Potential reduction in out-of-pocket spending with risk planning.</p>
+                </article>
+                <article class="insight-stat-card">
+                    <span class="insight-stat-icon"><i class="fas fa-shield-heart"></i></span>
+                    <h4>50+ Inputs</h4>
+                    <p>Data points reviewed to personalize your health risk profile.</p>
+                </article>
+                <article class="insight-stat-card">
+                    <span class="insight-stat-icon"><i class="fas fa-stopwatch"></i></span>
+                    <h4>&lt; 2 min</h4>
+                    <p>Average time needed to complete and receive your first results.</p>
+                </article>
+            </div>
             <div class="insights-actions">
                 <a class="insights-link" href="{{ url_for('eda') }}">Open Data Insights</a>
                 <a class="insights-link" href="{{ url_for('contact') }}">Open Messages</a>
@@ -243,8 +267,41 @@
             <a href="{{ url_for('assess') if session.logged_in else url_for('register') }}" class="btn-cta btn-cta-large">
                 <i class="fas fa-heartbeat"></i> Start Your Assessment Now
             </a>
+            <ul class="cta-microcopy cta-microcopy-light" aria-label="Assessment quick facts">
+                <li><i class="fas fa-clock"></i> Takes less than 2 minutes</li>
+                <li><i class="fas fa-file-medical"></i> No medical records required</li>
+                <li><i class="fas fa-bolt"></i> Instant personalized results</li>
+            </ul>
         </div>
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var revealItems = document.querySelectorAll(".reveal-on-scroll");
+    if (!revealItems.length || !("IntersectionObserver" in window)) {
+        revealItems.forEach(function (el) { el.classList.add("is-visible"); });
+        return;
+    }
+
+    var observer = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                obs.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: "0px 0px -30px 0px"
+    });
+
+    revealItems.forEach(function (el) {
+        observer.observe(el);
+    });
+});
+</script>
 {% endblock %}

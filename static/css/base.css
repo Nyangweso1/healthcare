@@ -610,7 +610,7 @@ footer {
     margin: 0 auto 40px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: clamp(20px, 3vw, 36px);
+    gap: clamp(28px, 4vw, 44px);
 }
 
 /* Generic reveal animation for cards/sections */
@@ -726,17 +726,17 @@ footer {
 }
 
 .footer-contact-list li {
-    color: #a0aec0;
-    font-size: 0.96rem;
+    color: #dbe7f5;
+    font-size: 1rem;
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 10px;
-    line-height: 1.5;
+    gap: 11px;
+    margin-bottom: 12px;
+    line-height: 1.6;
 }
 
 .footer-contact-list a {
-    color: #a0aec0;
+    color: #dbe7f5;
     text-decoration: none;
     transition: var(--transition);
 }
@@ -747,8 +747,9 @@ footer {
 
 .footer-contact-list i {
     margin-top: 3px;
-    min-width: 16px;
+    min-width: 18px;
     color: #63b3ed;
+    font-size: 1rem;
 }
 
 .footer-emergency {
