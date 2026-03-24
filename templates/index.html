@@ -19,9 +19,6 @@
                 <a class="btn-cta btn-cta-primary" href="{{ url_for('assess') }}">
                  Start Your Assessment Now
                 </a>
-                <a class="btn-cta btn-cta-secondary btn-cta-subtle" href="{{ url_for('history') }}">
-                    View History
-                </a>
                 {% if session.is_admin == 1 %}
                 <a class="btn-cta btn-cta-admin btn-cta-subtle" href="{{ url_for('admin_dashboard') }}">
                     Admin Dashboard
@@ -30,9 +27,6 @@
             {% else %}
                 <a class="btn-cta btn-cta-primary" href="{{ url_for('register') }}">
                     <i class="fas fa-rocket"></i> Start Your Assessment Now
-                </a>
-                <a class="btn-cta btn-cta-secondary btn-cta-subtle" href="{{ url_for('login') }}">
-                    Member Login
                 </a>
             {% endif %}
         </div>

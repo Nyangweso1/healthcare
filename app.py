@@ -389,6 +389,77 @@ def results():
                           username=session.get('username'))
 
 
+@app.route('/results/<int:assessment_id>')
+def view_assessment_result(assessment_id):
+    """Display a specific historical result for the logged-in owner only."""
+    if not session.get('logged_in'):
+        flash('Please log in to access your results.', 'warning')
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    assessment = conn.execute(
+        'SELECT * FROM assessments WHERE id = ? AND user_id = ?',
+        (assessment_id, session.get('user_id'))
+    ).fetchone()
+    conn.close()
+
+    if not assessment:
+        flash('Result not found or access denied.', 'danger')
+        return redirect(url_for('history'))
+
+    user_data = {
+        'Age': assessment['age'],
+        'Gender': assessment['gender'],
+        'Marital Status': assessment['marital_status'],
+        'Employment Status': assessment['employment_status'],
+        'Monthly Household Income': assessment['income'],
+        'num_children': assessment['children'],
+        'education_level': assessment['education_level'],
+        'residence_type': assessment['residence_type'],
+        'chronic_illness': assessment['chronic_illness'],
+        'family_size': assessment['family_size'],
+        'healthcare_knowledge': assessment['healthcare_knowledge'],
+        'hospital_visit_gap': assessment['hospital_visit_gap'],
+        'routine_check': assessment['routine_checkups'],
+        'cancer_screening': assessment['cancer_screening'],
+        'dental_checkup': assessment['dental_checkup'],
+        'mental_health_support': assessment['mental_health_support'],
+    }
+    user_data['preventive_care_score'] = (
+        int(user_data['routine_check'] or 0)
+        + int(user_data['cancer_screening'] or 0)
+        + int(user_data['dental_checkup'] or 0)
+        + int(user_data['mental_health_support'] or 0)
+    )
+
+    # Start with stored, historical values so the user sees their original outcome.
+    result = {
+        'risk_level': assessment['risk_level'],
+        'insurance_likelihood': round(float(assessment['probability'] or 0.0), 1),
+        'rule_based_score': assessment['rule_based_score'],
+        'rule_based_category': assessment['rule_based_category'],
+    }
+
+    # Enrich with optional explanation/recommendations when engine is available.
+    if risk_engine is not None:
+        with contextlib.suppress(Exception):
+            enriched = risk_engine.predict_risk(user_data)
+            for key in (
+                'interpretation',
+                'eligible_insurance',
+                'rule_based_recommendation',
+                'reasons',
+                'recommendations',
+            ):
+                if key in enriched:
+                    result[key] = enriched[key]
+
+    session['assessment_result'] = result
+    session['user_data'] = user_data
+
+    return redirect(url_for('results'))
+
+
 @app.route('/history')
 def history():
     """Show assessment history from database."""
@@ -480,7 +551,6 @@ def health_tips():
 HEALTH_TIPS_DATA = {
     1: {
         'icon': '', 'title': 'Regular Check-ups Matter',
-        'date': 'February 2026',
         'summary': 'People who schedule routine health check-ups are significantly more likely to have health insurance coverage.',
         'detail': 'Regular preventive care helps catch issues early and can reduce long-term healthcare costs. Studies consistently show that individuals who engage with the healthcare system proactively are more likely to maintain continuous insurance coverage and better health outcomes.',
         'points': [
@@ -492,7 +562,6 @@ HEALTH_TIPS_DATA = {
     },
     2: {
         'icon': '', 'title': 'Income & Insurance Coverage',
-        'date': 'February 2026',
         'summary': 'Data shows a strong correlation between income levels and insurance coverage.',
         'detail': 'Lower-income households often face significant barriers to accessing affordable coverage. Government assistance programs and employer-sponsored options can bridge this gap for many families.',
         'points': [
@@ -504,7 +573,6 @@ HEALTH_TIPS_DATA = {
     },
     3: {
         'icon': '', 'title': "Don't Neglect Dental Health",
-        'date': 'February 2026',
         'summary': 'Dental check-ups are an important indicator of overall health consciousness.',
         'detail': 'Poor oral health can lead to serious systemic health issues including cardiovascular disease and diabetes complications. Including dental cover in your insurance plan is highly recommended.',
         'points': [
@@ -516,7 +584,6 @@ HEALTH_TIPS_DATA = {
     },
     4: {
         'icon': '', 'title': 'Mental Health Support',
-        'date': 'February 2026',
         'summary': 'Mental health is as important as physical health.',
         'detail': 'Access to mental health support correlates with better overall health outcomes and insurance coverage. Many Kenyans overlook mental health services — but stress, anxiety, and depression directly affect physical health.',
         'points': [
@@ -528,7 +595,6 @@ HEALTH_TIPS_DATA = {
     },
     5: {
         'icon': '', 'title': 'Cancer Screening Saves Lives',
-        'date': 'February 2026',
         'summary': 'Early detection through regular cancer screenings dramatically improves treatment outcomes and survival rates.',
         'detail': 'Many cancers are highly treatable when caught early. Kenya has seen a rise in cancer cases yet screening rates remain low. Most insurance plans cover basic cancer screenings.',
         'points': [
@@ -540,7 +606,6 @@ HEALTH_TIPS_DATA = {
     },
     6: {
         'icon': '', 'title': 'Healthcare Knowledge is Power',
-        'date': 'February 2026',
         'summary': 'Understanding healthcare systems, insurance options, and your rights as a patient helps you make better decisions.',
         'detail': 'Many uninsured individuals simply do not know what options are available to them. Reading your policy, knowing your benefits, and asking questions are the simplest steps toward better coverage.',
         'points': [
