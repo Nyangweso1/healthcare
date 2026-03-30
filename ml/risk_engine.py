@@ -189,9 +189,11 @@ class RiskAssessmentEngine:
                     "recommendations": []
                 }
             
-            # Predict probability
-            # Probability of class 1 (insured) vs class 0 (uninsured)
-            prob_insured = self.model.predict_proba(input_df)[0][1]
+            # Predict probability using class labels for robustness
+            # Classes: 0 = uninsured, 1 = insured
+            proba = self.model.predict_proba(input_df)[0]
+            class_insured_idx = list(self.model.classes_).index(1) if 1 in self.model.classes_ else 1
+            prob_insured = proba[class_insured_idx]
             prob_uninsured = 1 - prob_insured
             
             # Classify risk level based on uninsured probability

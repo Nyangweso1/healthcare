@@ -447,7 +447,8 @@ def view_assessment_result(assessment_id):
     # Start with stored, historical values so the user sees their original outcome.
     result = {
         'risk_level': assessment['risk_level'],
-        'insurance_likelihood': round(float(assessment['probability'] or 0.0), 1),
+        'probability': round(float(assessment['probability'] or 0.0), 1),  # uninsured %
+        'insurance_likelihood': round(100 - float(assessment['probability'] or 0.0), 1),  # insured %
         'rule_based_score': assessment['rule_based_score'],
         'rule_based_category': assessment['rule_based_category'],
     }

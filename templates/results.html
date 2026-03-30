@@ -18,23 +18,23 @@
                     <h1 class="results-page-title">Your Risk Assessment Results</h1>
                     
                     <div class="risk-score-display">
-                        {% if result.risk_level == 'Low Risk' %}
-                            <div class="risk-badge risk-badge-low">
-                                <i class="fas fa-check-circle"></i> {{ result.risk_level }}
+                        {% if result.insurance_likelihood >= 60 %}
+                            <div class="risk-badge risk-badge-high">
+                                <i class="fas fa-exclamation-circle"></i> High Risk (High Eligibility)
                             </div>
-                        {% elif result.risk_level == 'Medium Risk' %}
+                        {% elif result.insurance_likelihood >= 30 %}
                             <div class="risk-badge risk-badge-medium">
-                                <i class="fas fa-exclamation-triangle"></i> {{ result.risk_level }}
+                                <i class="fas fa-exclamation-triangle"></i> Medium Risk (Medium Eligibility)
                             </div>
                         {% else %}
-                            <div class="risk-badge risk-badge-high">
-                                <i class="fas fa-exclamation-circle"></i> {{ result.risk_level }}
+                            <div class="risk-badge risk-badge-low">
+                                <i class="fas fa-check-circle"></i> Low Risk (Low Eligibility)
                             </div>
                         {% endif %}
                         
                         <div class="insurance-score">
                             <span class="score-number">{{ result.insurance_likelihood }}%</span>
-                            <span class="score-label">Insurance Likelihood Score</span>
+                            <span class="score-label">Insurance Eligibility Score</span>
                         </div>
                     </div>
                     
