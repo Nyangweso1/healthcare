@@ -395,6 +395,19 @@ def results():
         flash('No assessment results found. Please complete an assessment first.', 'warning')
         return redirect(url_for('assess'))
     
+    # Ensure result has all required keys for template
+    required_keys = ['insurance_likelihood', 'probability', 'risk_level', 'interpretation', 'eligible_insurance', 'recommendations', 'reasons']
+    for key in required_keys:
+        if key not in result:
+            if key == 'insurance_likelihood':
+                result[key] = 0.0
+            elif key == 'interpretation':
+                result[key] = 'Assessment complete. Review details below.'
+            elif key in ['recommendations', 'reasons', 'eligible_insurance']:
+                result[key] = []
+            else:
+                result[key] = result.get('probability', 0.0) if key == 'insurance_likelihood' else None
+    
     return render_template('results.html', 
                           result=result, 
                           user_data=user_data,

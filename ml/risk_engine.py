@@ -185,8 +185,14 @@ class RiskAssessmentEngine:
                     "error": "Could not prepare input data",
                     "risk_level": "Unknown",
                     "probability": 0.0,
+                    "insurance_likelihood": 0.0,
                     "reasons": [],
-                    "recommendations": []
+                    "recommendations": [],
+                    "eligible_insurance": [],
+                    "interpretation": "Unable to process your information.",
+                    "rule_based_score": 0,
+                    "rule_based_category": "Unknown",
+                    "rule_based_recommendation": "Please try again with valid information."
                 }
             
             # Predict probability using class labels for robustness
@@ -232,8 +238,14 @@ class RiskAssessmentEngine:
                 "error": str(e),
                 "risk_level": "Unknown",
                 "probability": 0.0,
+                "insurance_likelihood": 0.0,
                 "reasons": [],
-                "recommendations": []
+                "recommendations": [],
+                "eligible_insurance": [],
+                "interpretation": "Unable to complete assessment due to an error.",
+                "rule_based_score": 0,
+                "rule_based_category": "Unknown",
+                "rule_based_recommendation": "Please contact support."
             }
     
     def _classify_risk(self, probability):
