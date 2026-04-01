@@ -197,26 +197,67 @@ class RiskAssessmentEngine:
             
             # Predict probability using class labels for robustness
             # Classes: 0 = uninsured, 1 = insured
-            proba = self.model.predict_proba(input_df)[0]
-            class_insured_idx = list(self.model.classes_).index(1) if 1 in self.model.classes_ else 1
-            prob_insured = proba[class_insured_idx]
-            prob_uninsured = 1 - prob_insured
+            try:
+                proba = self.model.predict_proba(input_df)[0]
+                class_insured_idx = list(self.model.classes_).index(1) if 1 in self.model.classes_ else 1
+                prob_insured = proba[class_insured_idx]
+                prob_uninsured = 1 - prob_insured
+            except Exception as e:
+                logger.error(f"✗ Error during model prediction: {e}")
+                return {
+                    "error": f"Model prediction failed: {str(e)}",
+                    "risk_level": "Unknown",
+                    "probability": 0.0,
+                    "insurance_likelihood": 0.0,
+                    "reasons": [],
+                    "recommendations": [],
+                    "eligible_insurance": [],
+                    "interpretation": "Model prediction failed. Please try again later.",
+                    "rule_based_score": 0,
+                    "rule_based_category": "Unknown",
+                    "rule_based_recommendation": "Contact support if the issue persists."
+                }
             
             # Classify risk level based on uninsured probability
             risk_level = self._classify_risk(prob_uninsured)
             
             # Identify risk factors
-            risk_factors = self._identify_risk_factors(user_data, prob_uninsured)
+            try:
+                risk_factors = self._identify_risk_factors(user_data, prob_uninsured)
+            except Exception as e:
+                logger.warning(f"⚠ Error identifying risk factors: {e}")
+                risk_factors = []
             
             # Get recommendations
-            recommendations = self._get_recommendations(risk_level, risk_factors, user_data)
+            try:
+                recommendations = self._get_recommendations(risk_level, risk_factors, user_data)
+            except Exception as e:
+                logger.warning(f"⚠ Error getting recommendations: {e}")
+                recommendations = []
             
             # Get eligible insurance options
-            eligible_insurance = self._get_eligible_insurance(user_data, risk_level)
+            try:
+                eligible_insurance = self._get_eligible_insurance(user_data, risk_level)
+            except Exception as e:
+                logger.warning(f"⚠ Error getting eligible insurance: {e}")
+                eligible_insurance = []
             
             # Calculate rule-based risk score (Fuliza-like logic)
-            rule_score, rule_category = calculate_risk_score(user_data)
-            rule_recommendation = get_insurance_recommendation(rule_category)
+            try:
+                rule_score, rule_category = calculate_risk_score(user_data)
+                rule_recommendation = get_insurance_recommendation(rule_category)
+            except Exception as e:
+                logger.warning(f"⚠ Error calculating rule-based score: {e}")
+                rule_score = 0
+                rule_category = "Unknown"
+                rule_recommendation = "Contact support"
+            
+            # Get interpretation
+            try:
+                interpretation = self._get_interpretation(risk_level, prob_uninsured)
+            except Exception as e:
+                logger.warning(f"⚠ Error getting interpretation: {e}")
+                interpretation = f"Assessment complete. Risk level: {risk_level}"
             
             # Build response with both ML and rule-based insights
             return {
@@ -226,14 +267,16 @@ class RiskAssessmentEngine:
                 "reasons": risk_factors,
                 "recommendations": recommendations,
                 "eligible_insurance": eligible_insurance,
-                "interpretation": self._get_interpretation(risk_level, prob_uninsured),
+                "interpretation": interpretation,
                 "rule_based_score": int(rule_score),
                 "rule_based_category": rule_category,
                 "rule_based_recommendation": rule_recommendation
             }
             
         except Exception as e:
-            logger.error(f"✗ Error during prediction: {e}")
+            import traceback
+            logger.error(f"✗ Unexpected error during prediction: {e}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
             return {
                 "error": str(e),
                 "risk_level": "Unknown",
@@ -242,7 +285,7 @@ class RiskAssessmentEngine:
                 "reasons": [],
                 "recommendations": [],
                 "eligible_insurance": [],
-                "interpretation": "Unable to complete assessment due to an error.",
+                "interpretation": f"An unexpected error occurred. Please contact support.",
                 "rule_based_score": 0,
                 "rule_based_category": "Unknown",
                 "rule_based_recommendation": "Please contact support."

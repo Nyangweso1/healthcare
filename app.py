@@ -28,8 +28,10 @@ try:
     base_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(base_dir, "models", "insurance_risk_model.pkl")
     logger.info(f"Initializing Risk Assessment Engine with model: {model_path}")
+    logger.info(f"Model file exists: {os.path.exists(model_path)}")
+    logger.info(f"Base directory: {base_dir}")
     risk_engine = RiskAssessmentEngine(model_path=model_path)
-    logger.info("✓ Risk Assessment Engine initialized")
+    logger.info("✓ Risk Assessment Engine initialized successfully")
 except Exception as e:
     logger.error(f"✗ Failed to initialize Risk Engine: {e}")
     logger.error(traceback.format_exc())
@@ -322,7 +324,9 @@ def predict():
         )
         
         # Get risk assessment
+        logger.info(f"User data being passed to risk_engine: {user_data}")
         result = risk_engine.predict_risk(user_data)
+        logger.info(f"Result from risk_engine: {result}")
         
         # Save assessment to database
         try:
