@@ -46,6 +46,15 @@ try:
     
     risk_engine = RiskAssessmentEngine(model_path=model_path)
     logger.info("✓ Risk Assessment Engine initialized successfully")
+except RuntimeError as e:
+    # Handle scikit-learn version mismatch
+    logger.error(f"✗ Failed to initialize Risk Engine: {e}")
+    logger.error("RECOVERY: Your Render deployment needs to retrain the model.")
+    logger.error("SSH into Render and run these commands:")
+    logger.error("  1. python ml/data_preprocessing.py")
+    logger.error("  2. python ml/model_training.py")
+    logger.error("Then restart your web service.")
+    risk_engine = None
 except Exception as e:
     logger.error(f"✗ Failed to initialize Risk Engine: {e}")
     logger.error(traceback.format_exc())

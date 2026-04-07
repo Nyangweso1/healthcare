@@ -14,6 +14,11 @@ import os
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
+# Get absolute paths based on script location
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEFAULT_DATA_PATH = os.path.join(BASE_DIR, "data", "healthcare_clean.csv")
+DEFAULT_MODEL_PATH = os.path.join(BASE_DIR, "models", "insurance_risk_model.pkl")
+
 
 def _train_and_log(model, name, x_train, y_train):
     logger.info(f"\n  → Training {name}...")
@@ -22,10 +27,19 @@ def _train_and_log(model, name, x_train, y_train):
     return model
 
 
-def train_models(data_path="data/healthcare_clean.csv", model_output_path="models/insurance_risk_model.pkl"):
+def train_models(data_path=None, model_output_path=None):
     """
     Train and evaluate machine learning models for insurance risk prediction.
+    
+    Args:
+        data_path: Path to cleaned CSV data (default: data/healthcare_clean.csv)
+        model_output_path: Where to save the model (default: models/insurance_risk_model.pkl)
     """
+    # Use defaults if not provided
+    if data_path is None:
+        data_path = DEFAULT_DATA_PATH
+    if model_output_path is None:
+        model_output_path = DEFAULT_MODEL_PATH
     
     logger.info("=" * 70)
     logger.info("HEALTHCARE INSURANCE RISK PREDICTION - MODEL TRAINING")

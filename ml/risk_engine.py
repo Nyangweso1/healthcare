@@ -108,6 +108,19 @@ class RiskAssessmentEngine:
             else:
                 logger.warning("⚠ Feature names file not found")
                 
+        except AttributeError as e:
+            # This usually happens due to scikit-learn version mismatch
+            if "no attribute" in str(e) and "multi_class" in str(e):
+                logger.error(f"✗ Model scikit-learn version mismatch: {e}")
+                logger.error("The model was trained with a different scikit-learn version.")
+                logger.error("Solution: Run 'python ml/model_training.py' to retrain the model")
+                raise RuntimeError(
+                    "Model is incompatible with current scikit-learn version. "
+                    "Please retrain the model by running: python ml/model_training.py"
+                ) from e
+            else:
+                logger.error(f"✗ AttributeError loading model: {e}")
+                raise
         except FileNotFoundError:
             logger.error(f"✗ Model file not found: {self.model_path}")
             logger.error("Please run model_training.py first!")
