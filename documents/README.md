@@ -10,11 +10,6 @@
 
 The **Healthcare Insurance Risk Prediction System** is an intelligent web-based application that predicts whether individuals are at risk of being uninsured, based on their demographic, socioeconomic, and healthcare access patterns. The system provides actionable, personalised recommendations to help vulnerable populations secure affordable health insurance.
 
-**Developer:** Prudence
-**Institution:** University of Embu
-**Version:** 1.0.0
-**Last Updated:** March 3, 2026
-
 ## Problem Statement
 
 In many regions, particularly rural and low-income communities, individuals face significant barriers to accessing health insurance. This leads to:
@@ -27,8 +22,6 @@ In many regions, particularly rural and low-income communities, individuals face
 ### The Challenge
 
 How can we identify individuals at highest risk of being uninsured before they need medical care, and provide targeted interventions to secure coverage?
-
----
 
 ## Solution
 
@@ -50,7 +43,7 @@ The system uses machine learning to:
    - Community-based health insurance
    - Preventive care education
 
----
+   ---
 
 ## Features
 
