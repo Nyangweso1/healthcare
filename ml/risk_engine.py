@@ -282,6 +282,7 @@ class RiskAssessmentEngine:
             
             # Predict probability using class labels for robustness
             # Classes: 0 = uninsured, 1 = insured
+            use_ml_model = True
             try:
                 logger.info(f"Model classes: {self.model.classes_}")
                 proba = self.model.predict_proba(input_df)[0]
@@ -290,20 +291,42 @@ class RiskAssessmentEngine:
                 prob_insured = proba[class_insured_idx]
                 prob_uninsured = 1 - prob_insured
             except Exception as e:
-                logger.error(f"✗ Error during model prediction: {e}")
-                return {
-                    "error": f"Model prediction failed: {str(e)}",
-                    "risk_level": "Unknown",
-                    "probability": 0.0,
-                    "insurance_likelihood": 0.0,
-                    "reasons": [],
-                    "recommendations": [],
-                    "eligible_insurance": [],
-                    "interpretation": "Model prediction failed. Please try again later.",
-                    "rule_based_score": 0,
-                    "rule_based_category": "Unknown",
-                    "rule_based_recommendation": "Contact support if the issue persists."
-                }
+                logger.error(f"⚠ ML model prediction failed: {e}")
+                logger.info("Falling back to rule-based assessment only...")
+                use_ml_model = False
+                # Fall back to rule-based scoring
+                try:
+                    rule_score, rule_category = calculate_risk_score(user_data)
+                    rule_recommendation = get_insurance_recommendation(rule_category)
+                    
+                    # Convert rule-based score to probability-like metric
+                    # Score 0-25: 20% uninsured, 26-50: 45%, 51-75: 75%, 76-100: 95%
+                    if rule_score < 25:
+                        prob_uninsured = 0.20
+                    elif rule_score < 50:
+                        prob_uninsured = 0.45
+                    elif rule_score < 75:
+                        prob_uninsured = 0.75
+                    else:
+                        prob_uninsured = 0.95
+                    
+                    prob_insured = 1 - prob_uninsured
+                    logger.info(f"Using fallback: rule_score={rule_score}, prob_uninsured={prob_uninsured}")
+                except Exception as e2:
+                    logger.error(f"✗ Both ML and rule-based prediction failed: {e2}")
+                    return {
+                        "error": f"Assessment systems unavailable: {str(e)}",
+                        "risk_level": "Unknown",
+                        "probability": 0.0,
+                        "insurance_likelihood": 0.0,
+                        "reasons": [],
+                        "recommendations": [],
+                        "eligible_insurance": [],
+                        "interpretation": "Unable to complete assessment. Please try again later.",
+                        "rule_based_score": 0,
+                        "rule_based_category": "Unknown",
+                        "rule_based_recommendation": "Contact support if issue persists."
+                    }
             
             # Classify risk level based on uninsured probability
             risk_level = self._classify_risk(prob_uninsured)
@@ -329,15 +352,16 @@ class RiskAssessmentEngine:
                 logger.warning(f"⚠ Error getting eligible insurance: {e}")
                 eligible_insurance = []
             
-            # Calculate rule-based risk score (Fuliza-like logic)
-            try:
-                rule_score, rule_category = calculate_risk_score(user_data)
-                rule_recommendation = get_insurance_recommendation(rule_category)
-            except Exception as e:
-                logger.warning(f"⚠ Error calculating rule-based score: {e}")
-                rule_score = 0
-                rule_category = "Unknown"
-                rule_recommendation = "Contact support"
+            # Calculate rule-based risk score (only if not already calculated from fallback)
+            if use_ml_model:
+                try:
+                    rule_score, rule_category = calculate_risk_score(user_data)
+                    rule_recommendation = get_insurance_recommendation(rule_category)
+                except Exception as e:
+                    logger.warning(f"⚠ Error calculating rule-based score: {e}")
+                    rule_score = 0
+                    rule_category = "Unknown"
+                    rule_recommendation = "Contact support"
             
             # Get interpretation
             try:
