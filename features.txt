@@ -1,0 +1,10 @@
+Employment Status features in model:
+  - Employment Status_Self-employed
+  - Employment Status_Unemployed
+
+Gender features in model:
+  - Gender_Male
+
+Marital Status features in model:
+  - Marital Status_Married
+  - Marital Status_Single

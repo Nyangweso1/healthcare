@@ -182,8 +182,23 @@ class RiskAssessmentEngine:
         
         for user_key, feature_prefix in categorical_mappings.items():
             if user_key in user_data:
+                value = user_data[user_key]
+                
+                # Handle Employment Status mapping for missing categories
+                if user_key == 'Employment Status' and value not in features:
+                    # Map missing employment values to available ones
+                    employment_mapping = {
+                        'Employed': 'Self-employed',  # Map Employed to Self-employed as closest match
+                        'Student': 'Unemployed',  # Students treated as unemployed for model
+                        'Retired': 'Unemployed',  # Retirees treated as unemployed for model
+                        'Casual labor': 'Self-employed'  # Casual labor similar to self-employed
+                    }
+                    if value in employment_mapping:
+                        value = employment_mapping[value]
+                        logger.info(f"Mapped employment '{user_data[user_key]}' to '{value}'")
+                
                 # Create the one-hot encoded column name
-                encoded_col = f"{feature_prefix}_{user_data[user_key]}"
+                encoded_col = f"{feature_prefix}_{value}"
                 if encoded_col in input_df.columns:
                     input_df[encoded_col] = 1
                     logger.debug(f"Set {encoded_col} = 1")
@@ -193,6 +208,7 @@ class RiskAssessmentEngine:
                     similar = [col for col in input_df.columns if feature_prefix in col]
                     if similar:
                         logger.warning(f"  Available {feature_prefix} options: {similar}")
+        
         
         logger.info(f"Prepared input shape: {input_df.shape}, non-zero features: {input_df.sum().sum()}")
         return input_df

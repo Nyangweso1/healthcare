@@ -1,0 +1,43 @@
+INFO: \u2713 Model loaded from: c:\Users\Prudence\Desktop\healthcare_prediction_system\models\insurance_risk_model.pkl
+INFO: \u2713 Feature names loaded: 279 features
+============================================================
+MODEL DIAGNOSTIC TEST
+============================================================
+
+Base directory: c:\Users\Prudence\Desktop\healthcare_prediction_system
+Model path: c:\Users\Prudence\Desktop\healthcare_prediction_system\models\insurance_risk_model.pkl
+  - Exists: True
+  - Size: 0.02 MB
+
+Features path: c:\Users\Prudence\Desktop\healthcare_prediction_system\models\insurance_risk_model_features.pkl
+  - Exists: True
+  - Size: 13.10 KB
+
+Files in c:\Users\Prudence\Desktop\healthcare_prediction_system\models/:
+  - insurance_model.pkl (2.27 MB)
+  - insurance_risk_model.pkl (17.59 KB)
+  - insurance_risk_model_features.pkl (13.10 KB)
+
+Attempting to initialize RiskAssessmentEngine...
+Traceback (most recent call last):
+  File "c:\Users\Prudence\Desktop\healthcare_prediction_system\test_model.py", line 62, in test_model_initialization
+    print("\u2713 Model initialized successfully!")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3312.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 0: character maps to <undefined>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Prudence\Desktop\healthcare_prediction_system\test_model.py", line 114, in <module>
+    test_model_initialization()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Prudence\Desktop\healthcare_prediction_system\test_model.py", line 106, in test_model_initialization
+    print(f"\u2717 Error during initialization: {e}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3312.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2717' in position 0: character maps to <undefined>

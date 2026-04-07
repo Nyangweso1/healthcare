@@ -30,9 +30,20 @@ DATABASE = os.path.join(BASE_DIR, 'instance', 'users.db')
 try:
     base_dir = BASE_DIR
     model_path = os.path.join(base_dir, "models", "insurance_risk_model.pkl")
+    feature_path = os.path.join(base_dir, "models", "insurance_risk_model_features.pkl")
+    
     logger.info(f"Initializing Risk Assessment Engine with model: {model_path}")
     logger.info(f"Model file exists: {os.path.exists(model_path)}")
+    logger.info(f"Feature file exists: {os.path.exists(feature_path)}")
     logger.info(f"Base directory: {base_dir}")
+    
+    # List files in models directory for debugging
+    models_dir = os.path.join(base_dir, "models")
+    if os.path.exists(models_dir):
+        logger.info(f"Files in {models_dir}: {os.listdir(models_dir)}")
+    else:
+        logger.error(f"⚠ Models directory does not exist: {models_dir}")
+    
     risk_engine = RiskAssessmentEngine(model_path=model_path)
     logger.info("✓ Risk Assessment Engine initialized successfully")
 except Exception as e:
@@ -275,6 +286,36 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/health')
+def health():
+    """Health check endpoint - shows if model is initialized."""
+    health_status = {
+        'status': 'ok' if risk_engine is not None else 'error',
+        'model_loaded': risk_engine is not None,
+        'model_path': os.path.join(BASE_DIR, "models", "insurance_risk_model.pkl"),
+        'model_exists': os.path.exists(os.path.join(BASE_DIR, "models", "insurance_risk_model.pkl")),
+        'features_path': os.path.join(BASE_DIR, "models", "insurance_risk_model_features.pkl"),
+        'features_exist': os.path.exists(os.path.join(BASE_DIR, "models", "insurance_risk_model_features.pkl")),
+        'base_directory': BASE_DIR,
+    }
+    
+    # Add models directory listing for debugging
+    models_dir = os.path.join(BASE_DIR, "models")
+    if os.path.exists(models_dir):
+        health_status['models_directory_contents'] = os.listdir(models_dir)
+    else:
+        health_status['models_directory_exists'] = False
+    
+    # If model is loaded, add model info
+    if risk_engine is not None and risk_engine.model is not None:
+        health_status['model_class'] = str(type(risk_engine.model).__name__)
+        health_status['feature_names_loaded'] = risk_engine.feature_names is not None
+        if hasattr(risk_engine.model, 'n_features_in_'):
+            health_status['model_n_features'] = int(risk_engine.model.n_features_in_)
+    
+    return health_status
+
+
 @app.route('/assess')
 def assess():
     """Insurance risk assessment form."""
@@ -336,6 +377,14 @@ def predict():
         if 'error' in result:
             logger.error(f"Prediction error: {result.get('error')}")
             flash(f"Risk assessment failed: {result.get('error')}. Please contact administrator.", 'danger')
+            return redirect(url_for('assess'))
+        
+        # Check if result is suspiciously all zeros (indicates model failure)
+        if (result.get('probability') == 0.0 and 
+            result.get('insurance_likelihood') == 0.0 and 
+            result.get('rule_based_score') == 0):
+            logger.error("⚠ Result is all zeros - model likely not initialized")
+            flash('Risk assessment returned invalid results. Model may not be initialized. Please try again or contact support.', 'danger')
             return redirect(url_for('assess'))
         
         # Save assessment to database

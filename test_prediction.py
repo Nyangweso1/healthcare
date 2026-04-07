@@ -4,12 +4,12 @@ import os
 model_path = os.path.join(os.getcwd(), 'models', 'insurance_risk_model.pkl')
 engine = RiskAssessmentEngine(model_path=model_path)
 
-# Test with sample data
+# Test with sample data - using "Employed" which should now be mapped
 test_data = {
     'Age': 35,
     'Gender': 'Male',
     'Marital Status': 'Married',
-    'Employment Status': 'Employed',
+    'Employment Status': 'Employed',  # This will be mapped to 'Self-employed'
     'Monthly Household Income': 45000,
     'num_children': 2,
     'education_level': 'Secondary',
@@ -24,6 +24,7 @@ test_data = {
     'mental_health_support': 0
 }
 
+print("Testing with Employment Status = 'Employed'...")
 result = engine.predict_risk(test_data)
 print(f'Risk Level: {result.get("risk_level")}')
 print(f'Probability (uninsured): {result.get("probability")}%')
@@ -31,3 +32,4 @@ print(f'Insurance Likelihood: {result.get("insurance_likelihood")}%')
 print(f'Rule Based Score: {result.get("rule_based_score")}')
 if result.get("probability") == 0.0:
     print("WARNING: Result is 0%!")
+

@@ -12,6 +12,14 @@
     <div class="results-page-container">
         
         {% if result %}
+            <!-- Alert if probability is 0 (indicates failure) -->
+            {% if result.probability == 0.0 and result.insurance_likelihood == 0.0 %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Warning:</strong> Your assessment returned invalid results (0%). This may indicate the model is not properly initialized. Please refresh the page and try again, or contact support if the issue persists.
+                </div>
+            {% endif %}
+            
             <!-- Risk Score Section - Most Dominant -->
             <section class="risk-score-section">
                 <div class="risk-score-card">
