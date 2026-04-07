@@ -126,12 +126,31 @@ class RiskAssessmentEngine:
         Returns:
             DataFrame with proper feature encoding
         """
+        # If feature names not available, use fallback feature list
         if self.feature_names is None:
-            logger.error("✗ Feature names not available")
-            return None
+            logger.warning("⚠ Feature names file missing, using fallback feature list")
+            # Use model's expected features if available
+            if hasattr(self.model, 'n_features_in_'):
+                # Can't infer names from model, use hardcoded fallback
+                features = [
+                    'Age',
+                    'Monthly Household Income',
+                    'How many children do you have, if any?',
+                    'When was the last time you visited a hospital for medical treatment? (In Months)',
+                    'Have you ever had a routine check-up with a doctor or healthcare provider?_Yes',
+                    'Have you ever had a cancer screening (e.g. mammogram, colonoscopy, etc.)?_Yes',
+                    'Gender_Female', 'Gender_Male',
+                    'Marital Status_Divorced', 'Marital Status_Married', 'Marital Status_Separated', 'Marital Status_Single', 'Marital Status_Widowed',
+                    'Employment Status_Casual labor', 'Employment Status_Employed', 'Employment Status_Self-employed', 'Employment Status_Student', 'Employment Status_Unemployed'
+                ]
+            else:
+                logger.error("✗ Cannot determine model features")
+                return None
+        else:
+            features = self.feature_names
         
         # Create a DataFrame with zeros for all features (one-hot encoded)
-        input_df = pd.DataFrame(0, index=[0], columns=self.feature_names)
+        input_df = pd.DataFrame(0, index=[0], columns=features)
         
         # Map numerical features directly
         numerical_mappings = {
@@ -142,13 +161,17 @@ class RiskAssessmentEngine:
             # Binary checkup flags map to the one-hot encoded feature columns used during training
             'routine_check': 'Have you ever had a routine check-up with a doctor or healthcare provider?_Yes',
             'cancer_screening': 'Have you ever had a cancer screening (e.g. mammogram, colonoscopy, etc.)?_Yes',
-            # Note: preventive_care_score, dental_checkup, mental_health_support, family_size
-            # are not features in the trained model; they are used only for rule-based scoring
         }
         
         for user_key, feature_key in numerical_mappings.items():
             if user_key in user_data and feature_key in input_df.columns:
-                input_df[feature_key] = user_data[user_key]
+                try:
+                    input_df[feature_key] = float(user_data[user_key])
+                    logger.debug(f"Set {feature_key} = {user_data[user_key]}")
+                except (ValueError, TypeError) as e:
+                    logger.warning(f"⚠ Could not convert {user_key} to float: {e}")
+            elif user_key in user_data:
+                logger.warning(f"⚠ Feature '{feature_key}' not found in model features")
         
         # Map categorical features with one-hot encoding
         categorical_mappings = {
@@ -163,7 +186,15 @@ class RiskAssessmentEngine:
                 encoded_col = f"{feature_prefix}_{user_data[user_key]}"
                 if encoded_col in input_df.columns:
                     input_df[encoded_col] = 1
+                    logger.debug(f"Set {encoded_col} = 1")
+                else:
+                    logger.warning(f"⚠ Feature '{encoded_col}' not found in model features")
+                    # Try to find similar features
+                    similar = [col for col in input_df.columns if feature_prefix in col]
+                    if similar:
+                        logger.warning(f"  Available {feature_prefix} options: {similar}")
         
+        logger.info(f"Prepared input shape: {input_df.shape}, non-zero features: {input_df.sum().sum()}")
         return input_df
     
     def predict_risk(self, user_data):
@@ -177,10 +208,31 @@ class RiskAssessmentEngine:
             Dictionary with risk assessment results
         """
         try:
+            # Check if model is loaded
+            if self.model is None:
+                logger.error("✗ Model not loaded. Initialization failed.")
+                return {
+                    "error": "Model not available - initialization failed",
+                    "risk_level": "Unknown",
+                    "probability": 0.0,
+                    "insurance_likelihood": 0.0,
+                    "reasons": [],
+                    "recommendations": [],
+                    "eligible_insurance": [],
+                    "interpretation": "Model is not available. Please contact administrator.",
+                    "rule_based_score": 0,
+                    "rule_based_category": "Unknown",
+                    "rule_based_recommendation": "Contact support."
+                }
+            
+            if self.feature_names is None:
+                logger.warning("⚠ Feature names not loaded, attempting prediction anyway")
+            
             # Prepare input
             input_df = self.prepare_input(user_data)
             
             if input_df is None:
+                logger.error("✗ Could not prepare input dataframe")
                 return {
                     "error": "Could not prepare input data",
                     "risk_level": "Unknown",
@@ -195,10 +247,16 @@ class RiskAssessmentEngine:
                     "rule_based_recommendation": "Please try again with valid information."
                 }
             
+            logger.info(f"Input features shape: {input_df.shape}")
+            logger.info(f"Model expects {self.model.n_features_in_ if hasattr(self.model, 'n_features_in_') else 'unknown'} features")
+            logger.info(f"Input has {len(input_df.columns)} features")
+            
             # Predict probability using class labels for robustness
             # Classes: 0 = uninsured, 1 = insured
             try:
+                logger.info(f"Model classes: {self.model.classes_}")
                 proba = self.model.predict_proba(input_df)[0]
+                logger.info(f"Prediction probabilities: {proba}")
                 class_insured_idx = list(self.model.classes_).index(1) if 1 in self.model.classes_ else 1
                 prob_insured = proba[class_insured_idx]
                 prob_uninsured = 1 - prob_insured

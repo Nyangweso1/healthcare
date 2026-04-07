@@ -332,6 +332,12 @@ def predict():
         result = risk_engine.predict_risk(user_data)
         logger.info(f"Result from risk_engine: {result}")
         
+        # Check if prediction failed
+        if 'error' in result:
+            logger.error(f"Prediction error: {result.get('error')}")
+            flash(f"Risk assessment failed: {result.get('error')}. Please contact administrator.", 'danger')
+            return redirect(url_for('assess'))
+        
         # Save assessment to database
         try:
             conn = get_db_connection()
