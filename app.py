@@ -20,12 +20,15 @@ app = Flask(__name__)
 app.secret_key = "healthcare_insurance_risk_secret_key_2026"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
-# Database configuration
-DATABASE = 'instance/users.db'
+# Get absolute base directory for cross-platform compatibility
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Database configuration with absolute path
+DATABASE = os.path.join(BASE_DIR, 'instance', 'users.db')
 
 # Initialize Risk Assessment Engine
 try:
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = BASE_DIR
     model_path = os.path.join(base_dir, "models", "insurance_risk_model.pkl")
     logger.info(f"Initializing Risk Assessment Engine with model: {model_path}")
     logger.info(f"Model file exists: {os.path.exists(model_path)}")
@@ -54,7 +57,8 @@ def inject_assessment_results():
 
 def init_db():
     """Initialize the database with users, assessments, and messages tables."""
-    os.makedirs('instance', exist_ok=True)
+    instance_dir = os.path.join(BASE_DIR, 'instance')
+    os.makedirs(instance_dir, exist_ok=True)
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     
@@ -532,10 +536,9 @@ def health_tips():
     
     try:
         import pandas as pd
-        import os
         
         # Try to load dataset and calculate statistics
-        data_path = os.path.join('data', 'healthcare_clean.csv')
+        data_path = os.path.join(BASE_DIR, 'data', 'healthcare_clean.csv')
         if os.path.exists(data_path):
             df = pd.read_csv(data_path)
             insured_pct = round((df['insured'].sum() / len(df)) * 100, 1)
@@ -667,7 +670,7 @@ def _build_dashboard_data():
     """Build dashboard data payload from cleaned dataset."""
     import pandas as pd
 
-    data_path = os.path.join('data', 'healthcare_clean.csv')
+    data_path = os.path.join(BASE_DIR, 'data', 'healthcare_clean.csv')
     if not os.path.exists(data_path):
         return None, 'Dataset not found. Please run preprocessing first.'
 

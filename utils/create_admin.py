@@ -4,6 +4,7 @@ Run this to create an admin account for the Healthcare Prediction System
 """
 
 import sqlite3
+import os
 from werkzeug.security import generate_password_hash
 
 def create_admin():
@@ -34,9 +35,11 @@ def create_admin():
     # Hash password
     hashed_password = generate_password_hash(password)
     
-    # Connect to database
+    # Connect to database with absolute path
     try:
-        conn = sqlite3.connect('instance/users.db')
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        db_path = os.path.join(base_dir, 'instance', 'users.db')
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         
         # Check if username exists
