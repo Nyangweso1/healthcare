@@ -44,6 +44,44 @@
         </div>
     </div>
 
+    <!-- Latest Assessment Summary -->
+    {% if assessments %}
+    <div class="card mb-4" style="border-left: 4px solid #0b5ed7;">
+        <div class="card-header" style="background-color: #f8f9fa;">
+            <h5><i class="fas fa-chart-bar"></i> Latest Assessment Result</h5>
+        </div>
+        <div class="card-body">
+            {% set latest = assessments[0] %}
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Assessment Date:</strong> {{ latest.created_at }}</p>
+                    <p><strong>Risk Level:</strong> 
+                        {% if latest.risk_level == 'High Risk' %}
+                        <span class="badge bg-danger">{{ latest.risk_level }}</span>
+                        {% elif latest.risk_level == 'Medium Risk' %}
+                        <span class="badge bg-warning text-dark">{{ latest.risk_level }}</span>
+                        {% else %}
+                        <span class="badge bg-success">{{ latest.risk_level }}</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>ML Model Score:</strong> {{ (latest.probability * 100)|round(1) }}%</p>
+                    <p><strong>Rule-Based Score:</strong> {{ latest.rule_based_score }}/100</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Age:</strong> {{ latest.age }}</p>
+                    <p><strong>Gender:</strong> {{ latest.gender }}</p>
+                    <p><strong>Employment:</strong> {{ latest.employment_status }}</p>
+                    <p><strong>Monthly Income:</strong> KES {{ latest.income|round(0) }}</p>
+                </div>
+            </div>
+            <hr>
+            <a href="{{ url_for('view_assessment_result', assessment_id=latest.id) }}" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-external-link-alt"></i> View Full Result with Recommendations
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Send Message to User -->
     <div class="card mb-4">
         <div class="card-header">
@@ -85,6 +123,7 @@
                             <th>Risk Level</th>
                             <th>ML Score</th>
                             <th>Rule Score</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -106,6 +145,11 @@
                             </td>
                             <td>{{ (assessment.probability * 100)|round(1) }}%</td>
                             <td>{{ assessment.rule_based_score }}/100</td>
+                            <td>
+                                <a href="{{ url_for('view_assessment_result', assessment_id=assessment.id) }}" class="btn btn-sm btn-info" target="_blank">
+                                    <i class="fas fa-eye"></i> View Details
+                                </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
