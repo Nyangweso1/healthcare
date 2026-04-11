@@ -255,7 +255,7 @@ class RiskAssessmentEngine:
                 }
             
             if self.feature_names is None:
-                logger.warning("⚠ Feature names not loaded, attempting prediction anyway")
+                logger.warning("Feature names not loaded, attempting prediction anyway")
             
             # Prepare input
             input_df = self.prepare_input(user_data)
@@ -335,21 +335,21 @@ class RiskAssessmentEngine:
             try:
                 risk_factors = self._identify_risk_factors(user_data, prob_uninsured)
             except Exception as e:
-                logger.warning(f"⚠ Error identifying risk factors: {e}")
+                logger.warning(f" Error identifying risk factors: {e}")
                 risk_factors = []
             
             # Get recommendations
             try:
                 recommendations = self._get_recommendations(risk_level, risk_factors, user_data)
             except Exception as e:
-                logger.warning(f"⚠ Error getting recommendations: {e}")
+                logger.warning(f" Error getting recommendations: {e}")
                 recommendations = []
             
             # Get eligible insurance options
             try:
                 eligible_insurance = self._get_eligible_insurance(user_data, risk_level)
             except Exception as e:
-                logger.warning(f"⚠ Error getting eligible insurance: {e}")
+                logger.warning(f" Error getting eligible insurance: {e}")
                 eligible_insurance = []
             
             # Calculate rule-based risk score (only if not already calculated from fallback)
@@ -358,7 +358,7 @@ class RiskAssessmentEngine:
                     rule_score, rule_category = calculate_risk_score(user_data)
                     rule_recommendation = get_insurance_recommendation(rule_category)
                 except Exception as e:
-                    logger.warning(f"⚠ Error calculating rule-based score: {e}")
+                    logger.warning(f" Error calculating rule-based score: {e}")
                     rule_score = 0
                     rule_category = "Unknown"
                     rule_recommendation = "Contact support"
@@ -367,7 +367,7 @@ class RiskAssessmentEngine:
             try:
                 interpretation = self._get_interpretation(risk_level, prob_uninsured)
             except Exception as e:
-                logger.warning(f"⚠ Error getting interpretation: {e}")
+                logger.warning(f" Error getting interpretation: {e}")
                 interpretation = f"Assessment complete. Risk level: {risk_level}"
             
             # Build response with both ML and rule-based insights
