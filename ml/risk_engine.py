@@ -291,7 +291,7 @@ class RiskAssessmentEngine:
                 prob_insured = proba[class_insured_idx]
                 prob_uninsured = 1 - prob_insured
             except Exception as e:
-                logger.error(f"⚠ ML model prediction failed: {e}")
+                logger.error(f" ML model prediction failed: {e}")
                 logger.info("Falling back to rule-based assessment only...")
                 use_ml_model = False
                 # Fall back to rule-based scoring

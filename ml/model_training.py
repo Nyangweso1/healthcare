@@ -179,7 +179,7 @@ def train_models(data_path=None, model_output_path=None):
     joblib.dump(X.columns.tolist(), feature_names_path)
     logger.info(f"✓ Feature names saved to: {feature_names_path}")
     
-    # ========== FEATURE IMPORTANCE/COEFFICIENTS ==========
+    # ========== FEATURE COEFFICIENTS ==========
     logger.info("\n" + "=" * 70)
     logger.info("FEATURE IMPORTANCE")
     logger.info("=" * 70)
