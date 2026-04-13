@@ -121,6 +121,12 @@ Visit: `http://localhost:5000`
 
 ### Train Models Locally
 
+First, prepare the data:
+```bash
+python ml/data_preprocessing.py
+```
+
+Then train the model:
 ```bash
 python ml/model_training.py
 ```
