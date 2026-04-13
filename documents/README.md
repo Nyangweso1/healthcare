@@ -1,397 +1,175 @@
-# Healthcare Insurance Risk Prediction System
+# Kenya Healthcare Insurance Prediction
 
-![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-3.0.0-000000?logo=flask&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-F7931E?logo=scikit-learn&logoColor=white)
-![SQLite](https://img.shields.io/badge/Database-SQLite-003B57?logo=sqlite&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
-
-## Project Overview
-
-The **Healthcare Insurance Risk Prediction System** is an intelligent web-based application that predicts whether individuals are at risk of being uninsured, based on their demographic, socioeconomic, and healthcare access patterns. The system provides actionable, personalised recommendations to help vulnerable populations secure affordable health insurance.
-
-## Problem Statement
-
-In many regions, particularly rural and low-income communities, individuals face significant barriers to accessing health insurance. This leads to:
-
-- **Financial vulnerability** during medical emergencies
-- **Delayed healthcare** due to cost concerns
-- **Poor health outcomes** from lack of preventive care
-- **Economic burden** on families and communities
-
-### The Challenge
-
-How can we identify individuals at highest risk of being uninsured before they need medical care, and provide targeted interventions to secure coverage?
-
-## Solution
-
-The system uses machine learning to:
-
-1. **Predict insurance risk** using:
-   - Demographic factors (age, gender, marital status)
-   - Socioeconomic indicators (income, employment, education, family size)
-   - Healthcare access behaviours (hospital visits, preventive care, screenings)
-
-2. **Classify risk levels:**
-   - **Low Risk** — < 30% probability of being uninsured
-   - **Medium Risk** — 30–60% probability
-   - **High Risk** — > 60% probability
-
-3. **Provide personalised recommendations:**
-   - SHA/NHIF enrolment guidance
-   - Subsidised insurance programmes
-   - Community-based health insurance
-   - Preventive care education
-
-   ---
-
-## Features
-
-| Feature | Description |
-| ------- | ----------- |
-| User Authentication | Secure registration and login with hashed passwords |
-| Risk Assessment Form | Guided 4-section questionnaire (demographics, finances, health, access) |
-| ML-Powered Prediction | Instant insurance risk classification: Low, Medium, or High |
-| Personalised Results | Probability score, top risk factors, and tailored action steps |
-| Assessment History | Review all your past assessments with date, score, and risk level |
-| Health Tips | Curated articles on preventive care and staying healthy |
-| Data Insights (EDA) | Interactive charts and statistics from the training dataset |
-| Insurance Guide | Plain-language explanations of insurance types and benefits |
-| Admin Dashboard | Manage users, view all assessments, send messages to users |
-| Contact & Messaging | Users can send messages to the support team |
+This project uses survey data from 6,139 respondents to build a machine learning model that predicts whether an individual in Kenya has health insurance based on socioeconomic and demographic factors.
 
 ---
 
-## Dataset
+## 1. Project Description
+
+The **Healthcare Insurance Risk Prediction System** is a web-based application that predicts insurance risk using machine learning. It helps identify individuals at risk of being uninsured and provides personalized recommendations for accessing affordable health insurance.
+
+**Key Capability:** The system uses Logistic Regression (91.94% accuracy) with an automatic fallback to rule-based scoring when ML fails, ensuring users always receive valid results even during system failures.
+
+---
+
+## 2. Dataset Overview
 
 | Attribute | Details |
 | --------- | ------- |
-| Source | Healthcare access survey |
-| Sample size | 6,158 respondents |
-| Collection period | May 2025 |
-| Region | Kenya |
+| **Source** | Healthcare Access Survey (Safra Data School) |
+| **Size** | 6,139 respondents |
+| **Collection Period** | May 2025 |
+| **Region** | Kenya |
+| **Target Variable** | Insurance Status (Binary: 1=Insured, 0=Uninsured) |
 
-### Target Variable
+### Key Features
 
-**Have you ever had health insurance?**
-
-- `Yes` → Insured
-- `No` → Uninsured (High Risk)
-
-### Input Features
-
-| Category | Features |
-| -------- | -------- |
-| Demographics | Age, Gender, Marital Status, Number of Children |
-| Socioeconomic | Monthly Household Income, Employment Status, Education Level, Residence Type, Family Size |
-| Health Status | Chronic Illness, Healthcare Knowledge |
-| Healthcare Access | Hospital Visit Gap, Routine Checkups, Cancer Screening, Dental Checkup, Mental Health Support |
+- **Demographics:** Age, Gender, Marital Status, Number of Children
+- **Socioeconomic:** Monthly Income, Employment Status, Education, Family Size
+- **Health Status:** Chronic Illness, Healthcare Knowledge
+- **Healthcare Access:** Hospital Visit Gap, Routine Checkups, Screenings
 
 ### Engineered Features
 
-| Feature | Description |
-| ------- | ----------- |
-| `hospital_visit_gap` | Months since last hospital visit |
-| `preventive_care_score` | Sum of all preventive care activities |
-| `age_group` | Categorical age buckets (18-25, 26-35, 36-50, 50+) |
-| `income_bucket` | Income category (Low, Medium, High, Very High) |
+- **Total Features:** 279 (from 19 input fields)
+- **Feature Types:** 4 numerical + 115 one-hot encoded categorical + 160 engineered features
+- **Class Distribution:** 58% Insured, 42% Uninsured
 
 ---
 
-## Machine Learning Approach
-
-### Models
-
-| Model | Description |
-| --- | --- |
-| Logistic Regression | Linear model with interpretable coefficients. Best for stakeholder reporting. |
-| Decision Tree (max_depth=5) | Rule-based predictions. Captures non-linear patterns. |
-
-### Training Pipeline
-
-```text
-1. Data Preprocessing
-   ├── Load Excel dataset
-   ├── Drop metadata columns
-   ├── Handle missing values (median/mode imputation)
-   ├── Create binary target variable
-   ├── Engineer features
-   └── One-hot encode categoricals
-
-2. Model Training
-   ├── Split data (80% train, 20% test)
-   ├── Train Logistic Regression
-   ├── Train Decision Tree
-   ├── Evaluate both models
-   └── Select best based on F1-Score
-
-3. Model Evaluation
-   ├── Accuracy
-   ├── Precision (avoid false alarms)
-   ├── Recall (catch high-risk individuals)
-   ├── F1-Score (balance precision & recall)
-   └── Confusion Matrix
-
-4. Feature Importance
-   ├── Logistic Regression coefficients
-   └── Decision Tree feature importance
-```
-
-### Key Findings
-
-Strongest predictors of insurance risk:
-
-1. **Monthly Household Income** (strongest factor)
-2. **Employment Status** (unemployed = higher risk)
-3. **Preventive Care Score** (no checkups = higher risk)
-4. **Number of Children** (larger families = higher risk)
-5. **Hospital Visit Gap** (long time since visit = higher risk)
-
----
-
-## System Architecture
-
-### Technology Stack
-
-| Layer | Technologies |
-| --- | --- |
-| Backend | Python 3.11+, Flask 3.0.0, SQLite |
-| Frontend | HTML5, CSS3, Bootstrap 5.3, JavaScript |
-| Machine Learning | scikit-learn, pandas, NumPy, joblib |
-| Visualisation | matplotlib, seaborn |
-
-### System Flow
-
-```text
-User Registration/Login
-        ↓
-Risk Assessment Form
-        ↓
-User Input Collection
-  (Demographics, Income, Healthcare History)
-        ↓
-Data Preprocessing
-  (Feature Engineering, Encoding)
-        ↓
-ML Model Prediction
-  (Probability of Being Uninsured)
-        ↓
-Risk Classification
-  (Low / Medium / High)
-        ↓
-Risk Factor Identification
-        ↓
-Recommendation Generation
-        ↓
-Results Display
-  (Risk Level, Probability, Reasons, Actions)
-```
-
-### File Structure
-
-```text
-healthcare_prediction_system/
-│
-├── app.py                              # Flask web application (all routes)
-├── requirements.txt                    # Python dependencies
-├── start_app.bat                       # Windows one-click startup
-├── .python-version                     # Python version pin
-│
-├── data/
-│   └── healthcare_clean.csv            # Processed dataset for training
-│
-├── documents/
-│   └── README.md                       # This file
-│
-├── instance/
-│   └── users.db                        # SQLite database (users, assessments)
-│
-├── ml/
-│   ├── __init__.py
-│   ├── risk_engine.py                  # Core risk assessment & prediction logic
-│   ├── model_training.py               # Train and save ML models
-│   ├── data_preprocessing.py           # Data cleaning & feature engineering
-│   ├── feature_engineering.py          # Feature engineering helpers
-│   ├── model_evaluation.py             # Model evaluation utilities
-│   ├── predict.py                      # Standalone prediction utility
-│   ├── ada_analysis.py                 # AdaBoost model analysis
-│   ├── generate_analysis_charts.py     # EDA chart generation
-│   └── diagnose.py                     # Model diagnostics
-│
-├── models/
-│   ├── insurance_risk_model.pkl        # Primary trained model (used by web app)
-│   ├── insurance_risk_model_features.pkl  # Feature names companion file
-│   └── insurance_model.pkl             # Standalone scripts only (predict.py, model_evaluation.py)
-│
-├── static/
-│   ├── css/
-│   │   ├── base.css   assess.css   results.css  history.css
-│   │   ├── auth.css   home.css     blog.css      health_tips.css
-│   │   ├── eda.css    about.css    contact.css   admin.css
-│   │   ├── messaging.css  errors.css   style.css
-│   └── js/
-│       └── script.js
-│
-├── templates/
-│   ├── base.html                   # Master layout (navbar, footer)
-│   ├── index.html                  # Landing page
-│   ├── register.html / login.html  # Authentication
-│   ├── assess.html                 # Risk assessment form
-│   ├── results.html                # Prediction results
-│   ├── history.html                # Assessment history
-│   ├── blog.html                   # Insurance guide
-│   ├── health_tips.html            # Health tips list
-│   ├── health_tip_detail.html      # Individual health tip
-│   ├── eda.html                    # Data insights
-│   ├── about.html / contact.html   # Info & messaging
-│   ├── admin_dashboard.html        # Admin panel
-│   ├── admin_user_view.html        # Admin: user detail
-│   ├── 404.html / 500.html         # Error pages
-│
-└── utils/
-    ├── create_admin.py             # Create admin account
-    ├── make_admin.py               # Promote user to admin
-    ├── check_users.py              # List database users
-    └── test_template.py            # Template testing
-```
-
----
-
-## Pages & Routes
-
-| Page | Route | Login Required |
-| ---- | ----- | :------------: |
-| Home | `/` | No |
-| Register | `/register` | No |
-| Login | `/login` | No |
-| Risk Assessment | `/assess` | Yes |
-| Results | `/results` | Yes |
-| My History | `/history` | Yes |
-| Insurance Guide | `/blog` | No |
-| Health Tips | `/health_tips` | No |
-| Data Insights | `/eda` | No |
-| About | `/about` | No |
-| Contact | `/contact` | Yes |
-| Admin Panel | `/admin` | Admin only |
-
----
-
-## Installation & Setup
+## 3. Installation & Requirements
 
 ### Prerequisites
 
-Make sure the following are installed on your machine before you begin:
+| Tool | Version |
+| ---- | ------- |
+| Python | 3.11+ |
+| pip | Latest |
 
-| Tool | Version | Download |
-| ---- | ------- | -------- |
-| Python | 3.11 or higher | [python.org/downloads](https://www.python.org/downloads/) |
-| Git | Any recent version | [git-scm.com](https://git-scm.com/) |
-| pip | Comes with Python | — |
-
-> **Check your Python version:**
->
-> ```bash
-> python --version
-> ```
->
-> You should see `Python 3.11.x` or higher.
-
----
-
-### Step 0 — Clone the Repository
-
-```bash
-git clone https://github.com/Nyangweso1/healthcare.git
-cd healthcare
-```
-
-> If you downloaded the project as a ZIP, unzip it and open a terminal inside the project folder instead.
-
-### Step 1 — Create Virtual Environment
-
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# macOS/Linux
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### Step 2 — Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 3 — Train the Model
+### Key Libraries
 
-`data/healthcare_clean.csv` is included. Run:
+- **Web Framework:** Flask 3.0.0
+- **Machine Learning:** scikit-learn 1.5.1, pandas 2.2.2, numpy 1.26.4
+- **Database:** SQLite
+- **Model Serialization:** joblib 1.4.2
 
-#### Run Data Preprocessing
+---
 
-```bash
-python ml/data_preprocessing.py
-```
+## 4. Methodology
 
-#### Train the Model
+### Step 1: Data Cleaning
+- Handled missing values using median/mode imputation
+- Removed outliers
+- Encoded categorical variables
 
-```bash
-python ml/model_training.py
-```
+### Step 2: Exploratory Data Analysis (EDA)
+- Analyzed relationship between income and insurance
+- Identified key risk factors
+- Visualized feature distributions
 
-### Step 4 — Run the Application
+### Step 3: Feature Engineering
+- Expanded 19 input fields to 279 features
+- Applied one-hot encoding for categorical variables
+- Created employment status mapping (6 form categories → 2 training categories)
+
+### Step 4: Model Training
+- Split data: 80% training, 20% testing (stratified)
+- Trained **Logistic Regression** and Decision Tree
+- Selected Logistic Regression as best model
+
+### Step 5: Model Evaluation
+
+**Logistic Regression Performance:**
+
+| Metric | Value |
+|--------|-------|
+| Accuracy | 91.94% |
+| Precision | 96.23% |
+| Recall | 89.61% |
+| F1-Score | 0.9280 |
+
+**Confusion Matrix:**
+- True Negatives (TN): 491
+- False Positives (FP): 25
+- True Positives (TP): 638
+- False Negatives (FN): 74
+
+### Step 6: Dual-System Architecture
+
+The system implements **ML + Rule-Based Fallback:**
+- **Primary Path:** Logistic Regression (91.94% accuracy)
+- **Fallback Path:** Weighted rule-based algorithm (~75% accuracy)
+- **Benefit:** Always produces valid results even when ML fails
+
+---
+
+## 5. How to Use
+
+### Run the Web Application
 
 ```bash
 python app.py
 ```
 
-Or double-click **start_app.bat** on Windows.
+Visit: `http://localhost:5000`
 
-Expected output:
-
-```text
-INFO: ✓ Risk Assessment Engine initialized
-INFO: ✓ Database initialized
-* Running on http://0.0.0.0:5000
-```
-
-### Step 5 — Open in Browser
-
-```text
-http://localhost:5000
-```
-
----
-
-## Quick Start
-
-> For full step-by-step instructions see [Installation & Setup](#installation--setup).
+### Train Models Locally
 
 ```bash
-# 1. Clone the project
-git clone https://github.com/Nyangweso1/healthcare.git
-cd healthcare
-
-# 2. Create and activate virtual environment (Windows)
-python -m venv venv
-venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Prepare data and train the model
-python ml/data_preprocessing.py
 python ml/model_training.py
-
-# 5. Start the app
-python app.py
 ```
 
-Open your browser and go to: **<http://localhost:5000>**
+Output:
+- Trained model: `models/insurance_risk_model.pkl`
+- Feature names: `models/insurance_risk_model_features.pkl`
+
+### Make Predictions Programmatically
+
+```python
+from ml.risk_engine import RiskAssessmentEngine
+
+engine = RiskAssessmentEngine()
+result = engine.predict_risk(user_data)
+print(result)  # Returns: risk_level, probability, factors, recommendations
+```
 
 ---
+
+## 6. Key Findings
+
+1. **Monthly Household Income** is the strongest predictor of insurance status
+2. **Employment Status** significantly affects insurance risk (unemployed = higher risk)
+3. **Preventive Care History** is critical (no checkups = higher risk)
+4. **Family Size** impacts risk (larger families = higher risk among low-income groups)
+5. **Hospital Visit Gap** indicates healthcare engagement (>12 months gap = higher risk)
+
+### Model Comparison
+
+| Dimension | Logistic Regression | Decision Tree |
+|-----------|-------------------|---------------|
+| **Accuracy** | 91.94% | 91.53% |
+| **Precision** | 96.23% | 95.51% |
+| **Recall** | 89.61% | 89.61% |
+| **TN Correctly Identified** | 491 | 486 |
+| **Best For** | Probability calibration | Rule extraction |
+
+---
+
+## 7. Credits & License
+
+**Data Source:** Safra Data School (May 2025)
+
+**Project Author:** Nyangweso
+
+**Repository:** [Nyangweso1/healthcare](https://github.com/Nyangweso1/healthcare)
+
+**License:** MIT
 
 ## Using the System
 
