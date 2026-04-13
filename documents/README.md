@@ -64,21 +64,25 @@ pip install -r requirements.txt
 ## 4. Methodology
 
 ### Step 1: Data Cleaning
+
 - Handled missing values using median/mode imputation
 - Removed outliers
 - Encoded categorical variables
 
 ### Step 2: Exploratory Data Analysis (EDA)
+
 - Analyzed relationship between income and insurance
 - Identified key risk factors
 - Visualized feature distributions
 
 ### Step 3: Feature Engineering
+
 - Expanded 19 input fields to 279 features
 - Applied one-hot encoding for categorical variables
 - Created employment status mapping (6 form categories → 2 training categories)
 
 ### Step 4: Model Training
+
 - Split data: 80% training, 20% testing (stratified)
 - Trained **Logistic Regression** and Decision Tree
 - Selected Logistic Regression as best model
@@ -88,13 +92,14 @@ pip install -r requirements.txt
 **Logistic Regression Performance:**
 
 | Metric | Value |
-|--------|-------|
+| ------ | ------- |
 | Accuracy | 91.94% |
 | Precision | 96.23% |
 | Recall | 89.61% |
 | F1-Score | 0.9280 |
 
 **Confusion Matrix:**
+
 - True Negatives (TN): 491
 - False Positives (FP): 25
 - True Positives (TP): 638
@@ -103,6 +108,7 @@ pip install -r requirements.txt
 ### Step 6: Dual-System Architecture
 
 The system implements **ML + Rule-Based Fallback:**
+
 - **Primary Path:** Logistic Regression (91.94% accuracy)
 - **Fallback Path:** Weighted rule-based algorithm (~75% accuracy)
 - **Benefit:** Always produces valid results even when ML fails
@@ -122,11 +128,13 @@ Visit: `http://localhost:5000`
 ### Train Models Locally
 
 First, prepare the data:
+
 ```bash
 python ml/data_preprocessing.py
 ```
 
 Then train the model:
+
 ```bash
 python ml/model_training.py
 ```
@@ -158,7 +166,7 @@ print(result)  # Returns: risk_level, probability, factors, recommendations
 ### Model Comparison
 
 | Dimension | Logistic Regression | Decision Tree |
-|-----------|-------------------|---------------|
+| ---------- | ------------------- | ------------- |
 | **Accuracy** | 91.94% | 91.53% |
 | **Precision** | 96.23% | 95.51% |
 | **Recall** | 89.61% | 89.61% |
